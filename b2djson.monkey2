@@ -5,7 +5,7 @@ Namespace box2d
 
 #Import "b2djson/b2dJson.cpp"
 #Import "b2djson/b2dJsonImage.cpp"
-#Import "b2djson/b2dJsonImage_OpenGL.cpp"
+'#Import "b2djson/b2dJsonImage_OpenGL.cpp"
 
 
 
