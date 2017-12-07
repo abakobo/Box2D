@@ -1,8 +1,10 @@
 #Import "<std>"
 #Import "<mojo>"
+
 #Import "box2dv2.monkey2"
 #Import "b2Draw_mojo.monkey2"
-#Import "b2djson.monkey2"
+
+#Import "iforce2d-b2djson/mx2b2djson.monkey2"
 
 Using std..
 Using mojo..
@@ -41,10 +43,14 @@ Class Box2DgfxTest Extends Window
 	    Local bd:b2BodyDef
 	    Local fd:b2FixtureDef
 	    
-	
+
 	'------- Initialising the world with its gravity
-		down=New b2Vec2(0,-20)
-		world=New b2World(down)		
+		'down=New b2Vec2(0,-20)
+		'world=New b2World(down)	
+		world=mx2b2dJson.b2dJsonReadFromFile("c:/RUBEscenes/scene12.json")
+
+		
+	#Rem
 	'-------------------body 1	(the moving circle)
 		bd.type = b2BodyType.b2_dynamicBody
  		bd.position.Set(0.1, 5.1)
@@ -99,12 +105,14 @@ Class Box2DgfxTest Extends Window
     	
     	fd.shape = pshape
     	body3.CreateFixture(Varptr fd)
+    
+    #End
     		
 	'----- debugdrawer init and link---------------------------------------------------------------------------------------------
 		DDrawer=New b2Draw_mojo 'this one must be a field or a global 
 		world.SetDebugDraw( DDrawer  ) '
 		DDrawer.SetFlags( e_shapeBit )
-		DDrawer.SetCamera(New b2Vec2(0,0),40)  
+		DDrawer.SetCamera(New b2Vec2(0,0),20)  
 	End
 	
 	Method OnRender( canvas:Canvas ) Override
@@ -124,11 +132,12 @@ Class Box2DgfxTest Extends Window
 		
 		'quit the app after 800 cycles
 		count+=1
-		If count>800 Then App.Terminate()
+		If count>8000 Then App.Terminate()
 	End
 End
 
 Function Main()
+
 	New AppInstance
 	New Box2DgfxTest( "Box2D_test",w_width,w_height )
 	App.Run()
