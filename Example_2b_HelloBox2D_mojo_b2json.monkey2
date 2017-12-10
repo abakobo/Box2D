@@ -1,7 +1,7 @@
 #Import "<std>"
 #Import "<mojo>"
 
-#Import "box2dv2.monkey2"
+#Import "box2d.monkey2"
 #Import "b2Draw_mojo.monkey2"
 
 #Import "iforce2d-b2djson/mx2b2djson.monkey2"
@@ -47,7 +47,7 @@ Class Box2DgfxTest Extends Window
 	'------- Initialising the world with its gravity
 		'down=New b2Vec2(0,-20)
 		'world=New b2World(down)	
-		world=mx2b2dJson.b2dJsonReadFromFile("c:/RUBEscenes/scene12.json")
+		world=mx2b2dJson.b2dJsonReadFromFile("c:/RUBEscenes/scene1.json")
 
 		
 	#Rem
