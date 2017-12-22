@@ -5,6 +5,7 @@
 #Import "b2Draw_mojo.monkey2"
 
 #Import "iforce2d-b2djson/mx2b2djson.monkey2"
+#Import "assets/scene1.json"
 
 Using std..
 Using mojo..
@@ -48,6 +49,7 @@ Class Box2DgfxTest Extends Window
 		'down=New b2Vec2(0,-20)
 		'world=New b2World(down)	
 		world=mx2b2dJson.b2dJsonReadFromFile("c:/RUBEscenes/scene1.json")
+		'world=mx2b2dJson.b2dJsonReadFromFile("asset::scene1.json")
 
 		
 	#Rem
