@@ -7,7 +7,6 @@
 
 #Import "<std>"
 #Import "box2d.monkey2"
-'#Import "box2dv2.monkey2"
 
 Using std..
 Using box2d..

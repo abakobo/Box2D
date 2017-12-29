@@ -5,6 +5,7 @@
 #Import "b2Draw_mojo.monkey2"
 
 #Import "iforce2d-b2djson/mx2b2djson.monkey2"
+#Import "assets/scene1.json"
 
 Using std..
 Using mojo..
@@ -12,8 +13,6 @@ Using box2d..
 
 Global w_width:=1000 'initial window size
 Global w_height:=700
-
-
 
 
 Class Box2DgfxTest Extends Window
@@ -29,8 +28,7 @@ Class Box2DgfxTest Extends Window
 	Field timeStep:= 0.01666666667
 	Field velocityIterations := 6
 	Field positionIterations := 2
-	'count cylcles to auto-quit
-	Field count:=0
+
 	'center point of camera in physics world
 	Field viewpoint:=New b2Vec2(0,2)
 	
@@ -43,9 +41,11 @@ Class Box2DgfxTest Extends Window
 	    Local fd:b2FixtureDef
 	    
 
-	'------- Initialising the world with its gravity
-	
-		world=mx2b2dJson.b2dJsonReadFromFile("c:/RUBEscenes/scene1.json")
+	'------- Initialising the world 
+
+		
+		'Local theStr:=LoadString("asset::scene1.json",True)
+		world=mx2b2dJson.b2dJsonReadFromAsset("asset::scene1.json")
 
 		
 
@@ -73,8 +73,8 @@ Class Box2DgfxTest Extends Window
 		world.DrawDebugData()
 		
 		'quit the app after 800 cycles
-		count+=1
-		If count>8000 Then App.Terminate()
+		
+		If Keyboard.KeyPressed(Key.Escape) Then App.Terminate()
 	End
 End
 
