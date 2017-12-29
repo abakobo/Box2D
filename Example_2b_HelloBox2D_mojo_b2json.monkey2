@@ -45,7 +45,7 @@ Class Box2DgfxTest Extends Window
 
 	'------- Initialising the world with its gravity
 	
-		world=mx2b2dJson.b2dJsonReadFromFile("c:/RUBEscenes/scene1.json")
+		world=mx2b2dJson.b2dJsonReadFromFile("RUBEscenes/scene1.json")
 
 		
 
