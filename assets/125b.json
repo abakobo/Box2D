@@ -1,0 +1,416 @@
+
+{
+	"allowSleep" : true,
+	"autoClearForces" : true,
+	"body" : 
+	[
+		
+		{
+			"angle" : 0,
+			"angularVelocity" : 0,
+			"awake" : true,
+			"fixture" : 
+			[
+				
+				{
+					"circle" : 
+					{
+						"center" : 0,
+						"radius" : 0.5
+					},
+					"density" : 1,
+					"friction" : 0.2,
+					"name" : "fixture0"
+				}
+			],
+			"linearVelocity" : 0,
+			"massData-I" : 0.09817477315664291,
+			"massData-mass" : 0.7853981852531433,
+			"name" : "body0",
+			"position" : 0,
+			"type" : 2
+		},
+		
+		{
+			"angle" : 0,
+			"angularVelocity" : 0,
+			"awake" : true,
+			"fixture" : 
+			[
+				
+				{
+					"circle" : 
+					{
+						"center" : 0,
+						"radius" : 0.5
+					},
+					"density" : 1,
+					"friction" : 0.2,
+					"name" : "fixture0"
+				}
+			],
+			"linearVelocity" : 0,
+			"name" : "body1",
+			"position" : 
+			{
+				"x" : 1.008287310600281,
+				"y" : 1.008287310600281
+			},
+			"type" : 0
+		},
+		
+		{
+			"angle" : 0,
+			"angularVelocity" : 0,
+			"awake" : true,
+			"fixture" : 
+			[
+				
+				{
+					"circle" : 
+					{
+						"center" : 0,
+						"radius" : 0.5
+					},
+					"density" : 1,
+					"friction" : 0.2,
+					"name" : "fixture0"
+				}
+			],
+			"linearVelocity" : 0,
+			"massData-I" : 0.09817477315664291,
+			"massData-mass" : 0.7853981852531433,
+			"name" : "body2",
+			"position" : 
+			{
+				"x" : 2.099447727203369,
+				"y" : 2.071823120117188
+			},
+			"type" : 2
+		},
+		
+		{
+			"angle" : 0,
+			"angularVelocity" : 0,
+			"awake" : true,
+			"fixture" : 
+			[
+				
+				{
+					"circle" : 
+					{
+						"center" : 0,
+						"radius" : 0.5
+					},
+					"density" : 1,
+					"friction" : 0.2,
+					"name" : "fixture0"
+				}
+			],
+			"linearVelocity" : 0,
+			"massData-I" : 0.09817477315664291,
+			"massData-mass" : 0.7853981852531433,
+			"name" : "body3",
+			"position" : 
+			{
+				"x" : 3.109345197677612,
+				"y" : 3.159070014953613
+			},
+			"type" : 2
+		},
+		
+		{
+			"angle" : 0,
+			"angularVelocity" : 0,
+			"awake" : true,
+			"fixture" : 
+			[
+				
+				{
+					"circle" : 
+					{
+						"center" : 0,
+						"radius" : 0.5
+					},
+					"density" : 1,
+					"friction" : 0.2,
+					"name" : "fixture0"
+				}
+			],
+			"linearVelocity" : 0,
+			"massData-I" : 0.09817477315664291,
+			"massData-mass" : 0.7853981852531433,
+			"name" : "body4",
+			"position" : 
+			{
+				"x" : 4.117632389068604,
+				"y" : 4.167357444763184
+			},
+			"type" : 2
+		},
+		
+		{
+			"angle" : 0,
+			"angularVelocity" : 0,
+			"awake" : true,
+			"fixture" : 
+			[
+				
+				{
+					"circle" : 
+					{
+						"center" : 0,
+						"radius" : 0.5
+					},
+					"density" : 1,
+					"friction" : 0.2,
+					"name" : "fixture0"
+				}
+			],
+			"linearVelocity" : 0,
+			"massData-I" : 0.09817477315664291,
+			"massData-mass" : 0.7853981852531433,
+			"name" : "body5",
+			"position" : 
+			{
+				"x" : 5.208792686462402,
+				"y" : 5.230893135070801
+			},
+			"type" : 2
+		}
+	],
+	"collisionbitplanes" : 
+	{
+		"names" : 
+		[
+			"bitplane1",
+			"bitplane2",
+			"bitplane3",
+			"bitplane4",
+			"bitplane5",
+			"bitplane6",
+			"bitplane7",
+			"bitplane8",
+			"bitplane9",
+			"bitplane10",
+			"bitplane11",
+			"bitplane12",
+			"bitplane13",
+			"bitplane14",
+			"bitplane15",
+			"bitplane16",
+			"bitplane17",
+			"bitplane18",
+			"bitplane19",
+			"bitplane20",
+			"bitplane21",
+			"bitplane22",
+			"bitplane23",
+			"bitplane24",
+			"bitplane25",
+			"bitplane26",
+			"bitplane27",
+			"bitplane28",
+			"bitplane29",
+			"bitplane30",
+			"bitplane31",
+			"bitplane32"
+		]
+	},
+	"continuousPhysics" : true,
+	"gravity" : 
+	{
+		"x" : 0,
+		"y" : -10
+	},
+	"image" : 
+	[
+		
+		{
+			"aspectScale" : 1,
+			"body" : 2,
+			"center" : 
+			{
+				"x" : 0.02,
+				"y" : 0.02
+			},
+			"corners" : 
+			{
+				"x" : 
+				[
+					-0.4697959125041962,
+					0.5097959041595459,
+					0.5097959041595459,
+					-0.4697959125041962
+				],
+				"y" : [ -0.48, -0.48, 0.52, 0.52 ]
+			},
+			"file" : "images/bikerearwheel.png",
+			"filter" : 1,
+			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
+			"glVertexPointer" : 
+			[
+				-0.4697959125041962,
+				-0.48,
+				0.5097959041595459,
+				-0.48,
+				0.5097959041595459,
+				0.52,
+				-0.4697959125041962,
+				0.52
+			],
+			"name" : "image2",
+			"opacity" : 0.5,
+			"scale" : 1
+		},
+		
+		{
+			"aspectScale" : 1,
+			"body" : 1,
+			"center" : 
+			{
+				"x" : 0.01,
+				"y" : 0.01
+			},
+			"corners" : 
+			{
+				"x" : [ -0.49, 0.51, 0.51, -0.49 ],
+				"y" : [ -0.49, -0.49, 0.51, 0.51 ]
+			},
+			"file" : "images/bikefrontwheel.png",
+			"filter" : 1,
+			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
+			"glVertexPointer" : [ -0.49, -0.49, 0.51, -0.49, 0.51, 0.51, -0.49, 0.51 ],
+			"name" : "image1",
+			"opacity" : 0.5,
+			"scale" : 1
+		},
+		
+		{
+			"aspectScale" : 1,
+			"body" : 3,
+			"center" : 
+			{
+				"x" : 0.03,
+				"y" : 0.03
+			},
+			"corners" : 
+			{
+				"x" : 
+				[
+					-1.251250028610230,
+					1.311249971389771,
+					1.311249971389771,
+					-1.251250028610230
+				],
+				"y" : [ -0.47, -0.47, 0.53, 0.53 ]
+			},
+			"file" : "images/bikeswingarm.png",
+			"filter" : 1,
+			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
+			"glVertexPointer" : 
+			[
+				-1.251250028610230,
+				-0.47,
+				1.311249971389771,
+				-0.47,
+				1.311249971389771,
+				0.53,
+				-1.251250028610230,
+				0.53
+			],
+			"name" : "image3",
+			"opacity" : 0.5,
+			"scale" : 1
+		},
+		
+		{
+			"aspectScale" : 1,
+			"body" : 4,
+			"center" : 
+			{
+				"x" : 0.04,
+				"y" : 0.04
+			},
+			"corners" : 
+			{
+				"x" : [ -0.96, 1.04, 1.04, -0.96 ],
+				"y" : [ -0.46, -0.46, 0.54, 0.54 ]
+			},
+			"file" : "images/carbody.png",
+			"filter" : 1,
+			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
+			"glVertexPointer" : [ -0.96, -0.46, 1.04, -0.46, 1.04, 0.54, -0.96, 0.54 ],
+			"name" : "image4",
+			"opacity" : 0.5,
+			"scale" : 1
+		},
+		
+		{
+			"aspectScale" : 1,
+			"body" : 0,
+			"center" : 0,
+			"corners" : 
+			{
+				"x" : 
+				[
+					-1.021126747131348,
+					1.021126747131348,
+					1.021126747131348,
+					-1.021126747131348
+				],
+				"y" : [ -0.5, -0.5, 0.5, 0.5 ]
+			},
+			"file" : "images/bikebody.png",
+			"filter" : 1,
+			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
+			"glVertexPointer" : 
+			[
+				-1.021126747131348,
+				-0.5,
+				1.021126747131348,
+				-0.5,
+				1.021126747131348,
+				0.5,
+				-1.021126747131348,
+				0.5
+			],
+			"name" : "image0",
+			"opacity" : 0.5,
+			"scale" : 1
+		},
+		
+		{
+			"aspectScale" : 1,
+			"body" : 5,
+			"center" : 
+			{
+				"x" : 0.05,
+				"y" : 0.05
+			},
+			"corners" : 
+			{
+				"x" : [ -0.45, 0.55, 0.55, -0.45 ],
+				"y" : [ -0.45, -0.45, 0.55, 0.55 ]
+			},
+			"file" : "images/carwheel.png",
+			"filter" : 1,
+			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
+			"glVertexPointer" : [ -0.45, -0.45, 0.55, -0.45, 0.55, 0.55, -0.45, 0.55 ],
+			"name" : "image5",
+			"opacity" : 0.5,
+			"scale" : 1
+		}
+	],
+	"positionIterations" : 3,
+	"stepsPerSecond" : 60.0,
+	"subStepping" : false,
+	"velocityIterations" : 8,
+	"warmStarting" : true
+}
