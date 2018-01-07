@@ -1,6 +1,6 @@
 '
 '
-' a simple basic setup based on original box2d helloworld but with two more bodies and som colisions
+' a simple basic setup based on original box2d helloworld but with two more bodies and som colisions!
 ' you can see the colision moment while the angle is not 0 anymore...
 ' Local bodies should not be used in more complex apps, only in fields or globals... don't loose the scope of bodies, joints, world ....
 '
