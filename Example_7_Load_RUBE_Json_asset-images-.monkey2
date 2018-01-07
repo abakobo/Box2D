@@ -49,7 +49,7 @@ Class Box2DgfxTest Extends Window
 	'------- Initialising the world 
 
 
-		Local jsonPath:="asset::126.json"
+		Local jsonPath:="asset::127.json"
 
 		'Local theStr:=LoadString("asset::scene1.json",True)
 		world=mx2b2dJson.b2dJsonReadFromAsset(jsonPath)
@@ -104,7 +104,14 @@ Class Box2DgfxTest Extends Window
 		
 		For Local i:=0 Until world.GetBodyCount()
 				If bodyInfoArr[i].image<>Null
-					canvas.DrawImage(bodyInfoArr[i].image,b2Vec2ToVec2f(bodyInfoArr[i].body.GetPosition()),bodyInfoArr[i].imageAngle,New Vec2f (bodyInfoArr[i].imageScale,bodyInfoArr[i].imageScale))
+			'		canvas.DrawImage(bodyInfoArr[i].image,b2Vec2ToVec2f(bodyInfoArr[i].body.GetPosition()),bodyInfoArr[i].imageAngle,New Vec2f (bodyInfoArr[i].imageScale,bodyInfoArr[i].imageScale))
+				Local pos:=DDrawer.PhysicsToCanvas(bodyInfoArr[i].body.GetPosition())
+				Local rot:=bodyInfoArr[i].imageAngle
+				Local zoo:=bodyInfoArr[i].imageScale
+
+				'canvas.DrawImage(bodyInfoArr[i].image,pos,rot,zoo)
+				canvas.DrawImage(bodyInfoArr[i].image,pos,rot,New Vec2f (zoo,zoo))
+				
 				End
 		Next
 		
@@ -460,6 +467,7 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 			Print ret[i].imageFileName
 			ret[i].image=Image.Load(ret[i].imageFileName)
 			If ret[i].image<>Null
+				ret[i].image.Handle=New Vec2f (0.5,0.5)
 				Print "image load ok"
 			Else
 				Print "image load not ok "+i+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"

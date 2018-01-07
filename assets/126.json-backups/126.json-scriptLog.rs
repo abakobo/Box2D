@@ -1,22 +1,30 @@
-//Started script log at 01/06/18 22:43:58
+//Started script log at 01/07/18 14:42:18
 
-addImage(6, '{"body":null,"center":{"x":"407927D4","y":"BF45E329"},"file":"C:/Users/koko/Desktop/Box2Dgit/assets/images/bikeswingarm.png","filter":1,"opacity":0.5,"scale":1}');
-addImage(7, '{"body":null,"center":{"x":"405767C6","y":"3F408547"},"file":"C:/Users/koko/Desktop/Box2Dgit/assets/images/carbody.png","filter":1,"opacity":0.5,"scale":1}');
 getImage(4).select();
-getImage(4).setFilter(0);
-getImage(4).setFilter(1);
-addImage(8, '{"body":null,"center":{"x":"3E5D0F2F","y":"40AC4ADB"},"file":"C:/Users/koko/Desktop/Box2Dgit/assets/images/driverarmupper.bmp","filter":1,"opacity":0.5,"scale":1}');
-addImage(9, '{"body":null,"center":{"x":"BEEFBE2F","y":"4085FB39"},"file":"C:/Users/koko/Desktop/Box2Dgit/assets/images/driverarmlower.bmp","filter":1,"opacity":0.5,"scale":1}');
-addImage(10, '{"body":null,"center":{"x":"3B08E4AA","y":"402972D2"},"file":"C:/Users/koko/Desktop/Box2Dgit/assets/images/tankbody.bmp","filter":1,"opacity":0.5,"scale":1}');
-addImage(11, '{"body":null,"center":{"x":"401960C0","y":"40C5D546"},"file":"C:/Users/koko/Desktop/Box2Dgit/assets/images/crate.png","filter":1,"opacity":0.5,"scale":1}');
-addImage(12, '{"body":null,"center":{"x":"3F9EFC10","y":"409C5457"},"file":"C:/Users/koko/Desktop/Box2Dgit/assets/images/mcclory.png","filter":1,"opacity":0.5,"scale":1}');
+setCursor(3.12341, 3.16073);
+getImage(4).setCenter(0.0213021,0.014526);
+getImage(4).setScale(0.454031);
+getImage(4).setCenter(0.0498074,0.057284);
+getImage(4).setCenter(0.031,0.031);
 getImage(4).deselect();
-getImage(12).select();
-getImage(12).setCenter(1.95878,7.70426);
-getImage(12).setScale(1.57703);
-getImage(12).deselect();
-getImage(11).select();
-getImage(11).deselect();
+getImage(3).select();
+getImage(3).setCenter(0.021,0.021);
+getImage(3).deselect();
+getImage(1).select();
+getImage(1).setCenter(0.011,0.011);
+getImage(1).deselect();
+getImage(5).select();
+getImage(5).setCenter(0.051,0.051);
+getImage(5).deselect();
 getImage(4).select();
-getImage(4).setCenter(1.09895,3.0088);
-getImage(4).setAspectScale(0.5);
+getImage(4).deselect();
+getImage(5).select();
+getImage(5).deselect();
+getImage(2).select();
+getImage(2).deselect();
+getImage(1).select();
+addImage(6, '{"body":null,"center":{"x":"4087FADA","y":"40933531"},"file":"C:/Users/koko/Desktop/Box2Dgit/assets/images/mcclory.png","filter":1,"opacity":0.5,"scale":1}');
+getImage(1).deselect();
+getImage(6).select();
+getImage(6).setCenter(4.13535,4.12991);
+getImage(6).setBody(5);

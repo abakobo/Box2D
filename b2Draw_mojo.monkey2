@@ -45,6 +45,22 @@ Class b2Draw_mojo Extends b2Draw
 		Return loc
 	End
 	
+	Method PhysicsToCanvas:Vec2f(loc:b2Vec2)
+		Local point:Vec2f
+		
+		'loc.x=((point.x-w/2.0)/scale)+viewpoint.x
+		 'loc.x=((point.x-(w/2.0))/scale)+viewpoint.x
+		 'point.x=((w/2.0)/scale-viewpoint.x+loc.x)*scale
+		point.x=(w/2.0)+scale*(loc.x-viewpoint.x)
+		
+		
+		'loc.y=((point.y-h/2.0)/scale*y_axis_direction)+viewpoint.y
+		point.y=(h/2.0)+scale*y_axis_direction*(loc.y-viewpoint.y)
+		
+		
+		Return point
+	End
+	
 	Method DrawCircle(center:b2Vec2,radius:Float,color:b2Color) Override
 		'it's drawing a solid circle.... should be modified (does mojo have empty circle?) > won't do it because it's for chains and some joints only..
 		Local cx:=(w/2.0)+(scale*(center.x-viewpoint.x))
