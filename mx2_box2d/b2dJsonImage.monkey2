@@ -1,1 +1,451 @@
 Namespace b2dJsonImage
+
+#Import "<std>"
+#Import "<mojo>"
+
+#Import "../box2d.monkey2"
+#Import "../b2Draw_mojo.monkey2"
+
+#Import "../iforce2d-b2djson/mx2b2djson.monkey2"
+
+Struct b2BodyImageInfo
+	
+	Field body:b2Body
+	Field index:Int
+	
+	Field bodyName:String
+	
+	Field imageFileName:String
+	
+	Field imageLocalPosition:Vec2f
+	Field imageLocalAngle:Float	
+	
+	Field imageAspectScale:Float
+	Field imageWorldHeight:Float
+	Field imageRenderScale:Vec2f
+
+	Field image:Image
+	
+	Property imageWorldPosition:b2Vec2()
+		
+		Local rotation:=New AffineMat3f().Rotate(-body.GetAngle())
+		
+		Return b2Vec2ToVec2f(body.GetPosition())+(rotation*imageLocalPosition)
+		
+	End
+	
+	Property imageWorldAngle:Float()
+		
+		Return body.GetAngle()+imageLocalAngle
+		
+	End
+	
+	
+End
+
+Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
+	
+	'INIT
+	Local bodyCount:=world.GetBodyCount()
+	Local ret:=New b2BodyImageInfo[bodyCount]
+	
+	Local json:=JsonObject.Load( path )
+
+	'maps images to bodies (because not all body has image,...)
+	Local imageToBodyArray:=CreateImageToBodyArray(json)
+	Local bodyToImageMap:=New IntMap<Int>
+	For Local i:=0 Until imageToBodyArray.Length
+		bodyToImageMap[imageToBodyArray[i]]=i
+	Next
+	'Gets all the bodies and reference them in the output info array
+	Local bodyArray:=CreateBodyArray(world)
+	For Local i:=0 Until bodyCount
+		ret[i]=New b2BodyImageInfo()
+		ret[i].body=bodyArray[i]
+		ret[i].index=i
+	Next
+	'-----------------------------------------------------BodyName
+	Local bodyNameMap:=GetBodyNameMap(json)
+	For Local i:=0 Until bodyCount
+		If bodyNameMap.Contains(i)
+		ret[i].bodyName=bodyNameMap[i]
+		Else
+			ret[i].bodyName=Null
+			#If __DEBUG__
+				Print "body "+i+ " has no name!!!!!!!!!!!!!!!"
+			#End
+		End
+	Next
+	'------------------------------------------------------ CENTER
+	Local posMap:=GetImageCenterMap(json)
+	For Local i:=0 Until bodyCount
+		If bodyToImageMap.Contains(i)
+			ret[i].imageLocalPosition=b2Vec2ToVec2f(posMap[bodyToImageMap[i]])
+		Else
+			ret[i].imageLocalPosition=Null
+		End
+	Next
+	'----------------------------FileName and image load
+	Local nameMap:=GetImageFileNameMap(json)
+	For Local i:=0 Until bodyCount
+	
+		If bodyToImageMap.Contains(i)
+			ret[i].imageFileName="asset::"+nameMap[bodyToImageMap[i]]
+			ret[i].image=Image.Load(ret[i].imageFileName)
+			If ret[i].image<>Null
+				ret[i].image.Handle=New Vec2f (0.5,0.5)
+			Else
+				#If __DEBUG__
+					Print "image load not ok "+i+"!! MISSING FILE?"
+				#End
+			End
+		Else
+			ret[i].imageFileName=Null
+		End
+	Next
+	'-------------------------Aspect Scale of the image
+	Local scaleMap:=GetimageAspectScaleMap(json)
+	For Local i:=0 Until bodyCount
+	
+		If bodyToImageMap.Contains(i)
+		ret[i].imageAspectScale=scaleMap[bodyToImageMap[i]]
+		Else
+			ret[i].imageAspectScale=1
+		End
+	Next
+	
+	'-------------------------Height Scale of the image (size in world unit!)
+	Local heightMap:=GetimageWorldHeightMap(json)
+	For Local i:=0 Until bodyCount
+	
+		If bodyToImageMap.Contains(i)
+		ret[i].imageWorldHeight=heightMap[bodyToImageMap[i]]
+		Else
+			ret[i].imageWorldHeight=1
+			#If __DEBUG__
+				Print "WorldHeight body "+i+" has no image/file"
+			#End
+		End
+	Next
+	'---------------------- generating render scale
+	
+	For Local i:=0 Until bodyCount
+		If bodyToImageMap.Contains(i)
+			
+			Local fact:=ret[i].imageWorldHeight/ret[i].image.Height
+			ret[i].imageRenderScale=New Vec2f(fact*ret[i].imageAspectScale,fact)
+		End
+	Next
+	
+	'----------------------angle of the image
+	Local angleMap:=GetimageLocalAngleMap(json)
+	For Local i:=0 Until bodyCount
+	
+		If bodyToImageMap.Contains(i)
+			ret[i].imageLocalAngle=angleMap[bodyToImageMap[i]]
+		Else
+			ret[i].imageLocalAngle=0
+		End
+	Next
+	
+	For Local i:=0 Until bodyCount
+		
+		Print "--------------"
+		Print "body: "+ret[i].bodyName
+		Print "height: "+ret[i].imageWorldHeight
+		Print "Aspect: "+ret[i].imageAspectScale
+		
+	Next
+	
+
+	
+	
+
+	Return ret
+
+End
+
+Function CreateImageToBodyArray:Int[](lobj:JsonObject)
+	
+	Local bodyImageArray: Int[]
+	
+	If lobj["image"]
+		Local imgval:=lobj["image"]
+		Local imgarr:=imgval.ToArray()
+		Local imgArraySize:=imgarr.Length
+		bodyImageArray=New Int[imgArraySize]
+		
+		For Local i:=0 Until imgArraySize
+			Local imgarrelem:=imgarr[i]
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			bodyImageArray[i]=imgelemobj["body"].ToNumber()
+		Next
+	End
+	Return bodyImageArray	
+End
+
+Function CreateBodyArray:b2Body[](world:b2World)
+
+	Local count:=world.GetBodyCount ()
+	Local BodyArray:=New b2Body[count]
+	Local BodyArrayInv:=New b2Body[count]
+	
+	BodyArray[0]=world.GetBodyList()
+	Local i:=1
+	While i < count
+		BodyArray[i]=BodyArray[i-1].GetNext()
+		i+=1
+	Wend
+	For Local i:=0 Until count
+		BodyArrayInv[i]=BodyArray[count-1-i]
+	Next
+	
+	Return BodyArrayInv
+	
+End
+
+Function GetBodyNameMap:IntMap<String>(lobj:JsonObject)
+	
+	Local namesMap:=New IntMap<String>
+	
+	If lobj["body"]
+		
+		Local imgval:=lobj["body"]
+		Local imgarr:=imgval.ToArray() 
+		Local imgArraySize:=imgarr.Length
+
+		For Local i:=0 Until imgArraySize
+			Local imgarrelem:=imgarr[i]
+			
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			If imgelemobj["name"]
+
+				Local imgval:=imgelemobj["name"]
+				
+				If imgval.IsString 
+					
+					namesMap[i]=imgval.ToString()
+					
+				Else 
+					#If __DEBUG__
+						Print "Body "+i+" has no string name!" 
+					#End	
+				End			
+			Else
+				#If __DEBUG__
+					Print "no 'body/name' value in json !!!!!!!!!"
+				#End
+			End
+		Next
+
+	Else
+		#If __DEBUG__
+			Print "no 'body' value in json !!!!!!!!!"
+		#End
+	End
+	
+	Return namesMap
+	
+End
+
+Function GetImageCenterMap:IntMap<b2Vec2>(lobj:JsonObject)
+	
+	Local positionsMap:=New IntMap<b2Vec2>
+	
+	If lobj["image"]
+		Local imgval:=lobj["image"]
+		Local imgarr:=imgval.ToArray()
+		Local imgArraySize:=imgarr.Length
+
+
+		For Local i:=0 Until imgArraySize
+			
+			Local imgarrelem:=imgarr[i]
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			If imgelemobj["center"]
+
+				Local imgval:=imgelemobj["center"]
+				
+				If imgval.IsNumber 'center is (0,0)
+					
+					positionsMap[i]=New b2Vec2(0,0)
+					
+				Else 'imgval.isObject --> center with two elements x and y
+					
+					Local centerobj:=imgval.ToObject()
+					Local x:= centerobj["x"].ToNumber()
+					Local y:= centerobj["y"].ToNumber()
+					positionsMap[i]=New b2Vec2(x,y)
+						
+				End			
+			Else
+				#If __DEBUG__
+					Print "no 'image/center' value"
+				#End
+			End
+		Next
+
+	Else
+		#If __DEBUG__
+			Print "no 'image' value"
+		#End
+	End
+	
+	Return positionsMap
+	
+End
+
+Function GetImageFileNameMap:IntMap<String>(lobj:JsonObject)
+	
+	Local namesMap:=New IntMap<String>
+	
+	If lobj["image"]
+		Local imgval:=lobj["image"]
+		Local imgarr:=imgval.ToArray() 
+		Local imgArraySize:=imgarr.Length
+
+
+		For Local i:=0 Until imgArraySize
+			
+			Local imgarrelem:=imgarr[i]
+			
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			If imgelemobj["file"]
+
+				Local imgval:=imgelemobj["file"]
+				
+				If imgval.IsString
+					
+					namesMap[i]=imgval.ToString()
+					
+				Else 
+					#If __DEBUG__
+						Print "no json image file name prob."
+					#End
+						
+				End			
+
+			End
+		Next
+
+	End
+	
+	Return namesMap
+	
+End
+
+Function GetimageAspectScaleMap:IntMap<Float>(lobj:JsonObject)
+	
+	Local scalesMap:=New IntMap<Float>
+	
+	If lobj["image"]
+		Local imgval:=lobj["image"]
+		Local imgarr:=imgval.ToArray() 'image est d'abord un array contennant objet json 
+		Local imgArraySize:=imgarr.Length
+
+
+		For Local i:=0 Until imgArraySize
+
+			Local imgarrelem:=imgarr[i]
+			
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			If imgelemobj["aspectScale"]
+
+				Local imgval:=imgelemobj["aspectScale"]
+				
+				If imgval.IsNumber 
+					
+					scalesMap[i]=imgval.ToNumber()
+
+				End			
+			Else
+			End
+		Next
+
+	Else
+	End
+	
+	Return scalesMap
+	
+End
+
+Function GetimageLocalAngleMap:IntMap<Float>(lobj:JsonObject)
+
+	Local anglesMap:=New IntMap<Float>
+	
+	If lobj["image"]
+		Local imgval:=lobj["image"]
+		Local imgarr:=imgval.ToArray() 'image est d'abord un array contennant objet json 
+		Local imgArraySize:=imgarr.Length
+
+
+		For Local i:=0 Until imgArraySize
+			
+			Local imgarrelem:=imgarr[i]
+			
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			If imgelemobj["angle"]
+
+				Local imgval:=imgelemobj["angle"]
+				
+				If imgval.IsNumber 
+					
+					anglesMap[i]=imgval.ToNumber()
+					
+				Else 
+					
+					anglesMap[i]=0
+						
+				End			
+			Else
+				anglesMap[i]=0
+			End
+		Next
+
+	End
+	
+	Return anglesMap
+	
+End
+
+Function GetimageWorldHeightMap:IntMap<Float>(lobj:JsonObject)
+	
+	Local scalesMap:=New IntMap<Float>
+	
+	If lobj["image"]
+		Local imgval:=lobj["image"]
+		Local imgarr:=imgval.ToArray() 'image est d'abord un array contennant objet json 
+		Local imgArraySize:=imgarr.Length
+
+
+		For Local i:=0 Until imgArraySize
+
+			Local imgarrelem:=imgarr[i]
+			
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			If imgelemobj["scale"]
+
+				Local imgval:=imgelemobj["scale"]
+				
+				If imgval.IsNumber 
+					
+					scalesMap[i]=imgval.ToNumber()
+
+				End			
+			Else
+			End
+		Next
+
+	Else
+	End
+	
+	Return scalesMap
+	
+End

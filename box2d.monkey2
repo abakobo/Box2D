@@ -1748,6 +1748,13 @@ Function b2RotToS:String(r:b2Rot)
 	Local s:="s:"+r.s
 	Return s
 End
+Struct Vec2<T> Extension
+	Operator To:b2Vec2()
+	
+		Return New b2Vec2(x,y)
+	
+	End
+End
 
 Class AABBQueryCallback Extends b2QueryCallback
 	Field q_point:b2Vec2

@@ -151,27 +151,18 @@ Function CreateImageToBodyArray:Int[](path:String)
 	
 	If lobj["image"]
 		Local imgval:=lobj["image"]
-		Local imgarr:=imgval.ToArray() 'image est d'abord un array contennant objet json 
+		Local imgarr:=imgval.ToArray()
 		Local imgArraySize:=imgarr.Length
-		'Print "OOOOOOOOOOOOOOOOOOOOOOOOOOO" + imgArraySize
 		bodyImageArray=New Int[imgArraySize]
-
+		
 		For Local i:=0 Until imgArraySize
-			
 			Local imgarrelem:=imgarr[i]
-			
 			Local imgelemobj:=imgarrelem.ToObject()
 			
-			'Print "------------image "+i+" has body "+imgelemobj["body"].ToNumber()
-			
 			bodyImageArray[i]=imgelemobj["body"].ToNumber()
-			
-			
 		Next
 	End
-	
-	Return bodyImageArray
-	
+	Return bodyImageArray	
 End
 
 Function GetImageCenterMap:IntMap<b2Vec2>(path:String)

@@ -16,19 +16,21 @@
 					"circle" : 
 					{
 						"center" : 0,
-						"radius" : 0.5
+						"radius" : 0.50
 					},
-					"density" : 1.400563478469849,
-					"friction" : 0.2,
+					"density" : 1,
+					"friction" : 0.2000000029802322,
 					"name" : "fixture0"
 				}
 			],
 			"linearVelocity" : 0,
-			"massData-I" : 0.1375000029802322,
-			"massData-mass" : 1.1,
-			"name" : "wheelos",
-			"position" : 0,
-			"type" : 2
+			"name" : "body3yaps",
+			"position" : 
+			{
+				"x" : 2.876451492309570,
+				"y" : 0.1832039952278137
+			},
+			"type" : 0
 		}
 	],
 	"collisionbitplanes" : 
@@ -73,32 +75,54 @@
 	"gravity" : 
 	{
 		"x" : 0,
-		"y" : -10
+		"y" : -10.0
 	},
 	"image" : 
 	[
 		
 		{
-			"aspectScale" : 1,
+			"aspectScale" : 0.2199999988079071,
 			"body" : 0,
 			"center" : 
 			{
-				"x" : 0.1,
-				"y" : 0.2
+				"x" : 0.03099999949336052,
+				"y" : 0.03099999949336052
 			},
 			"corners" : 
 			{
-				"x" : [ -0.4, 0.6, 0.6, -0.4 ],
-				"y" : [ -0.3, -0.3, 0.7, 0.7 ]
+				"x" : 
+				[
+					-0.7300624847412109,
+					0.7920624613761902,
+					0.7920624613761902,
+					-0.7300624847412109
+				],
+				"y" : 
+				[
+					-1.319000005722046,
+					-1.319000005722046,
+					1.381000041961670,
+					1.381000041961670
+				]
 			},
-			"file" : "../../../Users/koko/Desktop/rube-win32-1.7.4/sampleScenes/images/carwheel.png",
+			"file" : "images/bikeswingarm.png",
 			"filter" : 1,
 			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
-			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
-			"glVertexPointer" : [ -0.4, -0.3, 0.6, -0.3, 0.6, 0.7, -0.4, 0.7 ],
-			"name" : "image0",
-			"opacity" : 0.5,
-			"scale" : 1
+			"glTexCoordPointer" : [ 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0 ],
+			"glVertexPointer" : 
+			[
+				-0.7300624847412109,
+				-1.319000005722046,
+				0.7920624613761902,
+				-1.319000005722046,
+				0.7920624613761902,
+				1.381000041961670,
+				-0.7300624847412109,
+				1.381000041961670
+			],
+			"name" : "image3",
+			"opacity" : 0.50,
+			"scale" : 2.700000047683716
 		}
 	],
 	"positionIterations" : 3,
