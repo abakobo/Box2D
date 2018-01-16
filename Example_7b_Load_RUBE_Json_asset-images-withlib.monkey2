@@ -54,14 +54,14 @@ Class Box2DgfxTest Extends Window
 	'------- Initialising the world 
 
 
-		'Local jsonPath:="asset::129.json"
+		'Local jsonPath:="asset::car.json"
 		Local jsonPath:="asset::images.json"
 
-		'Local theStr:=LoadString("asset::scene1.json",True)
 		world=mx2b2dJson.b2dJsonReadFromAsset(jsonPath)
 
 	'----- debugdrawer init and link---------------------------------------------------------------------------------------------
 		DDrawer=New b2Draw_mojo 'this one must be a field or a global 
+		DDrawer.scale=50.0
 		world.SetDebugDraw( DDrawer  ) '
 		DDrawer.SetFlags( e_shapeBit )
 		DDrawer.SetCamera(New b2Vec2(2,2),zoomFactor)  
@@ -78,6 +78,7 @@ Class Box2DgfxTest Extends Window
 	End
 	
 	Method OnRender( canvas:Canvas ) Override
+		
 		App.RequestRender()
 		canvas.Clear(Color.Black)
 		
@@ -105,8 +106,7 @@ Class Box2DgfxTest Extends Window
 				If bodyInfoArr[i].image<>Null
 					Local pos:=DDrawer.PhysicsToCanvas(bodyInfoArr[i].imageWorldPosition)
 					Local rot:=bodyInfoArr[i].imageWorldAngle
-					
-					Local zoo:=bodyInfoArr[i].imageAspectScale
+
 
 					'canvas.DrawImage(bodyInfoArr[i].image,pos,rot,New Vec2f (zoo,zoo))
 					

@@ -1,3 +1,14 @@
+pyro:
+
+tranformer scales vec2 en Float
+
+ajouter offset à Extension camera.GetMatrix ?
+
+
+pure box2d:
+----------
+
+
 conversion char > Short pour externals?
 
 mieux comprendre enums

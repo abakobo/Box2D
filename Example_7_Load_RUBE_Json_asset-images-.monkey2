@@ -49,7 +49,7 @@ Class Box2DgfxTest Extends Window
 	'------- Initialising the world 
 
 
-		Local jsonPath:="asset::127.json"
+		Local jsonPath:="asset::images.json"
 
 		'Local theStr:=LoadString("asset::scene1.json",True)
 		world=mx2b2dJson.b2dJsonReadFromAsset(jsonPath)

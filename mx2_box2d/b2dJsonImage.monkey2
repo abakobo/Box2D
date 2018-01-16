@@ -148,19 +148,6 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 		End
 	Next
 	
-	For Local i:=0 Until bodyCount
-		
-		Print "--------------"
-		Print "body: "+ret[i].bodyName
-		Print "height: "+ret[i].imageWorldHeight
-		Print "Aspect: "+ret[i].imageAspectScale
-		
-	Next
-	
-
-	
-	
-
 	Return ret
 
 End
