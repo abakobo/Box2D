@@ -1,18 +1,18 @@
-Namespace b2dPyro2
+Namespace b2draw
 
-#Import "<std>"
-#Import "<mojo>"
-#Import "../box2d.monkey2"
+'#Import "<std>"
+'#Import "<mojo>"
+'#Import "../box2d.monkey2"
 
 
-Using std..
-Using mojo..
-Using box2d..
+'Using std..
+'Using mojo..
+'Using box2d..
 
 Public
 
 
-Class b2DebugDraw Extends b2Draw
+Class b2DebugDrawer Extends b2Draw
 
 
 

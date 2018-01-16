@@ -13,7 +13,7 @@ Struct b2BodyImageInfo
 	Field body:b2Body
 	Field index:Int
 	
-	Field bodyName:String
+	Field name:String
 	
 	Field imageFileName:String
 	
@@ -23,6 +23,8 @@ Struct b2BodyImageInfo
 	Field imageAspectScale:Float
 	Field imageWorldHeight:Float
 	Field imageRenderScale:Vec2f
+	
+	Field imageRenderOrder:Int
 
 	Field image:Image
 	
@@ -41,6 +43,18 @@ Struct b2BodyImageInfo
 	End
 	
 	
+End
+
+Function Createb2BodyImageMap:IntMap<Image>(bodyInfos:b2BodyImageInfo[])
+	
+	Local retMap:=New IntMap<Image>
+	
+	For Local i:=0 Until bodyInfos.Length
+		If bodyInfos[i].image<>Null
+			retMap[i]=bodyInfos[i].image
+		Endif
+	Next
+	Return retMap
 End
 
 Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
@@ -68,9 +82,9 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 	Local bodyNameMap:=GetBodyNameMap(json)
 	For Local i:=0 Until bodyCount
 		If bodyNameMap.Contains(i)
-		ret[i].bodyName=bodyNameMap[i]
+		ret[i].name=bodyNameMap[i]
 		Else
-			ret[i].bodyName=Null
+			ret[i].name=Null
 			#If __DEBUG__
 				Print "body "+i+ " has no name!!!!!!!!!!!!!!!"
 			#End
@@ -145,6 +159,17 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 			ret[i].imageLocalAngle=angleMap[bodyToImageMap[i]]
 		Else
 			ret[i].imageLocalAngle=0
+		End
+	Next
+	
+	
+	'---------- image render order
+	Local orderMap:=GetimageRenderOrderMap(json)
+	For Local i:=0 Until bodyCount
+		If bodyToImageMap.Contains(i)
+			ret[i].imageRenderOrder=orderMap[bodyToImageMap[i]]
+		Else
+			ret[i].imageRenderOrder=0
 		End
 	Next
 	
@@ -398,6 +423,46 @@ Function GetimageLocalAngleMap:IntMap<Float>(lobj:JsonObject)
 	End
 	
 	Return anglesMap
+	
+End
+
+Function GetimageRenderOrderMap:IntMap<Int>(lobj:JsonObject)
+
+	Local orderMap:=New IntMap<Int>
+	
+	If lobj["image"]
+		Local imgval:=lobj["image"]
+		Local imgarr:=imgval.ToArray() 'image est d'abord un array contennant objet json 
+		Local imgArraySize:=imgarr.Length
+
+
+		For Local i:=0 Until imgArraySize
+			
+			Local imgarrelem:=imgarr[i]
+			
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			If imgelemobj["renderOrder"]
+
+				Local imgval:=imgelemobj["renderOrder"]
+				
+				If imgval.IsNumber 
+					
+					orderMap[i]=imgval.ToNumber()
+					
+				Else 
+					
+					orderMap[i]=0
+						
+				End			
+			Else
+				orderMap[i]=0
+			End
+		Next
+
+	End
+	
+	Return orderMap
 	
 End
 

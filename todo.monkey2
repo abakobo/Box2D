@@ -1,8 +1,13 @@
-pyro:
+pyro & b2json:
+--------------
 
 tranformer scales vec2 en Float
 
 ajouter offset à Extension camera.GetMatrix ?
+
+offest json existing world
+
+rename b2Draw_Pyro To b2Draw
 
 
 pure box2d:

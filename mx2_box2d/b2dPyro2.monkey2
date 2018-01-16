@@ -3,16 +3,18 @@ Namespace b2dPyro2
 #Import "<std>"
 #Import "<mojo>"
 
-#Import "../box2d.monkey2"
-#Import "b2Draw_Pyro.monkey2"
+'#Import "../box2d.monkey2"
 #Import "<pyro-scenegraph>"																				' Import pyro scene.
 
 Using std..
 Using mojo..
 Using pyro.framework..
 Using pyro.scenegraph..
-Using box2d..
+'Using box2d..
 
+
+#rem monkeydoc don't use this - bugsy function
+#end
 Function Createb2LayerSprites:LayerSprite[](layer:Layer,bodyInfos:b2BodyImageInfo[],scalef:Float,inverted_y_axis:Bool=True)
 	
 	Local ret:=New LayerSprite[bodyInfos.Length]
@@ -20,21 +22,62 @@ Function Createb2LayerSprites:LayerSprite[](layer:Layer,bodyInfos:b2BodyImageInf
 	Local sign:Int=-1
 	Local countBodiesWithImage:=0
 	If inverted_y_axis=False Then sign=1
-	
+	 'buugsy: calls null image instances use Map!
 	For Local i:= 0 Until bodyInfos.Length
 
 			ret[i]=New LayerSprite( layer, bodyInfos[i].image )
 			ret[i].Location=b2Vec2ToVec2f(bodyInfos[i].imageWorldPosition)*(New Vec2f(scalef,sign*scalef)) '-for y axis inversion RUBE using standart coordinates system
 			ret[i].Rotation=sign*bodyInfos[i].imageWorldAngle '-for y axis inversion due to RUBE using standart coordinates system
 			ret[i].Scale=bodyInfos[i].imageRenderScale*New Vec2f(scalef,scalef)
+	Next
 
+	Return ret
+	
+End
 
+Function Createb2LayerSprites:LayerSprite[](layer:Layer,bodyInfos:b2BodyImageInfo[],bodyImageMap:IntMap<Image>,scalef:Float,inverted_y_axis:Bool=True)
+	
+	Local ret:=New LayerSprite[bodyImageMap.Count()]
+	'y axis inversion management
+	Local sign:Int=-1
+	Local countBodiesWithImage:=0
+	If inverted_y_axis=False Then sign=1
+	
+	Print "Createb2LayerSprites"
+	
+	Local i:=0
+	For Local bodyImageNode:=Eachin bodyImageMap
+		ret[i]=New LayerSprite( layer, bodyImageNode.Value )
+		ret[i].Location=b2Vec2ToVec2f(bodyInfos[bodyImageNode.Key].imageWorldPosition)*(New Vec2f(scalef,sign*scalef)) '-for y axis inversion RUBE using standart coordinates system
+		ret[i].Rotation=sign*bodyInfos[bodyImageNode.Key].imageWorldAngle '-for y axis inversion due to RUBE using standart coordinates system
+		ret[i].Scale=bodyInfos[bodyImageNode.Key].imageRenderScale*New Vec2f(scalef,scalef)
+		Print bodyInfos[bodyImageNode.Key].imageRenderOrder
+		ret[i].Z=bodyInfos[bodyImageNode.Key].imageRenderOrder
+		i+=1
 	Next
 	
 	Return ret
 	
 End	
 
+Function Updateb2LayerSprites(sprites:LayerSprite[],bodyInfos:b2BodyImageInfo[],bodyImageMap:IntMap<Image>,scalef:Float,inverted_y_axis:Bool=True)
+	
+	Local sign:Int=-1
+	If inverted_y_axis=False Then sign=1
+	Local i:=0
+	For Local bodyImageNode:=Eachin bodyImageMap
+		
+		sprites[i].Location=b2Vec2ToVec2f(bodyInfos[bodyImageNode.Key].imageWorldPosition)*(New Vec2f(scalef,sign*scalef)) 'sign for y axis inversion RUBE using standart coordinates system
+		sprites[i].Rotation=sign*bodyInfos[bodyImageNode.Key].imageWorldAngle' sign for y axis inversion RUBE using standart coordinates system
+		sprites[i].Scale=bodyInfos[bodyImageNode.Key].imageRenderScale*New Vec2f(scalef,scalef)
+		i+=1
+		
+	Next
+
+End
+
+#rem monkeydocs don't use!!!!! bugs
+#end
 Function Updateb2LayerSprites(sprites:LayerSprite[],bodyInfos:b2BodyImageInfo[],scalef:Float,inverted_y_axis:Bool=True)
 	
 	Local sign:Int=-1
@@ -46,12 +89,42 @@ Function Updateb2LayerSprites(sprites:LayerSprite[],bodyInfos:b2BodyImageInfo[],
 		sprites[i].Rotation=sign*bodyInfos[i].imageWorldAngle' sign for y axis inversion RUBE using standart coordinates system
 		sprites[i].Scale=bodyInfos[i].imageRenderScale*New Vec2f(scalef,scalef)
 
+	Next
 
+End	
+
+' ------------- avec layer array
+
+Function Createb2LayerSprites:LayerSprite[](layers:Layer[],bodyInfos:b2BodyImageInfo[],bodyImageMap:IntMap<Image>,scalef:Float,inverted_y_axis:Bool=True)
+	
+	Local ret:=New LayerSprite[bodyImageMap.Count()]
+	'y axis inversion management
+	Local sign:Int=-1
+	Local countBodiesWithImage:=0
+	If inverted_y_axis=False Then sign=1
+	
+	Print "Createb2LayerSprites"
+	
+	Local i:=0
+	For Local bodyImageNode:=Eachin bodyImageMap
+		#If __DEBUG__
+			If bodyInfos[bodyImageNode.Key].imageRenderOrder>layers.Length-1 Then Print "!!bodyImage RenderOrder is bigger than layers array size!!!!!!!!!!!!!!!!!!!!!!!!!"
+		#Endif
+		ret[i]=New LayerSprite( layers[bodyInfos[bodyImageNode.Key].imageRenderOrder], bodyImageNode.Value )
+		ret[i].Location=b2Vec2ToVec2f(bodyInfos[bodyImageNode.Key].imageWorldPosition)*(New Vec2f(scalef,sign*scalef)) '-for y axis inversion RUBE using standart coordinates system
+		ret[i].Rotation=sign*bodyInfos[bodyImageNode.Key].imageWorldAngle '-for y axis inversion due to RUBE using standart coordinates system
+		ret[i].Scale=bodyInfos[bodyImageNode.Key].imageRenderScale*New Vec2f(scalef,scalef)
+		i+=1
 	Next
 	
-
+	Return ret
 	
 End	
+
+
+
+
+
 
 Class Camera Extension
 	Method SetByCenterViewpoint(viewpoint:Vec2f,zoom:Float,rotation:Float,vResolution:Vec2f)
@@ -104,3 +177,4 @@ Class Camera Extension
 	End
 	
 End
+

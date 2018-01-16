@@ -8,6 +8,7 @@ Namespace MyApp
 #Import "mx2_box2d/b2Draw_Pyro.monkey2"
 #Import "mx2_box2d/b2dJsonImage.monkey2"
 #Import "mx2_box2d/b2dPyro2.monkey2"
+#Import "mx2_box2d/b2manager.monkey2"
 
 #Import "iforce2d-b2djson/mx2b2djson.monkey2"
 #Import "assets/"
@@ -31,18 +32,11 @@ Class PyroExample Extends Window
 	Field logo:LayerSprite
 	Field physSprites:LayerSprite[]
 	Field elli:LayerEllipse
+	Field elli2:LayerEllipse
 	Field scene:Scene
+	Field layers:Layer[]
 	
-	Field world:b2World
-	Field bodyInfs:b2BodyImageInfo[]
-	Field physScale:=15.0
-	
-	'step values
-	Field timeStep:= 0.01666666667
-	Field velocityIterations := 6
-	Field positionIterations := 2
-	
-	Field DDrawer:b2DebugDraw
+	Field pManager:b2Manager
 
 	Method New( title:String,width:Int,height:Int,flags:WindowFlags=WindowFlags.Resizable )
 
@@ -63,31 +57,31 @@ Class PyroExample Extends Window
 
 		Local layer:=New Layer( scene )				' Add layer.
 		
+		
+		elli2=New LayerEllipse(layer,50,70)
+		elli2.Location=New Vec2f(120,120)
+		elli2.Z=2
+		elli2.Color=Color.Green
+				
 		elli=New LayerEllipse(layer,50,70)
 		elli.Location=New Vec2f(100,100)
+		elli.Z=4
+		elli.Color=Color.White
+		
+
 		
 		
-		'Load b2dJson
-		'------------------
-		'------- Initialising the world 
 		
-		Local jsonPath:="asset::images.json"
-		world=mx2b2dJson.b2dJsonReadFromAsset(jsonPath)
 		
-		'---- create body to image info array
-		bodyInfs=Createb2BodyImageInfoArray(world,jsonPath)
-	
-	
-		'++++++++++ Create b2LayerSprites
-		physSprites=Createb2LayerSprites(layer,bodyInfs,physScale,True)
+
 		
-		' add debugdrw
-		DDrawer=New b2DebugDraw(physScale)
+		'Load b2dJson using the b2Manager
 		
-		world.SetDebugDraw( DDrawer  )
-		DDrawer.SetFlags( e_shapeBit|e_jointBit )
+		Local jsonPath:="asset::tank.json"
 		
-																		
+		pManager=New b2Manager(jsonPath)
+		
+		physSprites=Createb2LayerSprites(layer,pManager.bodyInfos,pManager.bodyImageMap,pManager.physScale,pManager.yAxisInversion)															
 
 	End
 
@@ -99,12 +93,6 @@ Class PyroExample Extends Window
 	
 		App.RequestRender()
 		
-		world.Stepp(timeStep, velocityIterations, positionIterations)
-
-		Updateb2LayerSprites(physSprites,bodyInfs,physScale,True)
-
-		scene.Update()																					' Update must be called before Draw!
-
 		' Zoom and rotate keys:
 		If Keyboard.KeyDown( Key.LeftControl )
 			If Keyboard.KeyDown( Key.R ) camera.Rotation-=.05
@@ -114,39 +102,45 @@ Class PyroExample Extends Window
 			If Keyboard.KeyDown( Key.Z ) camera.Zoom+=.01
 		Endif
 		
-		If Keyboard.KeyDown( Key.Left ) camera.X-=1
-		If Keyboard.KeyDown( Key.Right ) camera.X+=1
-		If Keyboard.KeyDown( Key.Up ) camera.Y-=1
-		If Keyboard.KeyDown( Key.Down ) camera.Y+=1
+		If Keyboard.KeyDown( Key.Left ) camera.X-=1/camera.Zoom
+		If Keyboard.KeyDown( Key.Right ) camera.X+=1/camera.Zoom
+		If Keyboard.KeyDown( Key.Up ) camera.Y-=1/camera.Zoom
+		If Keyboard.KeyDown( Key.Down ) camera.Y+=1/camera.Zoom
+			
+		'step b2World
 		
-		scene.Draw( canvas )																			' Draw all scene objects to canvas.
+		pManager.StepWorld()
 
-		canvas.DrawText( "Use R or Left Control+R to rotate.",8,8 )
-		canvas.DrawText( "Use Z or Left Control+Z to zoom in/out.",8,8+canvas.Font.Height )
-		
+		'Draw b2 Debug
+
 		canvas.PushMatrix()
 		
-		Local centerPos:=New Vec2f(virtualResolution.x/2+camera.X,virtualResolution.y/2+camera.Y)
-		canvas.SetCameraByCenter(centerPos,camera.Zoom,-camera.Rotation)',virtualResolution)
-		'Print "canv mat:      "+canvas.Matrix
-		'Print "cam getmatrix: "+camera.GetMatrix()
-		canvas.Color=Color.Black
-		canvas.DrawCircle(100,100,50)
+		camera.TransformCanvas(canvas)
+		pManager.DDrawer.SetCanvas(canvas)
+		pManager.world.DrawDebugData()
+		canvas.Color=Color.White
 		
 		canvas.PopMatrix()
 		
-		'canvas.Matrix=camera.GetMatrix()
+		'Pyro Draw
 		
-		camera.TransformCanvas(canvas)
+		Updateb2LayerSprites(physSprites,pManager.bodyInfos,pManager.bodyImageMap,pManager.physScale,pManager.yAxisInversion)
 		
-		canvas.Color=Color.Green
-		canvas.DrawCircle(100,100,25)
-		
-		DDrawer.SetCanvas(canvas)
-		world.DrawDebugData()
-		canvas.Color=Color.White
+		scene.Update()																					' Update must be called before Draw!
 		
 		
+		scene.Draw( canvas )																			' Draw all scene objects to canvas.
+
+		'Normal Draw
+		
+		canvas.DrawText( "Use R or Left Control+R to rotate.",8,8 )
+		canvas.DrawText( "Use Z or Left Control+Z to zoom in/out.",8,8+canvas.Font.Height )
+		
+		'direct change of canvas.matrix to be equivalent to camerabycenter (obsolete)
+		#rem
+		Local centerPos:=New Vec2f(virtualResolution.x/2+camera.X,virtualResolution.y/2+camera.Y)
+		canvas.SetCameraByCenter(centerPos,camera.Zoom,-camera.Rotation)',virtualResolution)
+		#end
 
 	End
 
