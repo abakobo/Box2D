@@ -13,7 +13,7 @@ Struct b2BodyImageInfo
 	Field body:b2Body
 	Field index:Int
 	
-	Field name:String
+	Field bodyName:String
 	
 	Field imageFileName:String
 	
@@ -82,9 +82,9 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 	Local bodyNameMap:=GetBodyNameMap(json)
 	For Local i:=0 Until bodyCount
 		If bodyNameMap.Contains(i)
-		ret[i].name=bodyNameMap[i]
+		ret[i].bodyName=bodyNameMap[i]
 		Else
-			ret[i].name=Null
+			ret[i].bodyName=Null
 			#If __DEBUG__
 				Print "body "+i+ " has no name!!!!!!!!!!!!!!!"
 			#End

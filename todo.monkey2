@@ -1,13 +1,23 @@
 pyro & b2json:
 --------------
 
-tranformer scales vec2 en Float
+Isort pour exempl tank (et plus multi layers)
+
+Faire createur de JointInfos et GetJoint(Name) (comme GetBody(Name))
+
+ajouter control du tank
+
+colision pyro entre 2 layers?
+
+tranformer scales vec2 en Float --Fait?!
 
 ajouter offset à Extension camera.GetMatrix ?
 
-offest json existing world
+offest json existing world dans mx2b2json et b2Manager
 
-rename b2Draw_Pyro To b2Draw
+rename b2Draw_Pyro To b2Draw --Fait?!
+
+cleanup the mess!
 
 
 pure box2d:

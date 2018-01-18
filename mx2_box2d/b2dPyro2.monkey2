@@ -137,8 +137,10 @@ Class Camera Extension
 		Zoom=zoom		
 	End
 	
-	Method GetMatrix:AffineMat3f(mat:AffineMat3f=New AffineMat3f())
+	Method GetTransform:AffineMat3f(mat:AffineMat3f=New AffineMat3f())
 	
+			' !!!!Don't know how I can acces this private variable from outside pyro-scenegraph.monkey2 !!!
+			' Is the offset related to the layer's .Multiplier ?
 			
 			'_offset.x=width*_scale.x*.5-VirtualWidth*.5
 			'_offset.y=height*_scale.y*.5-VirtualHeight*.5
@@ -161,6 +163,9 @@ Class Camera Extension
 	End
 	
 	Method TransformCanvas(cnv:Canvas)
+		
+		
+					'_offset is missing
 		
 					cnv.Scale( Scale )
 					

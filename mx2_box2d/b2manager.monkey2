@@ -39,7 +39,9 @@ Class b2Manager
 	
 	
 	Method New(gravity:b2Vec2,pScale:Float=15)
-		world=New b2World(gravity)	
+		world=New b2World(gravity)
+		
+		DebugDrawer=New b2DebugDrawer(physScale)	
 	End
 	
 	Method New (jsonPath:String,pScale:Float=15,offset:b2Vec2=New b2Vec2(0,0))
@@ -69,6 +71,55 @@ Class b2Manager
 	Method UpdateInfos()
 		'usefull?
 	End
+	
+	Method GetBodies:b2Body[](name:String)
+		
+		Local retArray:=New b2Body[bodyInfos.Length]
+		Local j:=0
+		For Local i:=0 Until bodyInfos.Length
+			If bodyInfos[i].bodyName=name
+				retArray[j]=bodyInfos[i].body
+				j+=1
+			End
+		End
+		If j>0
+			retArray.Resize(j)
+		Else
+		#If __DEBUG__
+			Print "No body with name "+name+" !!!!!!!!!!!!!!!"
+		#End
+			Return Null
+		End
+		Return retArray
+	End
+	
+	Method GetBody:b2Body(name:String)
+		Local i:=0
+		While i<bodyInfos.Length
+			If bodyInfos[i].bodyName=name Then Return bodyInfos[i].body
+			i+=1
+		Wend
+		
+		#If __DEBUG__
+			Print "No body with name "+name+" !!!!!!!!!!!!!!!"
+		#End
+		
+		Return Null
+
+	End
+	
+	Method ToPhysics:b2Vec2(Location:Vec2f)
+
+		Return DebugDrawer.ToPhysicsLocation(Location)
+		
+	End
+	
+	Method FromPhysics:Vec2f(physLocation:b2Vec2)
+		
+		Return DebugDrawer.FromPhysicsLocation(physLocation)
+		
+	End
+	
 	
 	
 End

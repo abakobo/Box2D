@@ -57,7 +57,7 @@ Class PyroExample Extends Window
 
 		camera.Zoom=1.0		
 		
-		camera.SetByCenterViewpoint(New Vec2f(0,0),0.3,0.0,virtualResolution)															' Zoom point is the center of the screen ( 0,0 by default ).
+		camera.SetByCenterViewpoint(New Vec2f(0,0),1.5,0.0,virtualResolution)															' Zoom point is the center of the screen ( 0,0 by default ).
 
 		' Add several layers to manage rendering orders.
 
@@ -68,8 +68,8 @@ Class PyroExample Extends Window
 		
 		'Load b2dJson using the b2Manager
 		
-		'Local jsonPath:="asset::tank.json"  'choose one of the scenes
-		Local jsonPath:="asset::images.json"
+		Local jsonPath:="asset::tank.json"  'choose one of the scenes
+		'Local jsonPath:="asset::images.json"
 		'Local jsonPath:="asset::car.json"
 		
 		pManager=New b2Manager(jsonPath)
@@ -95,10 +95,13 @@ Class PyroExample Extends Window
 			If Keyboard.KeyDown( Key.Z ) camera.Zoom+=.01
 		Endif
 		
-		If Keyboard.KeyDown( Key.Left ) camera.X-=2/camera.Zoom
-		If Keyboard.KeyDown( Key.Right ) camera.X+=2/camera.Zoom
-		If Keyboard.KeyDown( Key.Up ) camera.Y-=2/camera.Zoom
-		If Keyboard.KeyDown( Key.Down ) camera.Y+=2/camera.Zoom
+		'If Keyboard.KeyDown( Key.Left ) camera.X-=2/camera.Zoom
+		'If Keyboard.KeyDown( Key.Right ) camera.X+=2/camera.Zoom
+		'If Keyboard.KeyDown( Key.Up ) camera.Y-=2/camera.Zoom
+		'If Keyboard.KeyDown( Key.Down ) camera.Y+=2/camera.Zoom
+
+		
+		
 			
 		'step b2World
 		
@@ -127,8 +130,12 @@ Class PyroExample Extends Window
 		canvas.DrawText( "Use R or Left Control+R to rotate.",8,8 )
 		canvas.DrawText( "Use Z or Left Control+Z to zoom in/out.",8,8+canvas.Font.Height )
 		canvas.DrawText( "Use arrows to move",8,8+2*canvas.Font.Height )
-		'canvas.DrawText( "Tank position: "+b2Vec2ToS(pManager.GetBody("tankchassis")?.GetPosition()),8,8+3*canvas.Font.Height)
-
+		Local tankPhysPos:=pManager.GetBody("tankchassis")?.GetPosition()
+		canvas.DrawText( "Tank Phys position: "+b2Vec2ToS(tankPhysPos),8,8+3*canvas.Font.Height)
+		canvas.DrawText( "Tank Canv position: "+pManager.FromPhysics(tankPhysPos),8,8+4*canvas.Font.Height)
+		
+		camera.SetByCenterViewpoint(pManager.FromPhysics(tankPhysPos),camera.Zoom,camera.Rotation,virtualResolution)
+		
 	End
 
 End
