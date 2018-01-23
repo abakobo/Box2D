@@ -1,9 +1,6 @@
 doing:
 
-b2djsonimage ajoutage dans b2Manager.save pour voir si ça passe sans tou initialiser.. NON faisage manuel
-->teser que classe b2dJsonImage fonctionne Pas utile...?
 
--->b2manage.monkey2 line 187
 
 
 TODO
@@ -18,6 +15,10 @@ Faire createur de JointInfos et GetJoint(Name) (comme GetBody(Name)) Et fixtures
 Ajouter b2djson image.flip?
 
 ajouter control du tank
+
+ajouter render order dans b2Manager.DrawBodies
+
+ajouter opacity dans b2Manager.DrawBodies et pyro2.CreatLayerSprites
 
 tranformer scales vec2 en Float --Fait?!
 
@@ -35,8 +36,9 @@ donc faire un exemple yaxisNonInversé avec images!
 
 offest json existing world dans mx2b2json et b2Manager
 
-
-cleanup the mess!
+cleanup the mess!:
+	-virer b2djson
+	-virer cpp fileio et bitmap render...
 
 AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
 

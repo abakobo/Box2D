@@ -164,6 +164,8 @@ Class b2Manager
 		Local tempJsonFullString:=String.FromCString(jsonCStr.Data)
 		Local mainJsonObj:=JsonObject.Parse(tempJsonFullString)
 		
+		Print mainJsonObj.ToJson()
+		
 		'create an object for images info
 		Local imageJsonArray:=New JsonArray
 		
@@ -175,26 +177,34 @@ Class b2Manager
 			
 			ptiJsonObj["name"]=New JsonString(bodyInfos[bodyImageNode.Key].imageRubeName)':String
 			
-			ptiJsonObj["file"]=New JsonString(bodyInfos[bodyImageNode.Key].imageFileName)':String
+			ptiJsonObj["file"]=New JsonString(bodyInfos[bodyImageNode.Key].imageFileName.Replace("asset::",""))':String
 			
 			ptiJsonObj["angle"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageLocalAngle)':Float
 			ptiJsonObj["aspectScale"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageAspectScale)':Float
 			ptiJsonObj["scale"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageWorldHeight)':Float
 			ptiJsonObj["renderOrder"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageRenderOrder)':Int
 
-			ptiJsonObj["body"]=New JsonNumber(bodyInfos[bodyImageNode.Key].index)':Int
+			ptiJsonObj["body"]=New JsonNumber(bodyInfos.Length-1-bodyInfos[bodyImageNode.Key].index)':Int Body reference has to be processed backwards compared to .json order (reliable?)
+			ptiJsonObj["opacity"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageOpacity)
 			
-			'!!!!!!!!!!!!!faut faire un autre sous objet? center avec deux JsonNumbers x et y
-			'ptiJsonObj["center"]=bodyInfos[bodyImageNode.Key].imageLocalPosition':Vec2f
+			
+			Local miniJsonObj:=New JsonObject
+			miniJsonObj["x"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageLocalPosition.x)
+			miniJsonObj["y"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageLocalPosition.y)
+			ptiJsonObj["center"]=miniJsonObj
 			
 			imageJsonArray.Add(ptiJsonObj)
 				
 			i+=1
 		Next
 		
-		mainJsonObj["image"]=New JsonArray
+		Print "-------------Print array"
+		Print imageJsonArray.ToJson()
 		
-		SaveString(String.FromCString(jsonCStr.Data),path,True)
+		mainJsonObj["image"]=imageJsonArray
+		
+		SaveString(mainJsonObj.ToJson(),path,True)
+		
 	End
 	
 End

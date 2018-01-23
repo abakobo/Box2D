@@ -1,13 +1,6 @@
-//Started script log at 01/23/18 16:19:04
+//Started script log at 01/23/18 22:38:34
 
-getBody(10).select();
-getBody(10).deselect();
-getBody(2).select();
-getBody(2).deselect();
-getImage(3).select();
-getImage(3).setFlip(2);
-getImage(3).setFlip(0);
-getImage(3).setFlip(2);
-getImage(3).setFlip(0);
-getImage(3).setFlip(2);
-getImage(3).setFlip(0);
+getBody(1).select();
+getBody(1).setName("ground");
+getBody(1).deselect();
+getBody(1).select();

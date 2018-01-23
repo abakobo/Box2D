@@ -29,6 +29,7 @@ Struct b2BodyImageInfo
 	Field imageRenderScale:Vec2f
 	
 	Field imageRenderOrder:Int
+	Field imageOpacity:Float
 
 	Field image:Image
 	
@@ -180,6 +181,17 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 		End
 	Next
 	
+	'----------------------opacity of the image
+	Local opacityMap:=GetimageOpacityMap(json)
+	For Local i:=0 Until bodyCount
+	
+		If bodyToImageMap.Contains(i)
+			ret[i].imageOpacity=opacityMap[bodyToImageMap[i]]
+		Else
+			ret[i].imageOpacity=0
+		End
+	Next
+	
 	
 	'---------- image render order
 	Local orderMap:=GetimageRenderOrderMap(json)
@@ -190,6 +202,17 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 			ret[i].imageRenderOrder=0
 		End
 	Next
+	
+	For Local i:=0 Until bodyCount
+		
+		Print "--------"
+		Print i
+		Print ret[i].index
+		Print ret[i].bodyName
+		Print ret[i].imageFileName
+		
+	Next 
+	
 	
 	Return ret
 
@@ -481,6 +504,46 @@ Function GetimageLocalAngleMap:IntMap<Float>(lobj:JsonObject)
 	End
 	
 	Return anglesMap
+	
+End
+
+Function GetimageOpacityMap:IntMap<Float>(lobj:JsonObject)
+
+	Local opMap:=New IntMap<Float>
+	
+	If lobj["image"]
+		Local imgval:=lobj["image"]
+		Local imgarr:=imgval.ToArray() 'image est d'abord un array contennant objet json 
+		Local imgArraySize:=imgarr.Length
+
+
+		For Local i:=0 Until imgArraySize
+			
+			Local imgarrelem:=imgarr[i]
+			
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			If imgelemobj["opacity"]
+
+				Local imgval:=imgelemobj["opacity"]
+				
+				If imgval.IsNumber 
+					
+					opMap[i]=imgval.ToNumber()
+					
+				Else 
+					
+					opMap[i]=0
+						
+				End			
+			Else
+				opMap[i]=0
+			End
+		Next
+
+	End
+	
+	Return opMap
 	
 End
 

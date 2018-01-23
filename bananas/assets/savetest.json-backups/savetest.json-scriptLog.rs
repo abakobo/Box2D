@@ -1,11 +1,9 @@
-//Started script log at 01/23/18 16:18:39
+//Started script log at 01/23/18 23:10:39
 
-getBody(1).select();
-getBody(1).deselect();
-getBody(2).select();
-getBody(2).deselect();
-getBody(9).select();
-getBody(9).deselect();
-getBody(8).select();
-getBody(8).deselect();
-getBody(6).select();
+getImage(1).select();
+getImage(1).deselect();
+getImage(10).select();
+getImage(10).deselect();
+getImage(9).select();
+getImage(9).deselect();
+getImage(7).select();

@@ -23,13 +23,15 @@ Class Box2DgfxTest Extends Window
 		ClearColor=Color.Black
 		'------- Initialising b2Manager (the world and all the stuff associated wth the Json) 
 		physManager=New b2Manager("asset::images.json")	
+		'physManager=New b2Manager("asset::savetest.json")
 		
 	End
 	
 	Method OnRender( canvas:Canvas ) Override
 		
 		App.RequestRender()
-
+		
+		canvas.PushMatrix()
 		canvas.Translate(500,350)
 		canvas.Scale(New Vec2f(2.0,2.0))
 
@@ -37,6 +39,8 @@ Class Box2DgfxTest Extends Window
 
 		physManager.DrawDebug(canvas)
 		physManager.DrawBodies(canvas)
+		canvas.PopMatrix()
+		canvas.DrawText("press S to Save scene to json with image reference (save in same dir as original to keep relative path)",5,15)
 		
 		If Keyboard.KeyPressed(Key.S|Key.Raw)
 			Local savePath:=RequestFile( "Save b2dJson","Json files:json",True )
