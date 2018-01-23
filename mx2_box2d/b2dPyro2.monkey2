@@ -110,7 +110,7 @@ Class DepthSort Implements ISorter
 	End
 End
 
-' ------------- avec layer array
+' ------------- avec layer array, !!!! à retirer !!!!
 
 Function Createb2LayerSprites:LayerSprite[](layers:Layer[],bodyInfos:b2BodyImageInfo[],bodyImageMap:IntMap<Image>,scalef:Float,inverted_y_axis:Bool=True)
 	

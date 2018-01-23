@@ -8,6 +8,7 @@ Namespace mx2b2dJson
 
 #Import "mx2b2dJson.h"
 #Import "b2dJson.h"
+#Import "b2dJsonImage.h"
 '#Import "json/json.h"
 #Import "*.h"
 
@@ -60,7 +61,7 @@ Class b2dJson Extends Void
 	    Method setBodyName(body:b2Body, name:CString)
 		Method setFixtureName(fixture:b2Fixture, name:CString)
 		Method setJointName(joint:b2Joint, name:CString)   
-	    'void setImageName(b2dJsonImage* image,:CString const char* name);
+	    'Method setImageName(image:b2dJsonImage,name:CString)
 	
 	    'void setBodyPath(b2Body* body, const char* path);
 	    'void setFixturePath(b2Fixture* fixture, const char* path);
@@ -130,6 +131,61 @@ Class b2dJson Extends Void
 	
 	    'b2dJsonCustomProperties* getCustomPropertiesForItem(void* item, bool createIfNotExisting);
 	
+End
+
+Class b2dJsonImage
+	
+	'-----Fields
+	'std::string name;
+	Field name:String
+    'std::string file;
+    Field file:String
+    'std::string path;
+    Field path:String
+    'b2Body* body;
+    Field body:b2Body
+    'b2Vec2 center;
+    Field centre:b2Vec2
+    'float angle;
+    Field angle:Float
+    'float scale;
+    Field scale:Float
+    'float aspectScale;
+    Field aspectScale:Float
+    'bool flip;
+    Field flip:Bool
+    'float opacity;
+    Field opacity:Float
+    'int filter; // 0 = nearest, 1 = linear
+    'float renderOrder;
+    Field renderOrder:Float
+    
+    'int colorTint[4];
+
+    'b2Vec2 corners[4];
+
+    'int numPoints;
+    'float* points;
+    'float* uvCoords;
+    'int numIndices;
+    'unsigned short* indices;
+    
+    '------------Methods
+
+    'b2dJsonImage();
+    '~b2dJsonImage();
+    Method New()
+	Method Destroy() Extension="delete"
+	
+    'b2dJsonImage(const b2dJsonImage* other);
+
+    'void updateCorners(float aspect);
+    'void updateUVs(float aspect);
+    'b2AABB getAABB();
+
+    'virtual bool loadImage() { return false; }
+    'virtual void render() {}
+
 End
 	
 

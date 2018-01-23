@@ -39,13 +39,10 @@ int Getb2dJsonStringSize(b2World* world,b2dJson* existingJson = NULL){
 		ret=thecppstring.length() + 1;
 		}
 	else {
-	
 		thecppstring=existingJson->writeToString(world);
 		ret=thecppstring.length() + 1;
 		}
-	
 	return ret;	
-
 }
 
 void b2dJsonWriteToString_ext(char* thecstring , b2World* world , b2dJson* existingJson){
@@ -55,15 +52,9 @@ void b2dJsonWriteToString_ext(char* thecstring , b2World* world , b2dJson* exist
 		thecppstring=json.writeToString(world);
 		}
 	else {
-		
 		thecppstring=existingJson->writeToString(world);
 		}
-		
-	//thecstring = thecppstring.c_str();
-	strcpy(thecstring, thecppstring.c_str());
-
-		
-	//return cstr; // no return thecstring is passed by reference	
+	strcpy(thecstring, thecppstring.c_str());	
 }
 
 

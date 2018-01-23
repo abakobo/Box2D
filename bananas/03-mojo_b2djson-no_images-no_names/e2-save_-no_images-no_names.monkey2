@@ -87,6 +87,8 @@ Class Box2DgfxTest Extends Window
 		canvas.DrawText("Mouse location in physWorld: "+b2Vec2ToS(mousePhysicsLocation),15,55)
 		canvas.DrawText("Press S to save to b2dJson format",15,85)
 		
+		
+		' Saving if S is pressed
 		If Keyboard.KeyDown(Key.S|Key.Raw)
 			Local savePath:=RequestFile( "Save b2dJson","Json files:json",True )
 			mx2b2dJson.Saveb2dJson(savePath , world)

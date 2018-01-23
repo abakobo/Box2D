@@ -14,6 +14,7 @@ Using std..
 Using mojo..
 Using box2d..
 Using b2dJsonInfo..
+Using mx2b2dJson..
 
 
 Class b2Manager
@@ -34,7 +35,7 @@ Class b2Manager
 	
 	'Field jointInfos:b2JointsInfo[] 'TODO
 	
-	Field DebugDrawer:b2DebugDraw
+	Field debugDrawer:b2DebugDraw
 	
 	
 	
@@ -42,19 +43,19 @@ Class b2Manager
 	Method New(gravity:b2Vec2,pScale:Float=15,yAxisInversion:Bool=True)
 		world=New b2World(gravity)
 		
-		DebugDrawer=New b2DebugDraw(physScale,yAxisInversion)	
+		debugDrawer=New b2DebugDraw(physScale,yAxisInversion)	
 	End
 	
 	Method New (jsonPath:String,pScale:Float=15,yAxisInversion:Bool=True,offset:b2Vec2=New b2Vec2(0,0))
 		
 		physScale=pScale
 		
-		world=mx2b2dJson.b2dJsonReadFromAsset(jsonPath) 'offset TODO!
+		world=mx2b2dJson.Loadb2dJson(jsonPath) 'offset TODO!
 		
-		DebugDrawer=New b2DebugDraw(physScale,yAxisInversion)
+		debugDrawer=New b2DebugDraw(physScale,yAxisInversion)
 		
-		world.SetDebugDraw( DebugDrawer  )
-		DebugDrawer.SetFlags( e_shapeBit|e_jointBit )
+		world.SetDebugDraw( debugDrawer  )
+		debugDrawer.SetFlags( e_shapeBit|e_jointBit )
 		
 		bodyInfos=Createb2BodyImageInfoArray(world,jsonPath)
 		bodyImageMap=Createb2BodyImageMap(bodyInfos)
@@ -67,6 +68,32 @@ Class b2Manager
 	
 	Method StepWorld()
 		world.Stepp(timeStep, velocityIterations, positionIterations)
+	End
+	
+	Method DrawDebug(canvas:Canvas)
+		Local col:=canvas.Color
+		debugDrawer.SetCanvas(canvas)
+		world.DrawDebugData()
+		canvas.Color=col
+	End
+	
+	Method DrawBodies(canvas:Canvas)
+		
+		Local sign:=-1
+		If yAxisInversion=False Then sign=1
+		Local i:=0
+		For Local bodyImageNode:=Eachin bodyImageMap
+			
+			Local location:=b2Vec2ToVec2f(bodyInfos[bodyImageNode.Key].imageWorldPosition)*(New Vec2f(physScale,sign*physScale)) 'sign for y axis inversion RUBE using standart coordinates system
+			Local rotation:=-sign*bodyInfos[bodyImageNode.Key].imageWorldAngle' sign for y axis inversion RUBE using standart coordinates system -sign for trig vs canvas rotation direction????????
+			Local scale:=bodyInfos[bodyImageNode.Key].imageRenderScale*New Vec2f(physScale,physScale) 'No yaxis inversion here! because it's an image in left handed coord anyway!
+			
+			canvas.DrawImage (bodyInfos[bodyImageNode.Key].image , location , rotation , scale)
+			
+			i+=1
+			
+		Next
+		
 	End
 	
 	Method UpdateInfos()
@@ -111,17 +138,64 @@ Class b2Manager
 	
 	Method ToPhysics:b2Vec2(Location:Vec2f)
 
-		Return DebugDrawer.ToPhysicsLocation(Location)
+		Return debugDrawer.ToPhysicsLocation(Location)
 		
 	End
 	
 	Method FromPhysics:Vec2f(physLocation:b2Vec2)
 		
-		Return DebugDrawer.FromPhysicsLocation(physLocation)
+		Return debugDrawer.FromPhysicsLocation(physLocation)
 		
 	End
 	
+	Method Save(path:String)
+		Local json:b2dJson=New b2dJson()
+		For Local i:=0 Until bodyInfos.Length
+			If bodyInfos[i].bodyName<>"" Then json.setBodyName(bodyInfos[i].body, bodyInfos[i].bodyName)
+		Next
+		
+		Local strSize:=Getb2dJsonStringSize(world,json)
+		Local jsonCStr:=New char_t[strSize]
+		b2dJsonWriteToString_ext(jsonCStr.Data,world,json)
+		
 	
+		
+		'converting the b2djson to string then to mx2JsonObject
+		Local tempJsonFullString:=String.FromCString(jsonCStr.Data)
+		Local mainJsonObj:=JsonObject.Parse(tempJsonFullString)
+		
+		'create an object for images info
+		Local imageJsonArray:=New JsonArray
+		
+		
+		Local i:=0
+		For Local bodyImageNode:=Eachin bodyImageMap
+			
+			Local ptiJsonObj:=New JsonObject
+			
+			ptiJsonObj["name"]=New JsonString(bodyInfos[bodyImageNode.Key].imageRubeName)':String
+			
+			ptiJsonObj["file"]=New JsonString(bodyInfos[bodyImageNode.Key].imageFileName)':String
+			
+			ptiJsonObj["angle"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageLocalAngle)':Float
+			ptiJsonObj["aspectScale"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageAspectScale)':Float
+			ptiJsonObj["scale"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageWorldHeight)':Float
+			ptiJsonObj["renderOrder"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageRenderOrder)':Int
+
+			ptiJsonObj["body"]=New JsonNumber(bodyInfos[bodyImageNode.Key].index)':Int
+			
+			'!!!!!!!!!!!!!faut faire un autre sous objet? center avec deux JsonNumbers x et y
+			'ptiJsonObj["center"]=bodyInfos[bodyImageNode.Key].imageLocalPosition':Vec2f
+			
+			imageJsonArray.Add(ptiJsonObj)
+				
+			i+=1
+		Next
+		
+		mainJsonObj["image"]=New JsonArray
+		
+		SaveString(String.FromCString(jsonCStr.Data),path,True)
+	End
 	
 End
 

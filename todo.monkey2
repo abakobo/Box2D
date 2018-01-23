@@ -1,33 +1,46 @@
+doing:
+
+b2djsonimage ajoutage dans b2Manager.save pour voir si ça passe sans tou initialiser.. NON faisage manuel
+->teser que classe b2dJsonImage fonctionne Pas utile...?
+
+-->b2manage.monkey2 line 187
+
+
+TODO
+-----
 pyro & b2json:
 --------------
 
-Isort pour exempl tank (et plus multi layers) + enlever les autres Functions de la foire  -->1/2
+Isort pour exempl tank (et plus multi layers) + enlever les autres Functions de la foire(Create/Updateb2LayerSprites)  -->1/2
 
-Faire createur de JointInfos et GetJoint(Name) (comme GetBody(Name))
+Faire createur de JointInfos et GetJoint(Name) (comme GetBody(Name)) Et fixtures
+
+Ajouter b2djson image.flip?
 
 ajouter control du tank
 
-colision pyro entre 2 layers?
-
 tranformer scales vec2 en Float --Fait?!
 
-donner les noms quand ça fait writeTo?
-
-retirer tout les files io de b2dJson et n'utiliser que fileSystem de mx2 (donc utiliser que write/read de string
+donner les noms (fixture,body et joints) avec b2Manager.Save()
 
 ajouter offset à Extension camera.GetMatrix ?
 
 ajouter offset à b2Manager
 
+Memory leaks dans mx2b2json.xxx avec strings et Const char*
 Détruire les b2djson!!!! dans mx2b2djson.xxx
+
+checker que imageWorldPosition fonctionne correc avec yAxisInvert=False  checker avec draw bodies aussi...
+donc faire un exemple yaxisNonInversé avec images!
 
 offest json existing world dans mx2b2json et b2Manager
 
-rename b2Draw_Pyro To b2Draw --Fait?!
 
 cleanup the mess!
 
 AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
+
+colision pyro entre 2 layers?
 
 
 pure box2d:

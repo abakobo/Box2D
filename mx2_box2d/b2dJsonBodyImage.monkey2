@@ -18,6 +18,7 @@ Struct b2BodyImageInfo
 	
 	Field bodyName:String
 	
+	Field imageRubeName:String
 	Field imageFileName:String
 	
 	Field imageLocalPosition:Vec2f
@@ -33,7 +34,7 @@ Struct b2BodyImageInfo
 	
 	Property imageWorldPosition:b2Vec2()
 		
-		Local rotation:=New AffineMat3f().Rotate(-body.GetAngle())
+		Local rotation:=New AffineMat3f().Rotate(-body.GetAngle()) '!!!checker si ça marche avec y_axis_inversion=false
 		
 		Return b2Vec2ToVec2f(body.GetPosition())+(rotation*imageLocalPosition)
 		
@@ -86,6 +87,8 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 	For Local i:=0 Until bodyCount
 		If bodyNameMap.Contains(i)
 		ret[i].bodyName=bodyNameMap[i]
+		
+
 		Else
 			ret[i].bodyName=Null
 			#If __DEBUG__
@@ -100,6 +103,16 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 			ret[i].imageLocalPosition=b2Vec2ToVec2f(posMap[bodyToImageMap[i]])
 		Else
 			ret[i].imageLocalPosition=Null
+		End
+	Next
+	'----------------------------imageRubeName 
+	Local rubeNameMap:=GetImageRubeNameMap(json)
+	For Local i:=0 Until bodyCount
+	
+		If bodyToImageMap.Contains(i)
+			ret[i].imageRubeName=rubeNameMap[bodyToImageMap[i]]
+		Else
+			ret[i].imageRubeName=Null
 		End
 	Next
 	'----------------------------FileName and image load
@@ -119,6 +132,8 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 		Else
 			ret[i].imageFileName=Null
 		End
+		
+
 	Next
 	'-------------------------Aspect Scale of the image
 	Local scaleMap:=GetimageAspectScaleMap(json)
@@ -313,6 +328,46 @@ Function GetImageCenterMap:IntMap<b2Vec2>(lobj:JsonObject)
 	
 End
 
+Function GetImageRubeNameMap:IntMap<String>(lobj:JsonObject)
+	
+	Local namesMap:=New IntMap<String>
+	
+	If lobj["image"]
+		Local imgval:=lobj["image"]
+		Local imgarr:=imgval.ToArray() 
+		Local imgArraySize:=imgarr.Length
+
+
+		For Local i:=0 Until imgArraySize
+			
+			Local imgarrelem:=imgarr[i]
+			
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			If imgelemobj["name"]
+
+				Local imgval:=imgelemobj["name"]
+				
+				If imgval.IsString
+					
+					namesMap[i]=imgval.ToString()
+					
+				Else 
+					#If __DEBUG__
+						Print "no json image rube name"
+					#End
+						
+				End			
+
+			End
+		Next
+
+	End
+	
+	Return namesMap
+	
+End
+
 Function GetImageFileNameMap:IntMap<String>(lobj:JsonObject)
 	
 	Local namesMap:=New IntMap<String>
@@ -339,7 +394,7 @@ Function GetImageFileNameMap:IntMap<String>(lobj:JsonObject)
 					
 				Else 
 					#If __DEBUG__
-						Print "no json image file name prob."
+						Print "no json image rube name"
 					#End
 						
 				End			
