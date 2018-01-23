@@ -1,10 +1,8 @@
-Namespace b2draw
+Namespace box2d
 
 '#Import "<std>"
 '#Import "<mojo>"
 '#Import "../box2d.monkey2"
-
-
 'Using std..
 'Using mojo..
 'Using box2d..
@@ -12,7 +10,7 @@ Namespace b2draw
 Public
 
 
-Class b2DebugDrawer Extends b2Draw
+Class b2DebugDraw Extends b2Draw
 
 
 
@@ -24,7 +22,9 @@ Class b2DebugDrawer Extends b2Draw
 	'Field e_shape:Bool,eaabb:Bool
 	Public 
 	
-	Method New(scl:Float,y_invert:Bool=True)
+	Field pointSizeFactor:=1.0
+	
+	Method New(scl:Float,y_invert:Bool)
 		
 		_scalef=scl
 		
@@ -127,6 +127,6 @@ Class b2DebugDrawer Extends b2Draw
     Method DrawPoint(p:b2Vec2,size:Float,color:b2Color) Override
 		Local pv:=b2Vec2ToVec2f(p)*_scalev
 		_canvas.Color = New Color(color.r,color.g,color.b)
-		_canvas.DrawCircle(pv.x,pv.y,size)
+		_canvas.DrawCircle(pv.x,pv.y,size*pointSizeFactor/_scalef)
 	End
 End

@@ -1,31 +1,13 @@
 
 
 #include <string>
+#include <iostream>
 
 #include "b2dJson.h"
-#include "json/json.h"
+//#include "json/json.h"
 
-b2World* b2dJsonReadFromFile_ext (const char* filename, char* charErrMsg, int charsize, b2World* existingWorld) {
+//using namespace std;
 
-	std::string errMsg;
-	b2dJson json;
-	b2World* returnWorld = json.readFromFile(filename, errMsg, existingWorld );
-
-	if (charsize>8) { // the char array must have a certain size..
-		if (errMsg.size()<charsize-2){
-			std::copy(errMsg.begin(), errMsg.end(), charErrMsg);
-		}
-		else {
-			std::string errMsgBis;
-			errMsgBis = errMsg.substr (0,charsize-3);
-			std::copy(errMsgBis.begin(), errMsgBis.end(), charErrMsg);
-			charErrMsg[errMsgBis.size()] = '\0'; // terminating the cstring
-		}
-	}
-	return returnWorld;
-}
-
-//'readFromString(mystring, errorMsg);
 
 b2World* b2dJsonReadFromString_ext (const char* thecstring, char* charErrMsg, int charsize, b2World* existingWorld) {
 
@@ -47,3 +29,43 @@ b2World* b2dJsonReadFromString_ext (const char* thecstring, char* charErrMsg, in
 	}
 	return returnWorld;
 }
+
+int Getb2dJsonStringSize(b2World* world,b2dJson* existingJson = NULL){
+	int ret;
+	std::string thecppstring;
+	if (existingJson==NULL) {
+		b2dJson json;
+		thecppstring=json.writeToString(world);
+		ret=thecppstring.length() + 1;
+		}
+	else {
+	
+		thecppstring=existingJson->writeToString(world);
+		ret=thecppstring.length() + 1;
+		}
+	
+	return ret;	
+
+}
+
+void b2dJsonWriteToString_ext(char* thecstring , b2World* world , b2dJson* existingJson){
+	std::string thecppstring;
+	if (existingJson==NULL) {
+		b2dJson json;
+		thecppstring=json.writeToString(world);
+		}
+	else {
+		
+		thecppstring=existingJson->writeToString(world);
+		}
+		
+	//thecstring = thecppstring.c_str();
+	strcpy(thecstring, thecppstring.c_str());
+
+		
+	//return cstr; // no return thecstring is passed by reference	
+}
+
+
+
+	

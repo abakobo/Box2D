@@ -14,7 +14,7 @@ Using pyro.scenegraph..
 
 
 #rem monkeydoc don't use this - bugsy function
-#end
+
 Function Createb2LayerSprites:LayerSprite[](layer:Layer,bodyInfos:b2BodyImageInfo[],scalef:Float,inverted_y_axis:Bool=True)
 	
 	Local ret:=New LayerSprite[bodyInfos.Length]
@@ -34,8 +34,11 @@ Function Createb2LayerSprites:LayerSprite[](layer:Layer,bodyInfos:b2BodyImageInf
 	Return ret
 	
 End
+#end
 
 Function Createb2LayerSprites:LayerSprite[](layer:Layer,bodyInfos:b2BodyImageInfo[],bodyImageMap:IntMap<Image>,scalef:Float,inverted_y_axis:Bool=True)
+	
+	layer.Sorter = New DepthSort()
 	
 	Local ret:=New LayerSprite[bodyImageMap.Count()]
 	'y axis inversion management
@@ -51,7 +54,7 @@ Function Createb2LayerSprites:LayerSprite[](layer:Layer,bodyInfos:b2BodyImageInf
 		ret[i].Location=b2Vec2ToVec2f(bodyInfos[bodyImageNode.Key].imageWorldPosition)*(New Vec2f(scalef,sign*scalef)) '-for y axis inversion RUBE using standart coordinates system
 		ret[i].Rotation=sign*bodyInfos[bodyImageNode.Key].imageWorldAngle '-for y axis inversion due to RUBE using standart coordinates system
 		ret[i].Scale=bodyInfos[bodyImageNode.Key].imageRenderScale*New Vec2f(scalef,scalef)
-		Print bodyInfos[bodyImageNode.Key].imageRenderOrder
+		'Print bodyInfos[bodyImageNode.Key].imageRenderOrder
 		ret[i].Z=bodyInfos[bodyImageNode.Key].imageRenderOrder
 		i+=1
 	Next
@@ -77,7 +80,7 @@ Function Updateb2LayerSprites(sprites:LayerSprite[],bodyInfos:b2BodyImageInfo[],
 End
 
 #rem monkeydocs don't use!!!!! bugs
-#end
+
 Function Updateb2LayerSprites(sprites:LayerSprite[],bodyInfos:b2BodyImageInfo[],scalef:Float,inverted_y_axis:Bool=True)
 	
 	Local sign:Int=-1
@@ -92,6 +95,20 @@ Function Updateb2LayerSprites(sprites:LayerSprite[],bodyInfos:b2BodyImageInfo[],
 	Next
 
 End	
+#end
+
+' This is your sorter, a class which has 
+' an update method that takes a stack of LayerObjects
+' ISorter is a pyro-scenegraph Interface. 
+Class DepthSort Implements ISorter
+ 
+	Method Update( objects:Stack<LayerObject> )
+		' sort this stack of layerobjects
+		objects.Sort( Lambda:Int(a:LayerObject,b:LayerObject)
+			Return  a.Z - b.Z
+		End ) 
+	End
+End
 
 ' ------------- avec layer array
 

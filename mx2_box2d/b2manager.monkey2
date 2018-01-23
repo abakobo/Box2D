@@ -4,7 +4,8 @@ Namespace box2d
 #Import "<mojo>"
 
 #Import "../box2d.monkey2"
-#Import "b2dJsonImage.monkey2"
+#Import "b2dJsonBodyImage.monkey2"
+#Import "b2dJsonJoint.monkey2"
 #Import "../iforce2d-b2djson/mx2b2djson.monkey2"
 #Import "b2draw.monkey2"
 
@@ -12,8 +13,8 @@ Namespace box2d
 Using std..
 Using mojo..
 Using box2d..
-Using b2dJsonImage..
-Using b2draw..
+Using b2dJsonInfo..
+
 
 Class b2Manager
 	
@@ -33,24 +34,24 @@ Class b2Manager
 	
 	'Field jointInfos:b2JointsInfo[] 'TODO
 	
-	Field DebugDrawer:b2DebugDrawer
+	Field DebugDrawer:b2DebugDraw
 	
 	
 	
 	
-	Method New(gravity:b2Vec2,pScale:Float=15)
+	Method New(gravity:b2Vec2,pScale:Float=15,yAxisInversion:Bool=True)
 		world=New b2World(gravity)
 		
-		DebugDrawer=New b2DebugDrawer(physScale)	
+		DebugDrawer=New b2DebugDraw(physScale,yAxisInversion)	
 	End
 	
-	Method New (jsonPath:String,pScale:Float=15,offset:b2Vec2=New b2Vec2(0,0))
+	Method New (jsonPath:String,pScale:Float=15,yAxisInversion:Bool=True,offset:b2Vec2=New b2Vec2(0,0))
 		
 		physScale=pScale
 		
 		world=mx2b2dJson.b2dJsonReadFromAsset(jsonPath) 'offset TODO!
 		
-		DebugDrawer=New b2DebugDrawer(physScale)
+		DebugDrawer=New b2DebugDraw(physScale,yAxisInversion)
 		
 		world.SetDebugDraw( DebugDrawer  )
 		DebugDrawer.SetFlags( e_shapeBit|e_jointBit )

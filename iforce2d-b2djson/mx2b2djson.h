@@ -8,11 +8,16 @@
 //#include <vector>
 #include <Box2D/Box2D.h>
 
-//#include "b2dJson.h"
+#include "b2dJson.h"
 //#include "json/json.h"
 
-b2World* b2dJsonReadFromFile_ext (const char* filename, char* errorMsg, int charsize, b2World* existingWorld = NULL);
 
 b2World* b2dJsonReadFromString_ext (const char* thecstring, char* charErrMsg, int charsize, b2World* existingWorld = NULL);
+
+void b2dJsonWriteToString_ext(char* thecstring , b2World* world , b2dJson* existingJson = NULL);
+
+int Getb2dJsonStringSize(b2World* world,b2dJson* existingJson = NULL);
+
+
 
 #endif // MX2B2DJSON_H

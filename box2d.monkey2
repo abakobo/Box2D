@@ -3,6 +3,8 @@ Namespace box2d
 #Import "mx2_box2d/mx2_specific.monkey2"
 '#Import "mx2_box2d/box2dEnums.monkey2"
 
+#Import "mx2_box2d/b2draw.monkey2"
+
 #Import "Box2D/*.h"
 
 #Import "Box2D/Box2D_mx2.h"

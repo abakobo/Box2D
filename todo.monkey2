@@ -1,7 +1,7 @@
 pyro & b2json:
 --------------
 
-Isort pour exempl tank (et plus multi layers)
+Isort pour exempl tank (et plus multi layers) + enlever les autres Functions de la foire  -->1/2
 
 Faire createur de JointInfos et GetJoint(Name) (comme GetBody(Name))
 
@@ -11,13 +11,23 @@ colision pyro entre 2 layers?
 
 tranformer scales vec2 en Float --Fait?!
 
+donner les noms quand ça fait writeTo?
+
+retirer tout les files io de b2dJson et n'utiliser que fileSystem de mx2 (donc utiliser que write/read de string
+
 ajouter offset à Extension camera.GetMatrix ?
+
+ajouter offset à b2Manager
+
+Détruire les b2djson!!!! dans mx2b2djson.xxx
 
 offest json existing world dans mx2b2json et b2Manager
 
 rename b2Draw_Pyro To b2Draw --Fait?!
 
 cleanup the mess!
+
+AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
 
 
 pure box2d:
