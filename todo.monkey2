@@ -5,10 +5,10 @@ doing:
 
 TODO
 -----
-pyro & b2json:
+b2json:
 --------------
 
-Isort pour exempl tank (et plus multi layers) + enlever les autres Functions de la foire(Create/Updateb2LayerSprites)  -->1/2
+Ajouter joints à b2 manager
 
 Faire createur de JointInfos et GetJoint(Name) (comme GetBody(Name)) Et fixtures
 
@@ -42,7 +42,13 @@ cleanup the mess!:
 
 AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
 
+pyro:
+--------
+
 colision pyro entre 2 layers?
+
+Isort pour exempl tank (et plus multi layers) + enlever les autres Functions de la foire(Create/Updateb2LayerSprites)  -->1/2
+
 
 
 pure box2d:

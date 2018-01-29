@@ -25,10 +25,17 @@ Extern
 
 	
 Function b2dJsonReadFromString_ext:b2World(thecstring:CString , errorMsg:char_t Ptr , charsize:Int , existingWorld:b2World = Null)
+Function b2dJsonReadFromString_Ref_ext:b2World(json : b2dJson , thecstring:CString , errorMsg:char_t Ptr , charsize:Int , existingWorld:b2World = Null)
 
 Function b2dJsonWriteToString_ext(thecstring:char_t Ptr , world:b2World,existingJson:b2dJson=Null)
-	
+
 Function Getb2dJsonStringSize:Int (world:b2World,existingJson:b2dJson=Null)
+	
+Function GetFixtureByName:b2Fixture(json : b2dJson , name: CString)
+	
+Function GetFixturesByName:b2Fixture[](json : b2dJson , name: CString )
+	
+Function GetBodyByName:b2Body(json : b2dJson , name: CString)
 
 	
 Class b2dJson Extends Void
@@ -105,7 +112,9 @@ Class b2dJson Extends Void
 	    'int getAllImages(std::vector<b2dJsonImage*>& images);
 	
 	    'b2Body* getBodyByName(std::string name);
-	    'b2Fixture* getFixtureByName(std::string name);
+	    'b2Fixture* getFixtureByName(std::String name);
+	    'to be wrapped
+	    'Method getFixtureByName:b2Fixture(name:CString)
 	    'b2Joint* getJointByName(std::string name);
 	    'b2dJsonImage* getImageByName(std::string name);
 	
@@ -192,17 +201,16 @@ End
 
 Public
 '
-'convenience funcs To be able To work with mx2 asset construct (using mx2'load/saveString)
+'convenience load funcs funcs To be able To work with mx2 asset construct (using mx2'load/saveString)
 '
 Function Loadb2dJson:b2World(filename:String , existingWorld:b2World = Null)
 	
 	Local maxChrSize:Int=321
 	Local buf:=New char_t[maxChrSize]
 	
-			
 	Local theStr:=LoadString(filename,True)
 	
-	Return mx2b2dJson.b2dJsonReadFromString(theStr)
+	Return mx2b2dJson.b2dJsonReadFromString(theStr , existingWorld)
 		
 End
 
@@ -221,6 +229,36 @@ Function b2dJsonReadFromString:b2World(theString:String , existingWorld:b2World 
 		
 End
 
+'---- the same load funcs with json refere so b2dJson methods can be calle within mx2
+
+Function b2dJsonReadFromString_b2dJsonRef:b2World(json : b2dJson , theString:String , existingWorld:b2World = Null)
+	
+	Local maxChrSize:Int=321
+	Local buf:=New char_t[maxChrSize]
+	
+	Local retWorld:=b2dJsonReadFromString_Ref_ext(json , theString , buf.Data , maxChrSize , existingWorld )
+
+	#If __DEBUG__
+		Print String.FromCString( buf.Data )
+	#Endif
+	
+	Return retWorld
+		
+End
+
+Function Loadb2dJsonWithb2dJsonRef:b2World(json : b2dJson , filename:String , existingWorld:b2World = Null)
+	
+	Local maxChrSize:Int=321
+	Local buf:=New char_t[maxChrSize]
+	
+	Local theStr:=LoadString(filename,True)
+	
+	Return mx2b2dJson.b2dJsonReadFromString_b2dJsonRef(json , theStr, existingWorld)
+		
+End
+
+
+
 
 ' this will not save the names and images paths
 Function Saveb2dJson(filename:String , world:b2World)
@@ -233,6 +271,8 @@ Function Saveb2dJson(filename:String , world:b2World)
 	SaveString(String.FromCString(jsonCStr.Data),filename,True)
 		
 End
+
+
 
 
 

@@ -11,12 +11,126 @@ Using std..
 Using mojo..
 Using box2d..
 
+'------------------
+'
+'   fixtures
+'
+'------------------
+
+Struct b2FixtureInfo
+	Field name:String
+	Field fixture:b2Fixture
+End
+
+Function Createb2FixtureInfoStack:Stack<b2FixtureInfo> (world:b2World,path:String,b2json:b2dJson)
+	'-----------------------------------------------------named_fixtures
+	Local retStack:=New Stack<b2FixtureInfo>
+	Local json:=JsonObject.Load( path )
+	Local fixtureNameStack:=GetFixtureNameStack(json)
+	
+	For Local fixtureNameStr:=Eachin fixtureNameStack
+			
+			Local fixturesArr:= GetFixturesByName(b2json , fixtureNameStr)
+			If fixturesArr.Length>0
+				For Local i:=0 Until fixturesArr.Length
+					
+					Local inf:=New b2FixtureInfo()
+					
+					inf.name=fixtureNameStr
+					inf.fixture=fixturesArr[i]
+					
+					retStack.Add(inf)
+					
+				Next
+			End
+			
+	Next
+	
+	Return retStack
+	
+End
+
+Function GetFixtureNameStack:StringStack(lobj:JsonObject)
+	
+	Local fixList:=New StringStack()
+	
+	If lobj["body"]
+		
+		Local imgval:=lobj["body"]
+		Local imgarr:=imgval.ToArray() 
+		Local imgArraySize:=imgarr.Length
+
+		For Local i:=0 Until imgArraySize
+			Local imgarrelem:=imgarr[i]
+			
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			If imgelemobj["fixture"]
+
+				Local imgval:=imgelemobj["fixture"]
+				
+				If imgval.IsArray 
+					
+					Local fixArray:=imgval.ToArray()
+					Local fixArraySize:=fixArray.Length
+					
+					For Local j:=0 Until fixArraySize
+						
+						Local fixarrelem:=fixArray[j]
+						Local fixObj:=fixarrelem.ToObject()
+						
+						If fixObj["name"]
+							Local fixname:=	fixObj["name"]
+							If fixname.IsString
+								Local fn:=fixname.ToString()
+								If Not fixList.Contains(fn)
+									fixList.Add(fn)
+								End
+							End
+						Else
+							#If __DEBUG__
+								Print "a fixture in body "+i+" has no name! => Not added to fixture info array" 
+							#End	
+						End
+					Next
+					
+				Else 
+					#If __DEBUG__
+						Print "error: Fixture in body "+i+" is not an jsonArray!" 
+					#End	
+				End			
+			Else
+				#If __DEBUG__
+					Print "no 'body/fixture' value in json, body without fixture?"
+				#End
+			End
+		Next
+
+	Else
+		#If __DEBUG__
+			Print "no 'body' value in json !!!!!!!!!"
+		#End
+	End
+	
+	Return fixList
+	
+End
+
+'--------------------------------------------------------
+'
+' body image infos
+'
+'------------------------------------------------------
+
+
 Struct b2BodyImageInfo
 	
 	Field body:b2Body
 	Field index:Int
 	
 	Field bodyName:String
+	
+	'Field fixtures:b2FixtureInfo[]
 	
 	Field imageRubeName:String
 	Field imageFileName:String
@@ -91,12 +205,14 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 		
 
 		Else
-			ret[i].bodyName=Null
+			ret[i].bodyName="nonamebody"
 			#If __DEBUG__
-				Print "body "+i+ " has no name!!!!!!!!!!!!!!!"
+				Print "body "+i+ " has no name has been renamed 'nonamebody'!!!!!!!!!!!!!!!"
 			#End
 		End
 	Next
+	
+		
 	'------------------------------------------------------ CENTER
 	Local posMap:=GetImageCenterMap(json)
 	For Local i:=0 Until bodyCount
@@ -202,7 +318,7 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 			ret[i].imageRenderOrder=0
 		End
 	Next
-	
+	#rem
 	For Local i:=0 Until bodyCount
 		
 		Print "--------"
@@ -212,6 +328,7 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 		Print ret[i].imageFileName
 		
 	Next 
+	#end
 	
 	
 	Return ret

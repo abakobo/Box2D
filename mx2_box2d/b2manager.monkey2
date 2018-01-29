@@ -32,11 +32,15 @@ Class b2Manager
 	
 	Field bodyInfos:b2BodyImageInfo[]
 	Field bodyImageMap:IntMap<Image>
+	Field fixtureInfosStack:Stack<b2FixtureInfo>
 	
 	'Field jointInfos:b2JointsInfo[] 'TODO
 	
 	Field debugDrawer:b2DebugDraw
 	
+	'Field b2dJsonList:List<b2dJson>
+	
+	Field b2dJsons:=New b2dJson[1]
 	
 	
 	
@@ -50,15 +54,19 @@ Class b2Manager
 		
 		physScale=pScale
 		
-		world=mx2b2dJson.Loadb2dJson(jsonPath) 'offset TODO!
+		b2dJsons[0]=New mx2b2dJson.b2dJson()
+		
+		world=Loadb2dJsonWithb2dJsonRef(b2dJsons[0] , jsonPath) 'offset TODO!
 		
 		debugDrawer=New b2DebugDraw(physScale,yAxisInversion)
 		
 		world.SetDebugDraw( debugDrawer  )
 		debugDrawer.SetFlags( e_shapeBit|e_jointBit )
 		
-		bodyInfos=Createb2BodyImageInfoArray(world,jsonPath)
+		bodyInfos=Createb2BodyImageInfoArray(world,jsonPath )
 		bodyImageMap=Createb2BodyImageMap(bodyInfos)
+		
+		fixtureInfosStack=Createb2FixtureInfoStack(world,jsonPath,b2dJsons[0])
 		
 	End
 	
@@ -153,18 +161,20 @@ Class b2Manager
 		For Local i:=0 Until bodyInfos.Length
 			If bodyInfos[i].bodyName<>"" Then json.setBodyName(bodyInfos[i].body, bodyInfos[i].bodyName)
 		Next
+		For Local fixInfo:=Eachin fixtureInfosStack
+			json.setFixtureName(fixInfo.fixture,fixInfo.name)
+		Next
 		
 		Local strSize:=Getb2dJsonStringSize(world,json)
 		Local jsonCStr:=New char_t[strSize]
-		b2dJsonWriteToString_ext(jsonCStr.Data,world,json)
 		
-	
+		b2dJsonWriteToString_ext(jsonCStr.Data,world,json)
 		
 		'converting the b2djson to string then to mx2JsonObject
 		Local tempJsonFullString:=String.FromCString(jsonCStr.Data)
 		Local mainJsonObj:=JsonObject.Parse(tempJsonFullString)
 		
-		Print mainJsonObj.ToJson()
+		'Print mainJsonObj.ToJson()
 		
 		'create an object for images info
 		Local imageJsonArray:=New JsonArray
