@@ -123,7 +123,7 @@ End
 '------------------------------------------------------
 
 
-Struct b2BodyImageInfo
+Class b2BodyImageInfo
 	
 	Field body:b2Body
 	Field index:Int

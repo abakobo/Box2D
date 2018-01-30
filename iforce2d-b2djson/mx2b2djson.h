@@ -23,8 +23,10 @@ int Getb2dJsonStringSize(b2World* world,b2dJson* existingJson = NULL);
 
 
 b2Fixture* GetFixtureByName(b2dJson* json , const char* name);
-
 bbArray<b2Fixture*> GetFixturesByName(b2dJson* json , const char* name );
+
+b2Joint* GetJointByName(b2dJson* json , const char* name);
+bbArray<b2Joint*> GetJointsByName(b2dJson* json , const char* name );
 
 b2Body* GetBodyByName(b2dJson* json , const char* name);
 

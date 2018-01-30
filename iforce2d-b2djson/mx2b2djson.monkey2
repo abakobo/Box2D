@@ -32,8 +32,10 @@ Function b2dJsonWriteToString_ext(thecstring:char_t Ptr , world:b2World,existing
 Function Getb2dJsonStringSize:Int (world:b2World,existingJson:b2dJson=Null)
 	
 Function GetFixtureByName:b2Fixture(json : b2dJson , name: CString)
-	
 Function GetFixturesByName:b2Fixture[](json : b2dJson , name: CString )
+	
+Function GetJointByName:b2Joint(json : b2dJson , name: CString)
+Function GetJointsByName:b2Joint[](json : b2dJson , name: CString )
 	
 Function GetBodyByName:b2Body(json : b2dJson , name: CString)
 
@@ -96,10 +98,16 @@ Class b2dJson Extends Void
 	    '//function copies json world into existing world
 	    'bool j2Intob2World(b2World *world, Json::Value& worldValue);
 	
+	
+	
+		'-----------------
+		'implemented via functions
+		'--------------
 	    'int getBodiesByName(std::string name, std::vector<b2Body*>& bodies);
 	    'int getFixturesByName(std::string name, std::vector<b2Fixture*>& fixtures);
 	    'int getJointsByName(std::string name, std::vector<b2Joint*>& joints);
-	    'int getImagesByName(std::string name, std::vector<b2dJsonImage*>& images);
+	    ' 'b2d JsonImage not implemented ' int getImagesByName(std::string name, std::vector<b2dJsonImage*>& images);
+		'------------------------
 	
 	    'int getBodiesByPath(std::string path, std::vector<b2Body*>& bodies);
 	    'int getFixturesByPath(std::string path, std::vector<b2Fixture*>& fixtures);

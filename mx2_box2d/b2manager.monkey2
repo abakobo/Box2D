@@ -19,7 +19,6 @@ Using mx2b2dJson..
 
 Class b2Manager
 	
-	
 	Field world:b2World
 	
 	Field physScale:Float
@@ -29,20 +28,19 @@ Class b2Manager
 	Field velocityIterations := 6
 	Field positionIterations := 2
 	
-	
 	Field bodyInfos:b2BodyImageInfo[]
 	Field bodyImageMap:IntMap<Image>
-	Field fixtureInfosStack:Stack<b2FixtureInfo>
-	
-	'Field jointInfos:b2JointsInfo[] 'TODO
+	Field fixtureInfos:Stack<b2FixtureInfo>
+	Field jointInfos:Stack<b2JointInfo>
 	
 	Field debugDrawer:b2DebugDraw
 	
-	'Field b2dJsonList:List<b2dJson>
-	
 	Field b2dJsons:=New b2dJson[1]
 	
+	Private
+	Field sortedBodyImageInfos:=New Stack<b2BodyImageInfo>
 	
+	Public
 	
 	Method New(gravity:b2Vec2,pScale:Float=15,yAxisInversion:Bool=True)
 		world=New b2World(gravity)
@@ -66,7 +64,11 @@ Class b2Manager
 		bodyInfos=Createb2BodyImageInfoArray(world,jsonPath )
 		bodyImageMap=Createb2BodyImageMap(bodyInfos)
 		
-		fixtureInfosStack=Createb2FixtureInfoStack(world,jsonPath,b2dJsons[0])
+		fixtureInfos=Createb2FixtureInfoStack(world,jsonPath,b2dJsons[0])
+		
+		jointInfos=Createb2JointInfoStack(world,jsonPath,b2dJsons[0])
+		
+		SortRenderOrderToBodyDrawStack()
 		
 	End
 	
@@ -89,7 +91,7 @@ Class b2Manager
 		
 		Local sign:=-1
 		If yAxisInversion=False Then sign=1
-		Local i:=0
+		#rem
 		For Local bodyImageNode:=Eachin bodyImageMap
 			
 			Local location:=b2Vec2ToVec2f(bodyInfos[bodyImageNode.Key].imageWorldPosition)*(New Vec2f(physScale,sign*physScale)) 'sign for y axis inversion RUBE using standart coordinates system
@@ -98,11 +100,44 @@ Class b2Manager
 			
 			canvas.DrawImage (bodyInfos[bodyImageNode.Key].image , location , rotation , scale)
 			
-			i+=1
+		Next
+		#end
+		'#rem
+		For Local bodyInf:=Eachin sortedBodyImageInfos
+			
+			Local location:=b2Vec2ToVec2f(bodyInf.imageWorldPosition)*(New Vec2f(physScale,sign*physScale)) 'sign for y axis inversion RUBE using standart coordinates system
+			Local rotation:=-sign*bodyInf.imageWorldAngle' sign for y axis inversion RUBE using standart coordinates system -sign for trig vs canvas rotation direction????????
+			Local scale:=bodyInf.imageRenderScale*New Vec2f(physScale,physScale) 'No yaxis inversion here! because it's an image in left handed coord anyway!
+		
+			canvas.DrawImage (bodyInf.image , location , rotation , scale)
 			
 		Next
+		'#end
+				'For Local bImgInfo:=Eachin sortedBodyDrawStack
+				'	Print bImgInfo.imageRenderOrder
+				'Next
 		
 	End
+	
+	Method SortRenderOrderToBodyDrawStack()
+		
+		'copy To an array
+		sortedBodyImageInfos=New Stack<b2BodyImageInfo>
+
+		For Local bodyImageNode:=Eachin bodyImageMap
+			sortedBodyImageInfos.Add(bodyInfos[bodyImageNode.Key])
+		Next
+		
+		sortedBodyImageInfos.Sort(Lambda:Int(a:b2BodyImageInfo,b:b2BodyImageInfo) 
+									Return  a.imageRenderOrder - b.imageRenderOrder
+								End )
+								
+		For Local bii:=Eachin sortedBodyImageInfos
+			Print bii.imageRenderOrder
+		Next
+	End
+
+	
 	
 	Method UpdateInfos()
 		'usefull?
@@ -110,16 +145,16 @@ Class b2Manager
 	
 	Method GetBodies:b2Body[](name:String)
 		
-		Local retArray:=New b2Body[bodyInfos.Length]
-		Local j:=0
+		Local retArray:b2Body[]
+		Local bodyStack:=New Stack<b2Body>
+
 		For Local i:=0 Until bodyInfos.Length
 			If bodyInfos[i].bodyName=name
-				retArray[j]=bodyInfos[i].body
-				j+=1
+				bodyStack.Add(bodyInfos[i].body)
 			End
 		End
-		If j>0
-			retArray.Resize(j)
+		If bodyStack.Length>0
+			retArray=bodyStack.ToArray()
 		Else
 		#If __DEBUG__
 			Print "No body with name "+name+" !!!!!!!!!!!!!!!"
@@ -127,6 +162,7 @@ Class b2Manager
 			Return Null
 		End
 		Return retArray
+		
 	End
 	
 	Method GetBody:b2Body(name:String)
@@ -143,6 +179,83 @@ Class b2Manager
 		Return Null
 
 	End
+	
+	Method GetFixtures:b2Fixture[](name:String)
+	
+		Local retArray:b2Fixture[]
+		Local fixtureStack:=New Stack<b2Fixture>
+	
+		For Local fixt:=Eachin fixtureInfos
+			If fixt.name=name
+				fixtureStack.Add(fixt.fixture)
+			End
+		End
+		If fixtureStack.Length>0
+			retArray=fixtureStack.ToArray()
+		Else
+		#If __DEBUG__
+			Print "No fixture with name "+name+" !!!!!!!!!!!!!!!"
+		#End
+			Return Null
+		End
+		Return retArray
+	
+	End
+	
+	Method GetFixture:b2Fixture(name:String)
+
+		For Local fixt:=Eachin fixtureInfos
+			If fixt.name=name Then Return fixt.fixture
+		Next
+	
+		#If __DEBUG__
+			Print "No fixture with name "+name+" !!!!!!!!!!!!!!!"
+		#End
+	
+		Return Null
+	
+	End
+	
+	Method GetJointsInfo:b2JointInfo[](name:String)
+	
+		Local retArray:b2JointInfo[]
+		Local jointStack:=New Stack<b2JointInfo>
+		For Local jo:=Eachin jointInfos
+			If jo.name=name
+				jointStack.Add(jo)
+				'Print "Added"
+			End
+		End
+		If jointStack.Length>0
+			retArray=jointStack.ToArray()
+		Else
+		#If __DEBUG__
+			Print "No joint with name "+name+" !!!!!!!!!!!!!!!"
+		#End
+			Return Null
+		End
+		Return retArray
+	
+	End
+	
+	Method GetJointInfo:b2JointInfo(name:String)
+
+		For Local jo:=Eachin jointInfos
+			If jo.name=name
+				Return jo
+			End
+			
+		Next
+	
+		#If __DEBUG__
+			Print "No joint with name "+name+" !!!!!!!!!!!!!!!"
+		#End
+		
+		Return Null
+	
+	End
+	
+
 	
 	Method ToPhysics:b2Vec2(Location:Vec2f)
 
@@ -161,8 +274,12 @@ Class b2Manager
 		For Local i:=0 Until bodyInfos.Length
 			If bodyInfos[i].bodyName<>"" Then json.setBodyName(bodyInfos[i].body, bodyInfos[i].bodyName)
 		Next
-		For Local fixInfo:=Eachin fixtureInfosStack
+		For Local fixInfo:=Eachin fixtureInfos
 			json.setFixtureName(fixInfo.fixture,fixInfo.name)
+		Next
+		
+		For Local joInfo:=Eachin jointInfos
+			json.setJointName(joInfo.theb2Joint,joInfo.name)
 		Next
 		
 		Local strSize:=Getb2dJsonStringSize(world,json)

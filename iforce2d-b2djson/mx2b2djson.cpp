@@ -91,6 +91,11 @@ b2Fixture* GetFixtureByName(b2dJson* json , const char* name){
 	return json->getFixtureByName(name);
 }
 
+b2Joint* GetJointByName(b2dJson* json , const char* name){
+
+	return json->getJointByName(name);
+}
+
 
 bbArray<b2Fixture*> GetFixturesByName(b2dJson* json , const char* name ){
 
@@ -110,14 +115,21 @@ bbArray<b2Fixture*> GetFixturesByName(b2dJson* json , const char* name ){
 	
 }
 
+bbArray<b2Joint*> GetJointsByName(b2dJson* json , const char* name ){
 
-//int GetFixtureToNameMap_ext (bbArray<b2Fixture*> fixtures , 
-//std::map<b2Fixture*,std::string> getFixtureToNameMap() const { return m_fixtureToNameMap; }
+	std::vector<b2Joint*> jointsVect;
+	int count;
+	count = json->getJointsByName(name,jointsVect);
 
-
-
-
-
-
-
+	bbArray<b2Joint*> retArr (count);
 	
+	if (count>0) {
+		for( int i = 0; i < count ; i = i + 1 ) {
+			retArr[i]=jointsVect [i] ;
+		}
+	}
+
+	return retArr;
+	
+}
+

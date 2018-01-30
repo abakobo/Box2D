@@ -8,23 +8,17 @@ TODO
 b2json:
 --------------
 
-Ajouter joints à b2 manager
-
-Faire createur de JointInfos et GetJoint(Name) (comme GetBody(Name)) Et fixtures
-
-Ajouter b2djson image.flip?
-
-ajouter control du tank
-
 ajouter render order dans b2Manager.DrawBodies
+
+détecter missing json file dans b2manager New() pasque là ça rentre un syntax error de b2dJson
+
+Ajouter b2djson image.flip et opacity ? oui
 
 ajouter opacity dans b2Manager.DrawBodies et pyro2.CreatLayerSprites
 
 tranformer scales vec2 en Float --Fait?!
 
-donner les noms (fixture,body et joints) avec b2Manager.Save()
-
-ajouter offset à Extension camera.GetMatrix ?
+ajouter offset à Extension camera.GetMatrix ???? !kesako! ? 
 
 ajouter offset à b2Manager
 
@@ -36,9 +30,12 @@ donc faire un exemple yaxisNonInversé avec images!
 
 offest json existing world dans mx2b2json et b2Manager
 
+ajouter velocityiteration etc..?
+
 cleanup the mess!:
-	-virer b2djson
+	-virer b2djsonImage
 	-virer cpp fileio et bitmap render...
+	
 
 AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
 
