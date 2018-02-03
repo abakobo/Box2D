@@ -1,24 +1,22 @@
-//Started script log at 01/30/18 14:05:25
+//Started script log at 02/03/18 12:55:50
 
-getJoint(2).select();
-getJoint(2).setMotorSpeed(0);
-getJoint(2).deselect();
-getJoint(1).select();
-getJoint(1).setMotorSpeed(0);
-getBody(10).select();
-getBody(10).deselect();
-getBody(2).select();
-getBody(2).deselect();
-getBody(10).select();
-getBody(10).deselect();
-getBody(9).select();
-getBody(9).deselect();
-getBody(10).select();
-getBody(10).setName("car");
-getBody(10).deselect();
-getFixture(37).select();
-getFixture(37).setFriction(50);
-getFixture(37).deselect();
-getFixture(44).select();
-getJoint(1).setEnableMotor(0);
-getJoint(1).setMaxMotorTorque(0);
+getImage(1).select();
+getImage(1).deselect();
+getImage(10).select();
+getImage(10).deselect();
+getImage(7).select();
+getImage(7).deselect();
+getImage(6).select();
+getImage(6).deselect();
+getImage(7).select();
+getImage(7).setFlip(0);
+getImage(7).setFlip(2);
+getImage(7).deselect();
+getImage(8).select();
+getImage(8).setOpacity(0.2);
+getImage(8).deselect();
+getImage(10).select();
+getImage(10).setOpacity(0.5);
+getImage(10).deselect();
+getImage(7).select();
+getImage(7).setOpacity(0.7);

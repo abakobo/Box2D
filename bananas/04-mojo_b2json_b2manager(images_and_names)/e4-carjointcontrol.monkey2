@@ -17,18 +17,12 @@ Class Box2DgfxTest Extends Window
 	Field physManager:b2Manager
 	Field drawDebug:=True
 	
-	Field frontWheelJoint:b2JointInfo
-	
 	Method New( title:String,width:Int,height:Int,flags:WindowFlags=WindowFlags.Resizable )
 		
 		Super.New( title,width,height,flags )
 		ClearColor=Color.Black
 		'------- Initialising b2Manager (the world and all the stuff associated wth the Json) 
 		physManager=New b2Manager("asset::images.json")
-		
-		'Getting an array with a b2JointInfo array (9 joints,2 revoltue and 7 wheel)
-		'for modifying motor speed in OnRender()
-		frontWheelJoint=physManager.GetJointInfo("frontwheel")
 		
 	End
 	
@@ -59,6 +53,7 @@ Class Box2DgfxTest Extends Window
 			MSpeed=1.0
 		End
 		'Setting the motor speed of the joint called "frontwheel"
+		Local frontWheelJoint:=physManager.GetJointInfo("frontwheel")
 		b2JointTob2WheelJoint(frontWheelJoint.theb2Joint).SetMotorSpeed(MSpeed)
 		
 	End

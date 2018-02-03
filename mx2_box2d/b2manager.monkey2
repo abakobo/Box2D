@@ -54,6 +54,7 @@ Class b2Manager
 		
 		b2dJsons[0]=New mx2b2dJson.b2dJson()
 		
+		
 		world=Loadb2dJsonWithb2dJsonRef(b2dJsons[0] , jsonPath) 'offset TODO!
 		
 		debugDrawer=New b2DebugDraw(physScale,yAxisInversion)
@@ -107,7 +108,7 @@ Class b2Manager
 			
 			Local location:=b2Vec2ToVec2f(bodyInf.imageWorldPosition)*(New Vec2f(physScale,sign*physScale)) 'sign for y axis inversion RUBE using standart coordinates system
 			Local rotation:=-sign*bodyInf.imageWorldAngle' sign for y axis inversion RUBE using standart coordinates system -sign for trig vs canvas rotation direction????????
-			Local scale:=bodyInf.imageRenderScale*New Vec2f(physScale,physScale) 'No yaxis inversion here! because it's an image in left handed coord anyway!
+			Local scale:=bodyInf.imageRenderScale*New Vec2f(bodyInf.imageFlip*physScale,physScale) 'No yaxis inversion here! because it's an image in left handed coord anyway!
 		
 			canvas.DrawImage (bodyInf.image , location , rotation , scale)
 			
@@ -131,10 +132,6 @@ Class b2Manager
 		sortedBodyImageInfos.Sort(Lambda:Int(a:b2BodyImageInfo,b:b2BodyImageInfo) 
 									Return  a.imageRenderOrder - b.imageRenderOrder
 								End )
-								
-		For Local bii:=Eachin sortedBodyImageInfos
-			Print bii.imageRenderOrder
-		Next
 	End
 
 	

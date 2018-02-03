@@ -1,5 +1,6 @@
 doing:
 
+raycast, &cascade par fixture.RayCast()
 
 
 
@@ -8,19 +9,18 @@ TODO
 b2json:
 --------------
 
-ajouter render order dans b2Manager.DrawBodies
 
-détecter missing json file dans b2manager New() pasque là ça rentre un syntax error de b2dJson
+raycast, &cascade
 
-Ajouter b2djson image.flip et opacity ? oui
+raycast par callback
 
-ajouter opacity dans b2Manager.DrawBodies et pyro2.CreatLayerSprites
+b2Querycallback exemple -> Fait
+b2RayCastCallBack
 
-tranformer scales vec2 en Float --Fait?!
 
-ajouter offset à Extension camera.GetMatrix ???? !kesako! ? 
 
 ajouter offset à b2Manager
+offest json existing world dans mx2b2json et b2Manager
 
 Memory leaks dans mx2b2json.xxx avec strings et Const char*
 Détruire les b2djson!!!! dans mx2b2djson.xxx
@@ -28,19 +28,20 @@ Détruire les b2djson!!!! dans mx2b2djson.xxx
 checker que imageWorldPosition fonctionne correc avec yAxisInvert=False  checker avec draw bodies aussi...
 donc faire un exemple yaxisNonInversé avec images!
 
-offest json existing world dans mx2b2json et b2Manager
-
-ajouter velocityiteration etc..?
+ajouter velocityiteration etc.. Est-ce que y a moyen de changer ça dans RUBE?
 
 cleanup the mess!:
 	-virer b2djsonImage
 	-virer cpp fileio et bitmap render...
 	
-
 AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
 
 pyro:
 --------
+
+ajouter opacity et flip dans pyro2.CreatLayerSprites
+
+ajouter offset à Extension camera.GetMatrix ???? playniax?
 
 colision pyro entre 2 layers?
 
@@ -51,6 +52,7 @@ Isort pour exempl tank (et plus multi layers) + enlever les autres Functions de 
 pure box2d:
 ----------
 
+bouger box2d.monkey dans mx2_box2d
 
 conversion char > Short pour externals?
 

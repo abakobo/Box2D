@@ -821,7 +821,7 @@ class b2Fixture extends void
 	Method GetUserData:void Ptr()
 	Method SetUserData(data:void Ptr)
 	Method TestPoint:bool(p:b2Vec2)
-	Method RayCast:bool(output:b2RayCastOutput Ptr,input:b2RayCastInput,childIndex:Int)
+	Method RayCast:bool(output:b2RayCastOutput Ptr,input:b2RayCastInput,childIndex:Int=0)
 	Method GetMassData(massData:b2MassData Ptr)
 	Method SetDensity(density:Float)
 	Method GetDensity:Float()

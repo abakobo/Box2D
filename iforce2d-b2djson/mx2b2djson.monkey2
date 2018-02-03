@@ -217,7 +217,9 @@ Function Loadb2dJson:b2World(filename:String , existingWorld:b2World = Null)
 	Local buf:=New char_t[maxChrSize]
 	
 	Local theStr:=LoadString(filename,True)
-	
+	#If __DEBUG__
+		If theStr=Null Then Print "could not read "+filename
+	#Endif
 	Return mx2b2dJson.b2dJsonReadFromString(theStr , existingWorld)
 		
 End
@@ -260,7 +262,9 @@ Function Loadb2dJsonWithb2dJsonRef:b2World(json : b2dJson , filename:String , ex
 	Local buf:=New char_t[maxChrSize]
 	
 	Local theStr:=LoadString(filename,True)
-	
+	#If __DEBUG__
+		If theStr=Null Then Print "could not read "+filename
+	#Endif
 	Return mx2b2dJson.b2dJsonReadFromString_b2dJsonRef(json , theStr, existingWorld)
 		
 End

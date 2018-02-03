@@ -144,6 +144,7 @@ Class b2BodyImageInfo
 	
 	Field imageRenderOrder:Int
 	Field imageOpacity:Float
+	Field imageFlip:Int
 
 	Field image:Image
 	
@@ -303,11 +304,25 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 	
 		If bodyToImageMap.Contains(i)
 			ret[i].imageOpacity=opacityMap[bodyToImageMap[i]]
+			ret[i].image.BlendMode=BlendMode.Alpha
+			ret[i].image.Color=New Color(ret[i].imageOpacity,ret[i].imageOpacity,ret[i].imageOpacity,ret[i].imageOpacity)
+			
 		Else
 			ret[i].imageOpacity=0
 		End
+		
 	Next
 	
+	'----------------------horizontal flip of the image
+	Local flipMap:=GetimageFlipMap(json)
+	For Local i:=0 Until bodyCount
+	
+		If bodyToImageMap.Contains(i)
+			ret[i].imageFlip=flipMap[bodyToImageMap[i]]
+		Else
+			ret[i].imageFlip=1
+		End
+	Next
 	
 	'---------- image render order
 	Local orderMap:=GetimageRenderOrderMap(json)
@@ -661,6 +676,49 @@ Function GetimageOpacityMap:IntMap<Float>(lobj:JsonObject)
 	End
 	
 	Return opMap
+	
+End
+
+Function GetimageFlipMap:IntMap<Int>(lobj:JsonObject)
+
+	Local flipMap:=New IntMap<Int>
+	
+	If lobj["image"]
+		Local imgval:=lobj["image"]
+		Local imgarr:=imgval.ToArray() 'image est d'abord un array contennant objet json 
+		Local imgArraySize:=imgarr.Length
+
+
+		For Local i:=0 Until imgArraySize
+			
+			Local imgarrelem:=imgarr[i]
+			
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			If imgelemobj["flip"]
+
+				Local imgval:=imgelemobj["flip"]
+				
+				If imgval.IsBool 
+					
+					If imgval.ToBool()=True
+						flipMap[i]=-1
+					Else
+					 flipMap[i]=1
+					Endif			
+				Else 
+					
+					flipMap[i]=1 
+						
+				End			
+			Else
+				flipMap[i]=1
+			End
+		Next
+
+	End
+	
+	Return flipMap
 	
 End
 

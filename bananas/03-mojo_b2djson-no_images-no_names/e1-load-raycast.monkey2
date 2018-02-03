@@ -26,8 +26,7 @@ Class Box2DgfxTest Extends Window
 	Field timeStep:= 0.01666666667
 	Field velocityIterations := 6
 	Field positionIterations := 2
-	'count cylcles to auto-quit
-	Field count:=0
+
 	'center point of camera in physics world
 	Field viewpoint:=New b2Vec2(0,2)
 	
@@ -42,14 +41,14 @@ Class Box2DgfxTest Extends Window
 
 	'------- Initialising the world with its gravity
 	
-		world=mx2b2dJson.Loadb2dJson("asset::images.json")
+		world=mx2b2dJson.Loadb2dJson("asset::raystones.json")
 
 '		mx2b2dJson.testNew()
 		
 
     		
 	'----- debugdrawer init and link---------------------------------------------------------------------------------------------
-		DDrawer=New b2DebugDraw(25.0,True) 'this one must be a field or a global 
+		DDrawer=New b2DebugDraw(57.0,True) 'this one must be a field or a global 
 		world.SetDebugDraw( DDrawer  ) '
 		DDrawer.SetFlags( e_shapeBit )
 	End
@@ -62,10 +61,11 @@ Class Box2DgfxTest Extends Window
 		'// It is generally best to keep the time step and iterations fixed. ---> they have been set globally
 		world.Stepp(timeStep, velocityIterations, positionIterations)
 		
-		
+		'canvas.PushMatrix()
 		'canvas.Translate()
 		canvas.Translate(500,500)
 		canvas.Scale(1.5,1.5)
+		Local transfoMat:=canvas.Matrix
 		' passing the canvas to the b2Draw_mojo instance (DDrawer)
 		' It's mandatory before calling world.DrawDebugData()	
 		DDrawer.SetCanvas(canvas) 
@@ -73,9 +73,51 @@ Class Box2DgfxTest Extends Window
 		'ask physics world to draw debug datas (using our DDrawer instance of b2Draw_mojo class)
 		world.DrawDebugData()
 		
-		'quit the app after 800 cycles
-		count+=1
-		If count>8000 Then App.Terminate()
+		'canvas.PopMatrix()
+		
+		If Mouse.ButtonDown(MouseButton.Left)
+			
+			Local mouseInPhys:=DDrawer.ToPhysicsLocation(-transfoMat*MouseLocation)
+			
+			
+			Local rayLength:=250.0
+			canvas.Color=Color.Red
+			For Local angl:=0.0 To 6.35 Step 0.05
+				Local p1:=-transfoMat*MouseLocation
+				Local p2:=-transfoMat*(MouseLocation+New Vec2f(rayLength*Cos(angl),rayLength*-Sin(angl)))
+				
+				Local rayInput:b2RayCastInput
+				rayInput.p1=DDrawer.ToPhysicsLocation(p1)
+				rayInput.p2=DDrawer.ToPhysicsLocation(p2)
+				rayInput.maxFraction=1.0
+				
+								
+				Local bod:=world.GetBodyList()
+				Local closestFraction:Float=1.0
+				While bod<>Null
+					Local fixt:=bod.GetFixtureList()
+					While fixt<>Null
+						
+						Local rayOutput:b2RayCastOutput
+						Local rayIsCol:=fixt.RayCast(Varptr rayOutput , rayInput) 'not 0 for chain types only where you have to check all children
+						
+						If rayIsCol
+							If rayOutput.fraction<closestFraction Then closestFraction=rayOutput.fraction
+						End 
+
+							
+						fixt=fixt.GetNext()
+					Wend
+				bod=bod.GetNext()
+				Wend
+				Local p2bis:=-transfoMat*(MouseLocation+New Vec2f(rayLength*closestFraction*Cos(angl),rayLength*closestFraction*-Sin(angl)))
+				canvas.DrawLine(p1,p2bis)
+				
+				
+			Next
+			
+			
+		End 
 	End
 End
 
