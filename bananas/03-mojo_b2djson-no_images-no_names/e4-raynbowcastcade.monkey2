@@ -51,6 +51,7 @@ Class Box2DgfxTest Extends Window
 		DDrawer=New b2DebugDraw(57.0,True) 'this one must be a field or a global 
 		world.SetDebugDraw( DDrawer  ) '
 		DDrawer.SetFlags( e_shapeBit )
+		
 	End
 	
 	Method OnRender( canvas:Canvas ) Override
@@ -75,47 +76,77 @@ Class Box2DgfxTest Extends Window
 		
 		'canvas.PopMatrix()
 		
-		If Mouse.ButtonDown(MouseButton.Left)
+		If true
 			
 			Local mouseInPhys:=DDrawer.ToPhysicsLocation(-transfoMat*MouseLocation)
 			
 			
-			Local rayLength:=250.0
-			canvas.Color=Color.Red
-			For Local angl:=0.0 To 6.35 Step 0.05
-				Local p1:=-transfoMat*MouseLocation
-				Local p2:=-transfoMat*(MouseLocation+New Vec2f(rayLength*Cos(angl),rayLength*-Sin(angl)))
-				
-				Local rayInput:b2RayCastInput
-				rayInput.p1=DDrawer.ToPhysicsLocation(p1)
-				rayInput.p2=DDrawer.ToPhysicsLocation(p2)
-				rayInput.maxFraction=1.0
-				
-								
-				Local bod:=world.GetBodyList()
-				Local closestFraction:Float=1.0
-				While bod<>Null
-					Local fixt:=bod.GetFixtureList()
-					While fixt<>Null
-						
-						Local rayOutput:b2RayCastOutput
-						Local rayIsCol:=fixt.RayCast(Varptr rayOutput , rayInput) 'not 0 for chain types only where you have to check all children
-						
-						If rayIsCol
-							If rayOutput.fraction<closestFraction Then closestFraction=rayOutput.fraction
-						End 
+			Local rayLength:=5000.0
 
-							
-						fixt=fixt.GetNext()
-					Wend
-				bod=bod.GetNext()
-				Wend
-				Local p2bis:=-transfoMat*(MouseLocation+New Vec2f(rayLength*closestFraction*Cos(angl),rayLength*closestFraction*-Sin(angl)))
-				canvas.DrawLine(p1,p2bis)
-				
-				
-			Next
 			
+			Local roundDivision:=7 '7 rays
+			
+			Local rayInput:=New b2RayCastInput[roundDivision]
+			
+
+
+			For Local j:=0 To 11 'max 12 bounces UGLY CODE HERE! SHOULD LOOP RAY BY RAY and NOT BOUNCE BY BOUNCE.. (could avoid array of b2RayCastInput)
+
+				Local escapeCount:=0
+				
+				For Local roundFract:=0 Until roundDivision
+					
+					Local angl:Float=TwoPi*roundFract/roundDivision
+					If j=0
+						Local p1:=-transfoMat*MouseLocation
+						Local p2:=-transfoMat*(MouseLocation+New Vec2f(rayLength*Cos(angl),rayLength*-Sin(angl)))
+
+						rayInput[roundFract].p1=DDrawer.ToPhysicsLocation(p1)
+						rayInput[roundFract].p2=DDrawer.ToPhysicsLocation(p2)
+						rayInput[roundFract].maxFraction=1.0
+					End
+					
+					canvas.Color=New Color((1.0+Sin(angl))/2,(1.0+Cos(angl))/2,(1.0-Sin(angl))/2)
+					
+					Local bod:=world.GetBodyList()
+					Local closestFraction:Float=1.0
+					Local closestNormal:b2Vec2
+					Local rayIsCol:Bool=False
+	
+					While bod<>Null
+						Local fixt:=bod.GetFixtureList()
+						While fixt<>Null
+							
+							Local rayOutput:b2RayCastOutput
+							rayIsCol=fixt.RayCast(Varptr rayOutput , rayInput[roundFract]) 'not 0 for chain types only where you have to check all children
+							
+							If rayIsCol
+								If rayOutput.fraction<closestFraction
+									closestFraction=rayOutput.fraction
+									closestNormal=rayOutput.normal
+								Endif
+							Endif 
+							fixt=fixt.GetNext()
+						Wend
+					bod=bod.GetNext()
+					Wend
+					
+					Local p1:=rayInput[roundFract].p1 'converting to be able to use operators + *
+					Local p2:=rayInput[roundFract].p2
+					Local diffVect:=p2-p1
+					Local pi:=p1+diffVect*closestFraction
+					Local pii:=pi+(closestNormal*(rayLength/DDrawer.GetScaleFactor()))
+					
+					'passing the new ray to the array
+					rayInput[roundFract].p1=pi  ' operator to: b2vec2 working automatically here
+					rayInput[roundFract].p2=pii
+					
+					p1=DDrawer.FromPhysicsLocation(p1)
+					p2=DDrawer.FromPhysicsLocation(pi)
+					canvas.DrawLine(p1,p2)
+					
+				Next
+			Next
 			
 		End 
 	End

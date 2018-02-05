@@ -75,7 +75,7 @@ Class Box2DgfxTest Extends Window
 		DDrawer.SetCanvas(canvas)
 		
 		'storing the position of the mouse in physics space (before popmatrix..)
-		Local mousePhysicsLocation:=DDrawer.ToPhysicsLocation(b2Vec2ToVec2f(-canvas.Matrix*Mouse.Location))
+		Local mousePhysicsLocation:=DDrawer.ToPhysicsLocation(-canvas.Matrix*Mouse.Location)
 		
 		'ask physics world to draw debug datas (using our DDrawer instance of b2DebugDraw class)
 		world.DrawDebugData()
@@ -84,7 +84,7 @@ Class Box2DgfxTest Extends Window
 		
 		canvas.Color=Color.White
 		canvas.DrawText("FPS:"+App.FPS+"    -- press space to hide/show shapes -- arrows to move -- E/D to zoom/unzoom -- Return to restart",15,15)
-		canvas.DrawText("Mouse location in physWorld: "+b2Vec2ToS(mousePhysicsLocation),15,55)
+		canvas.DrawText("Mouse location in physWorld: "+mousePhysicsLocation,15,55)
 		canvas.DrawText("Press S to save to b2dJson format",15,85)
 		
 		
@@ -145,7 +145,7 @@ Class Box2DgfxTest Extends Window
 		 If Mouse.ButtonDown(MouseButton.Left)
 		 							'b2JointTob2MouseJoint is a custom c++ Func needed because monkey2 can't use cast operator on "extend void". Is there a more elegant solution?
 		 	If joints[13]<>Null Then b2JointTob2MouseJoint(joints[13]).SetTarget(mousePhysicsLocation)
-		 	If joints[13]<>Null Then Print b2Vec2ToS(b2JointTob2MouseJoint(joints[13]).GetTarget())
+		 	If joints[13]<>Null Then Print b2JointTob2MouseJoint(joints[13]).GetTarget()
 		 	
 		 End
 		 If Mouse.ButtonReleased(MouseButton.Left)

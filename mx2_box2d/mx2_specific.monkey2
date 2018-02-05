@@ -16,5 +16,3 @@ Function b2JointTob2WheelJoint:b2WheelJoint(jptr:b2Joint)
 	
 
 Public
-
-

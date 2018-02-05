@@ -1,22 +1,17 @@
 doing:
 
-raycast, &cascade par fixture.RayCast()
 
 
 
 TODO
 -----
 b2json:
---------------
+--------
 
-
-raycast, &cascade
-
-raycast par callback
+Tester si en fait conversion  Operator marcche pas avec b2joint quand même
 
 b2Querycallback exemple -> Fait
 b2RayCastCallBack
-
 
 
 ajouter offset à b2Manager

@@ -471,14 +471,22 @@ struct b2Vec2
 	Method New(xIn:Float,yIn:Float)
 	Method SetZero()
 	Method Set(x_:Float,y_:Float)
-'!!!!!!operator skipped!! line: b2Vec2 operator -() { b2Vec2 v
+
+'  operator with childs (usefull?)
+'
 '!!!!!!operator skipped!! line: Float operator () (Int i) const
 '------Ya du array à gérer ici!
 '!!!!!!operator skipped!! line: Float& operator () (Int i)
-'------Ya du array à gérer ici!
-'!!!!!!operator skipped!! line: void operator += (b2Vec2& v)
-'!!!!!!operator skipped!! line: void operator -= (b2Vec2& v)
-'!!!!!!operator skipped!! line: void operator *= (Float a)
+'------Ya du array à gérer ici!7
+
+' Managed in b2Vec2 Struct extension (bottom of this page)
+'
+'!!!!!!operator skipped!! line: void operator += (b2Vec2& v)  -->OK
+'!!!!!!operator skipped!! line: void operator -= (b2Vec2& v)  -->OK
+'!!!!!!operator skipped!! line: void operator *= (Float a)    -->OK
+'!!!!!!operator skipped!! line: b2Vec2 operator -() { b2Vec2 v-->OK
+'
+
 	Method Length:Float()
 	Method LengthSquared:Float()
 	Method Normalize:Float()
@@ -1750,6 +1758,14 @@ Function b2RotToS:String(r:b2Rot)
 	Local s:="s:"+r.s
 	Return s
 End
+
+'-------------------------
+'
+'Vectors operators
+'
+'------------------------
+'
+'
 Struct Vec2<T> Extension
 	Operator To:b2Vec2()
 	
@@ -1757,6 +1773,76 @@ Struct Vec2<T> Extension
 	
 	End
 End
+
+Struct b2Vec2 Extension
+	Operator To:Vec2f()
+		Return New Vec2f(x,y)
+	End
+	Operator To:Vec2<Double>()
+		Return New Vec2<Double>(x,y)
+	End
+	Operator To:String()
+		Return "b2Vec2"+"("+x+";"+y+")"
+	End
+
+	Operator-:b2Vec2()
+		Return New b2Vec2( -x,-y )
+	End
+	
+
+	Operator*:b2Vec2( v:b2Vec2 )
+		Return New b2Vec2( x*v.x,y*v.y )
+	End
+	
+	Operator/:b2Vec2( v:b2Vec2 )
+		Return New b2Vec2( x/v.x,y/v.y )
+	End
+
+	
+	Operator+:b2Vec2( v:b2Vec2 )
+		Return New b2Vec2( x+v.x,y+v.y )
+	End
+	
+
+	Operator-:b2Vec2( v:b2Vec2 )
+		Return New b2Vec2( x-v.x,y-v.y )
+	End
+	
+	Operator*:b2Vec2( s:Double )
+		Return New b2Vec2( x*s,y*s )
+	End
+	
+	Operator/:b2Vec2( s:Double )
+		Return New b2Vec2( x/s,y/s )
+	End
+	
+	Operator+:b2Vec2( s:Double )
+		Return New b2Vec2( x+s,y+s )
+	End
+	
+	Operator-:b2Vec2( s:Double )
+		Return New b2Vec2( x-s,y-s )
+	End
+	
+	Method Distance:Double( v:b2Vec2 )
+		Return (v-Self).Length()
+	End
+	
+	Method Dot:Double( v:b2Vec2 )
+		Return x*v.x+y*v.y
+	End
+	
+	Method Blend:b2Vec2( v:b2Vec2,alpha:Double )
+		Return New b2Vec2( (v.x-x)*alpha+x,(v.y-y)*alpha+y )
+	End
+	
+End
+
+'--------------------
+'
+' Convenience ready to use callback classes
+'
+'--------------------------
 
 Class AABBQueryCallback Extends b2QueryCallback
 	Field q_point:b2Vec2

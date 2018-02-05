@@ -70,7 +70,7 @@ Class Box2DgfxTest Extends Window
 		canvas.Translate(translate)
 		canvas.Scale(zoom,zoom)
 		'storing the position of the mouse in physics space (before popmatrix..)
-		Local mousePhysicsLocation:=DDrawer.ToPhysicsLocation(b2Vec2ToVec2f(-canvas.Matrix*Mouse.Location))
+		Local mousePhysicsLocation:=DDrawer.ToPhysicsLocation(-canvas.Matrix*Mouse.Location)
 		
 		' passing the canvas to the b2Draw_mojo instance (DDrawer)
 		' It's mandatory before calling world.DrawDebugData()	
@@ -86,7 +86,7 @@ Class Box2DgfxTest Extends Window
 		
 		canvas.Color=Color.White
 		canvas.DrawText("FPS:"+App.FPS+"    -- press space to hide/show shapes -- arrows to move -- Return to restart",15,15)
-		canvas.DrawText("Mouse location in physWorld: "+b2Vec2ToS(mousePhysicsLocation),15,55)
+		canvas.DrawText("Mouse location in physWorld: "+mousePhysicsLocation,15,55)
 
 
 		 If Keyboard.KeyPressed(Key.Space)

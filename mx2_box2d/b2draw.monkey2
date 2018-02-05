@@ -50,6 +50,14 @@ Class b2DebugDraw Extends b2Draw
 		
 	End
 	
+	Method GetScaleFactor:Float()
+		Return _scalef
+	End
+	
+	Method GetScaleVector:Vec2f()
+		Return _scalev
+	End
+	
 	Method DrawCircle(center:b2Vec2,radius:Float,color:b2Color) Override
 		'it's drawing a solid circle.... should be modified (does mojo have empty circle?) > won't do it because it's for chains and some joints only..
 
