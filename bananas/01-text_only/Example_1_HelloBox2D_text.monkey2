@@ -4,18 +4,23 @@
 ' you can see the colision moment while the angle is not 0 anymore...
 ' Local bodies should not be used in more complex apps, only in fields or globals... don't loose the scope of bodies, joints, world ....
 '
+' ----------------compile this as console app--------------------------
 
 #Import "<std>"
+'though it's text only mojo has to be imported because the debugDraw is included in box2d.monkey2 and depnds on mojo
+#Import "<mojo>" 
 #Import "../../box2d.monkey2"
 
 Using std..
+Using mojo..
 Using box2d..
 
-Class Box2DSim 
 
-	Field world:b2World
-	Method New()
-	
+
+Function Main()
+
+	Print "monkey2 box2d test"
+
 	'------- Initialising the world with its gravity
 		Local down:=New b2Vec2(0,-20)
 		
@@ -136,13 +141,5 @@ Class Box2DSim
 		print("Step: "+i+"  Position B3: "+b2Vec2ToS( position)+" , angle: "+ angle)
 		
 	Next 
-	
-	End
-End
-Function Main()
-
-	Print "monkey2 box2d test"
-
-	Local sim:=New Box2DSim()
 
 End

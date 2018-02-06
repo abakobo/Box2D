@@ -25,7 +25,7 @@ Class Box2DgfxTest Extends Window
 	Field body:b2Body,body2:b2Body
 	Field joints:=New b2Joint[14]
 	
-	Field MouseJoint:b2MouseJoint
+	Field MouseJoint:b2Joint
 	Field bodyForMouseJoint:b2Body
 	
 	Field jdMouse: b2MouseJointDef
@@ -37,6 +37,8 @@ Class Box2DgfxTest Extends Window
 	'translate and zoom of the camera
 	Field translate:=New Vec2f(660,940) 
 	Field zoom:=0.4
+	
+	Field callback:=New AABBQueryCallback ()
 	
 
 	
@@ -116,12 +118,11 @@ Class Box2DgfxTest Extends Window
 			 
 			Local d:=New b2Vec2(0.001,0.001)
 			Local aabb:b2AABB
-			Local callback:AABBQueryCallback
 
 		  	aabb.lowerBound=New b2Vec2(mousePhysicsLocation.x-d.x,mousePhysicsLocation.y-d.y) ' faudrait voir si y a moyen de moyenner les operateurs
 		  	aabb.upperBound=New b2Vec2(mousePhysicsLocation.x+d.x,mousePhysicsLocation.y+d.y)
 		  	
-			callback=New AABBQueryCallback(mousePhysicsLocation)
+			callback.q_point=mousePhysicsLocation
 			world.QueryAABB(callback,aabb)
 			
 			If (callback.q_fixture)
@@ -131,18 +132,18 @@ Class Box2DgfxTest Extends Window
 				jdMouse.collideConnected = False
 				jdMouse.maxForce=100000.0*bodyForMouseJoint.GetMass()
 				jdMouse.target=mousePhysicsLocation
-		    	joints[13]= world.CreateJoint(Varptr jdMouse)
+		    	MouseJoint= world.CreateJoint(Varptr jdMouse)
 		    	bodyForMouseJoint.SetAwake(true)
 		    End
 		 End
 		 If Mouse.ButtonDown(MouseButton.Left)
 		 							'b2JointTob2MouseJoint is a custom c++ Func needed because monkey2 can't use cast operator on "extend void". Is there a more elegant solution?
-		 	If joints[13]<>Null Then b2JointTob2MouseJoint(joints[13]).SetTarget(mousePhysicsLocation)
+		 	If MouseJoint<>Null Then b2JointTob2MouseJoint(MouseJoint).SetTarget(mousePhysicsLocation)
 		 End
 		 If Mouse.ButtonReleased(MouseButton.Left)
-		 	If joints[13]<>Null
-		 		world.DestroyJoint(joints[13])
-				joints[13] = Null
+		 	If MouseJoint<>Null
+		 		world.DestroyJoint(MouseJoint)
+				MouseJoint = Null
 			End
 		 End
 	End
@@ -285,6 +286,32 @@ Next
 
 End
 End 'class
+
+Class AABBQueryCallback Extends b2QueryCallback
+	Field q_point:b2Vec2
+	Field q_fixture:b2Fixture
+	Method New()
+		q_point.x=0
+		q_point.y=0
+		q_fixture=NULL
+	End
+	Method New(point:b2Vec2)
+		q_point=point
+		q_fixture=NULL
+	End
+	Method ReportFixture:Bool(fixture:b2Fixture) Override 
+		Local body:=fixture.GetBody()
+		If (body.GetType()=b2BodyType.b2_dynamicBody)
+			Local inside:=fixture.TestPoint(q_point)
+			If inside
+				q_fixture=fixture
+				Return False
+			End
+		End
+		
+		Return True
+	End
+End 
 
 Function Main()
 	New AppInstance

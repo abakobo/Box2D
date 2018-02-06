@@ -1,38 +1,36 @@
 doing:
 
-
-
+AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
+e7-AABB_callback2 line 112
 
 TODO
 -----
 b2json:
 --------
 
-Tester si en fait conversion  Operator marcche pas avec b2joint quand même
-
-b2Querycallback exemple -> Fait
-b2RayCastCallBack
-
 
 ajouter offset à b2Manager
 offest json existing world dans mx2b2json et b2Manager
 
-Memory leaks dans mx2b2json.xxx avec strings et Const char*
-Détruire les b2djson!!!! dans mx2b2djson.xxx
 
 checker que imageWorldPosition fonctionne correc avec yAxisInvert=False  checker avec draw bodies aussi...
 donc faire un exemple yaxisNonInversé avec images!
 
-ajouter velocityiteration etc.. Est-ce que y a moyen de changer ça dans RUBE?
+ajouter velocityiteration etc.. Est-ce que y a moyen de changer ça dans RUBE? -> question posée.
 
 cleanup the mess!:
 	-virer b2djsonImage
 	-virer cpp fileio et bitmap render...
 	
-AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
+
+
+trouver ce qui Print du vide dans e0-load_delete -->seulement en debug donc +-ok
 
 pyro:
 --------
+
+
+AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
 
 ajouter opacity et flip dans pyro2.CreatLayerSprites
 
@@ -46,6 +44,12 @@ Isort pour exempl tank (et plus multi layers) + enlever les autres Functions de 
 
 pure box2d:
 ----------
+
+créer resource Extends pour gérer les call backs?
+
+checker que Double dans b2vec2 extensions fait pas ralentir
+
+fixture getAABB pour prob de non ref based Var avec & (voir box2d.monkey2)
 
 bouger box2d.monkey dans mx2_box2d
 

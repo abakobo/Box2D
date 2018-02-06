@@ -17,6 +17,8 @@ Class Box2DgfxTest Extends Window
 	Field physManager:b2Manager
 	Field drawDebug:=True
 	
+	Field count:=0
+	
 	Method New( title:String,width:Int,height:Int,flags:WindowFlags=WindowFlags.Resizable )
 		
 		Super.New( title,width,height,flags )
@@ -38,11 +40,12 @@ Class Box2DgfxTest Extends Window
 		physManager.DrawDebug(canvas)
 		physManager.DrawBodies(canvas)
 		
-		If Keyboard.KeyPressed(Key.R)
+		If count>2
+			count=0
 			physManager.Discard()
 			physManager=New b2Manager("asset::images.json")	
 		End
-
+		count+=1
 	End
 End
 

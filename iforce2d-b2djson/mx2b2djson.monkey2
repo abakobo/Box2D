@@ -119,12 +119,14 @@ Class b2dJson Extends Void
 	    'int getAllJoints(std::vector<b2Joint*>& joints);
 	    'int getAllImages(std::vector<b2dJsonImage*>& images);
 	
+	
+		'-----wrapped see functions getFixtureByName/GetJointByName/GetJointByName
 	    'b2Body* getBodyByName(std::string name);
-	    'b2Fixture* getFixtureByName(std::String name);
-	    'to be wrapped
-	    'Method getFixtureByName:b2Fixture(name:CString)
+	    'b2Fixture* getFixtureByName(std::String name); 
 	    'b2Joint* getJointByName(std::string name);
+	    '------------------------------------------------------  
 	    'b2dJsonImage* getImageByName(std::string name);
+	
 	
 	    'b2Body* getBodyByPathAndName(std::string path, std::string name);
 	    'b2Fixture* getFixtureByPathAndName(std::string path, std::string name);
@@ -277,7 +279,7 @@ Function Saveb2dJson(filename:String , world:b2World)
 	
 	
 	Local strSize:=mx2b2dJson.Getb2dJsonStringSize(world)
-	Local jsonCStr:=New char_t[strSize]
+	Local jsonCStr:=New char_t[strSize+1] '+1 just to be sure...
 	b2dJsonWriteToString_ext(jsonCStr.Data,world)
 
 	SaveString(String.FromCString(jsonCStr.Data),filename,True)

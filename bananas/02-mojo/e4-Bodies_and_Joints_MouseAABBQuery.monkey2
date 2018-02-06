@@ -39,8 +39,8 @@ Class Box2DgfxTest Extends Window
 	Field p:b2Vec2
 	Field d:=New b2Vec2(0.001,0.001)
 	Field aabb:b2AABB
-	Field callback:AABBQueryCallback
 	Field bodies4:b2Body
+	Field callback:=New AABBQueryCallback()
 	
 	Method New( title:String,width:Int,height:Int,flags:WindowFlags=WindowFlags.Resizable )
 		
@@ -123,12 +123,11 @@ Class Box2DgfxTest Extends Window
 			 
 			Local d:=New b2Vec2(0.001,0.001)
 			Local aabb:b2AABB
-			Local callback:AABBQueryCallback
 
 		  	aabb.lowerBound=New b2Vec2(mousePhysicsLocation.x-d.x,mousePhysicsLocation.y-d.y) ' faudrait voir si y a moyen de moyenner les operateurs
 		  	aabb.upperBound=New b2Vec2(mousePhysicsLocation.x+d.x,mousePhysicsLocation.y+d.y)
 		  	
-			callback=New AABBQueryCallback(mousePhysicsLocation)
+			callback.q_point=mousePhysicsLocation
 			world.QueryAABB(callback,aabb)
 			
 			If (callback.q_fixture)
@@ -1137,6 +1136,32 @@ Class Box2DgfxTest Extends Window
 
 End 
 End
+
+Class AABBQueryCallback Extends b2QueryCallback
+	Field q_point:b2Vec2
+	Field q_fixture:b2Fixture
+	Method New()
+		q_point.x=0
+		q_point.y=0
+		q_fixture=NULL
+	End
+	Method New(point:b2Vec2)
+		q_point=point
+		q_fixture=NULL
+	End
+	Method ReportFixture:Bool(fixture:b2Fixture) Override 
+		Local body:=fixture.GetBody()
+		If (body.GetType()=b2BodyType.b2_dynamicBody)
+			Local inside:=fixture.TestPoint(q_point)
+			If inside
+				q_fixture=fixture
+				Return False
+			End
+		End
+		
+		Return True
+	End
+End 
 
 Function Main()
 	New AppInstance

@@ -29,6 +29,7 @@ b2World* b2dJsonReadFromString_ext (const char* thecstring, char* charErrMsg, in
 			charErrMsg[errMsgBis.size()] = '\0'; // terminating the cstring
 		}
 	}
+	
 	return returnWorld;
 }
 

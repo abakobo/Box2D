@@ -472,15 +472,13 @@ struct b2Vec2
 	Method SetZero()
 	Method Set(x_:Float,y_:Float)
 
-'  operator with childs (usefull?)
-'
+'  operator with childs (usefull? for chains only?)
 '!!!!!!operator skipped!! line: Float operator () (Int i) const
 '------Ya du array à gérer ici!
 '!!!!!!operator skipped!! line: Float& operator () (Int i)
 '------Ya du array à gérer ici!7
 
-' Managed in b2Vec2 Struct extension (bottom of this page)
-'
+' following operators Managed in b2Vec2 Struct extension (bottom of this page)
 '!!!!!!operator skipped!! line: void operator += (b2Vec2& v)  -->OK
 '!!!!!!operator skipped!! line: void operator -= (b2Vec2& v)  -->OK
 '!!!!!!operator skipped!! line: void operator *= (Float a)    -->OK
@@ -1844,7 +1842,7 @@ End
 '
 '--------------------------
 
-Class AABBQueryCallback Extends b2QueryCallback
+Class SimpleAABBQueryCallback Extends b2QueryCallback
 	Field q_point:b2Vec2
 	Field q_fixture:b2Fixture
 	Method New(point:b2Vec2)
@@ -1863,6 +1861,22 @@ Class AABBQueryCallback Extends b2QueryCallback
 		
 		Return True
 	End
-End 
+End
+
+Class ClosestRayCallBack Extends b2RayCastCallback
+	
+	Field q_fixture:b2Fixture
+	Field q_point:b2Vec2
+	Field q_normal:b2Vec2
+	Field q_fraction:Float
+	
+	Method ReportFixture:Float (fixture:b2Fixture, point:b2Vec2 , normal:b2Vec2 , fraction:Float) Override
+		q_fixture=fixture
+		q_point=point
+		q_fraction=fraction
+		q_normal=normal
+		Return fraction
+	End
+End
 
 

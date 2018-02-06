@@ -17,7 +17,7 @@ Using b2dJsonInfo..
 Using mx2b2dJson..
 
 
-Class b2Manager
+Class b2Manager Extends Resource
 	
 	Field world:b2World
 	
@@ -36,6 +36,7 @@ Class b2Manager
 	Field debugDrawer:b2DebugDraw
 	
 	Field b2dJsons:=New b2dJson[1]
+	Field b2dJsonsCount:=0
 	
 	Private
 	Field sortedBodyImageInfos:=New Stack<b2BodyImageInfo>
@@ -280,7 +281,7 @@ Class b2Manager
 		Next
 		
 		Local strSize:=Getb2dJsonStringSize(world,json)
-		Local jsonCStr:=New char_t[strSize]
+		Local jsonCStr:=New char_t[strSize+1]
 		
 		b2dJsonWriteToString_ext(jsonCStr.Data,world,json)
 		
@@ -310,7 +311,10 @@ Class b2Manager
 
 			ptiJsonObj["body"]=New JsonNumber(bodyInfos.Length-1-bodyInfos[bodyImageNode.Key].index)':Int Body reference has to be processed backwards compared to .json order (reliable?)
 			ptiJsonObj["opacity"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageOpacity)
-			
+
+			If bodyInfos[bodyImageNode.Key].imageFlip=-1
+				ptiJsonObj["flip"]=New JsonBool(True)
+			End
 			
 			Local miniJsonObj:=New JsonObject
 			miniJsonObj["x"]=New JsonNumber(bodyInfos[bodyImageNode.Key].imageLocalPosition.x)
@@ -322,13 +326,27 @@ Class b2Manager
 			i+=1
 		Next
 		
-		Print "-------------Print array"
-		Print imageJsonArray.ToJson()
+		'Print "-------------Print array"
+		'Print imageJsonArray.ToJson()
 		
 		mainJsonObj["image"]=imageJsonArray
 		
 		SaveString(mainJsonObj.ToJson(),path,True)
 		
+	End
+	
+	Method OnDiscard() Override
+		If b2dJsonsCount>0
+			For Local i:=0 Until b2dJsonsCount
+				b2dJsons[i].Destroy()
+			Next
+		Endif
+		world.Destroy()
+		
+	End
+	
+	Method OnFinalize() Override
+		'Print "finalaïzing b2Manager"
 	End
 	
 End

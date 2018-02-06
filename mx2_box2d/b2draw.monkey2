@@ -12,8 +12,6 @@ Public
 
 Class b2DebugDraw Extends b2Draw
 
-
-
 	Protected
 	Field y_axis_direction:=-1 'to invert y axis for screen draw (supposed to be 1 or -1 only)
 	Field _canvas:Canvas
