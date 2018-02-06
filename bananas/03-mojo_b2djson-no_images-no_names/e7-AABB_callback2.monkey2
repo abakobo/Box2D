@@ -31,8 +31,8 @@ Class Box2DgfxTest Extends Window
 	Field aabb:b2AABB
 
 	'translate and zoom of the camera
-	Field translate:=New Vec2f(660,940) 
-	Field zoom:=0.4
+	Field translate:=New Vec2f(500,450) 
+	Field zoom:=1.7
 	
 	Field callback:=New AABBQueryCallback ()
 	
@@ -64,14 +64,14 @@ Class Box2DgfxTest Extends Window
 		App.RequestRender()
 		canvas.Clear(Color.Black)
 		
-		canvas.DrawText("grab objects with you mouse to see AABB query/MouseJoint in action!",15,15)
+		canvas.DrawText("select objects with you mouse (rectangular selection)",15,15)
 		
 		'// Instruct the world to perform a single step of simulation.
 		'// It is generally best to keep the time step and iterations fixed. ---> they have been set globally
 		world.Stepp(timeStep, velocityIterations, positionIterations)
 		
-		canvas.Translate(500,500)
-		canvas.Scale(1.5,1.5)
+		canvas.Translate(translate)
+		canvas.Scale(zoom,zoom)
 		Local transfoMat:=canvas.Matrix
 		' passing the canvas to the b2Draw_mojo instance (DDrawer)
 		' It's mandatory before calling world.DrawDebugData()	
@@ -82,15 +82,13 @@ Class Box2DgfxTest Extends Window
 
 		Local mousePhysicsLocation:=DDrawer.ToPhysicsLocation(-transfoMat*MouseLocation)
 		
-		Local rayLength:=250.0
 		canvas.Color=Color.Red
 		
 		If Mouse.ButtonPressed(MouseButton.Left)
 		  	aabb.lowerBound=mousePhysicsLocation
 		End
 		If Mouse.ButtonDown(MouseButton.Left)
-		 	'canvas.DrawRect(New Rectf(DDrawer.FromPhysicsLocation(aabb.lowerBound),-transfoMat*MouseLocation))
-		 	
+			
 		 	Local ab:=DDrawer.FromPhysicsLocation(aabb.lowerBound)
 		 	Local mo:=-transfoMat*MouseLocation
 		 	Local mob:=New Vec2f(ab.x,mo.y)
@@ -104,21 +102,17 @@ Class Box2DgfxTest Extends Window
 		If Mouse.ButtonReleased(MouseButton.Left)
 			aabb.upperBound=mousePhysicsLocation
 
-			'Local d:=New b2Vec2(0.001,0.001)
-			'Local aabb:b2AABB
-		
-		  	'aabb.lowerBound=mousePhysicsLocation+d 
-		  	'aabb.upperBound=mousePhysicsLocation-d
-		  	Print "----"
-		  	Print aabb.lowerBound
-			Print aabb.upperBound
+			'aabb must be valid so you have to sort it when you are not sure it is valid
+			Print "------------"
+			Print "isValid: "+aabb.IsValid()
+			aabb.Sort()
 			Print "isValid: "+aabb.IsValid()
 			callback.Clear()
 			world.QueryAABB(callback,aabb)
 			
 		End
 		
-		canvas.DrawText(callback.q_bodies.Length,-50,-50)
+		canvas.DrawText(callback.q_bodies.Length,-250,-230)
 		
 		If Not callback.q_bodies.Empty
 			
@@ -143,8 +137,7 @@ Class AABBQueryCallback Extends b2QueryCallback
 		q_bodies.Clear()
 	End
 	Method ReportFixture:Bool(fixture:b2Fixture) Override
-		Print "check" 
-		q_bodies.Add(fixture.GetBody())
+		If Not q_bodies.Contains(fixture.GetBody()) Then q_bodies.Add(fixture.GetBody())
 		Return True
 	End
 End 

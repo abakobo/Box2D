@@ -1735,7 +1735,7 @@ End
 
 Public 
 
-
+' conversion function (vect ones are deprecated by operators extensions)
 '-------------------------------------------------------------------------------------------------------
 Function b2Vec2ToVec2f:Vec2f(v:b2Vec2)
 	Local vf:=New Vec2f(v.x,v.y)
@@ -1759,7 +1759,7 @@ End
 
 '-------------------------
 '
-'Vectors operators
+'Vectors extensions & operators
 '
 '------------------------
 '
@@ -1838,9 +1838,24 @@ End
 
 '--------------------
 '
-' Convenience ready to use callback classes
+' Convenience ready to use callback classes and aabb extension
 '
 '--------------------------
+
+Struct b2AABB Extension
+	Method Sort()
+		If upperBound.x < lowerBound.x
+			Local swap:=upperBound.x
+			upperBound.x=lowerBound.x
+			lowerBound.x=swap
+		End
+		If upperBound.y < lowerBound.y
+			Local swap:=upperBound.y
+			upperBound.y=lowerBound.y
+			lowerBound.y=swap
+		End	
+	End
+End
 
 Class SimpleAABBQueryCallback Extends b2QueryCallback
 	Field q_point:b2Vec2
