@@ -34,7 +34,7 @@ Class Box2DgfxTest Extends Window
 	Field translate:=New Vec2f(500,450) 
 	Field zoom:=1.7
 	
-	Field callback:=New AABBQueryCallback ()
+	Field bodiesStack:= New Stack<b2Body>
 	
 	Method New( title:String,width:Int,height:Int,flags:WindowFlags=WindowFlags.Resizable )
 		
@@ -102,21 +102,25 @@ Class Box2DgfxTest Extends Window
 		If Mouse.ButtonReleased(MouseButton.Left)
 			aabb.upperBound=mousePhysicsLocation
 
-			'aabb must be valid so you have to sort it when you are not sure it is valid
+			'aabb must be valid so you have to sort it when you are not sure it is valid (sort is not an original box2d method)
 			Print "------------"
 			Print "isValid: "+aabb.IsValid()
 			aabb.Sort()
 			Print "isValid: "+aabb.IsValid()
-			callback.Clear()
+			bodiesStack.Clear()
+			Local callback:=New AABBQueryCallback (bodiesStack)
 			world.QueryAABB(callback,aabb)
+			callback.Destroy()
 			
 		End
 		
-		canvas.DrawText(callback.q_bodies.Length,-250,-230)
+		canvas.DrawText(bodiesStack.Length,-250,-230)
 		
-		If Not callback.q_bodies.Empty
+		
+		'draw selected bodies
+		If Not bodiesStack.Empty
 			
-			For Local bod:=Eachin callback.q_bodies
+			For Local bod:=Eachin bodiesStack
 				
 				Local p:=DDrawer.FromPhysicsLocation(bod.GetPosition())
 				
@@ -124,17 +128,21 @@ Class Box2DgfxTest Extends Window
 			Next
 			
 		End
+		
+		If Keyboard.KeyPressed(Key.G)
+			Print "gc Collect"
+			GCCollect()
+		End
 			
 	End
 End
 
 Class AABBQueryCallback Extends b2QueryCallback
 	Field q_bodies:Stack<b2Body>
-	Method New()
-		q_bodies=New Stack<b2Body>
-	End
-	Method Clear()
-		q_bodies.Clear()
+	
+	Method New(bodiesStack:Stack<b2Body>)
+		'you have To pass the stack because b2querycallback is native and is not GC aware so you may not New an mx2 object here..
+		q_bodies=bodiesStack
 	End
 	Method ReportFixture:Bool(fixture:b2Fixture) Override
 		If Not q_bodies.Contains(fixture.GetBody()) Then q_bodies.Add(fixture.GetBody())
