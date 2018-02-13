@@ -148,6 +148,9 @@ Class b2BodyImageInfo
 
 	Field image:Image
 	
+	'b2dJson Custom properties may only be Float or int. int will be auto converted to Float.
+	Field bodyUserData:StringMap<Float>
+	
 	Property imageWorldPosition:b2Vec2()
 		
 		Local rotation:=New AffineMat3f().Rotate(-body.GetAngle()) '!!!checker si ça marche avec y_axis_inversion=false
@@ -198,7 +201,7 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 		ret[i].body=bodyArray[i]
 		ret[i].index=i
 	Next
-	'-----------------------------------------------------BodyName
+	'----------------------------------BodyName
 	Local bodyNameMap:=GetBodyNameMap(json)
 	For Local i:=0 Until bodyCount
 		If bodyNameMap.Contains(i)
@@ -206,15 +209,29 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 		
 
 		Else
-			ret[i].bodyName="nonamebody"
+			ret[i].bodyName="nonamebody"+i
 			#If __DEBUG__
-				Print "body "+i+ " has no name has been renamed 'nonamebody'!!!!!!!!!!!!!!!"
+				Print "body "+i+ " has no name has been renamed 'nonamebody"+i+"'!!!!!!!!!!!!!!!"
 			#End
 		End
 	Next
 	
+	'-----------------------------------BodyCustomProperties (Can only be Float!!! (ints will be cast to float)
+	Local custoMaMap:=GetBodyCustoMaMap(json)
+	For Local i:=0 Until bodyCount
+		If custoMaMap.Contains(i)
+			
+		ret[i].bodyUserData=custoMaMap[i]
 		
-	'------------------------------------------------------ CENTER
+
+		Else
+			ret[i].bodyUserData=New StringMap<Float>
+
+		End
+	Next
+	
+		
+	'------------------------------------------------------ image CENTER
 	Local posMap:=GetImageCenterMap(json)
 	For Local i:=0 Until bodyCount
 		If bodyToImageMap.Contains(i)
@@ -333,6 +350,8 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 			ret[i].imageRenderOrder=0
 		End
 	Next
+	
+	
 	#rem
 	For Local i:=0 Until bodyCount
 		
@@ -432,6 +451,56 @@ Function GetBodyNameMap:IntMap<String>(lobj:JsonObject)
 	End
 	
 	Return namesMap
+	
+End
+
+Function GetBodyCustoMaMap:IntMap<StringMap<Float>>(lobj:JsonObject)
+	
+	Local custoMaMap:=New IntMap<StringMap<Float>>
+	
+	If lobj["body"]
+		
+		Local imgval:=lobj["body"]
+		Local imgarr:=imgval.ToArray() 
+		Local imgArraySize:=imgarr.Length
+
+		For Local i:=0 Until imgArraySize
+			Local imgarrelem:=imgarr[i]
+			
+			Local imgelemobj:=imgarrelem.ToObject()
+			
+			If imgelemobj["customProperties"]
+
+				Local imgval:=imgelemobj["customProperties"]
+				
+				If imgval.IsArray 
+					
+					Local custoArr:=imgval.ToArray()
+					Local custoArraySize:=custoArr.Length
+					If custoArraySize>0
+						Print "is array"
+						Print "size "+custoArraySize
+					End
+					
+				Else 
+					#If __DEBUG__
+						Print "Body "+i+" custom properties is not an array" 
+					#End	
+				End			
+			Else
+				#If __DEBUG__
+					Print "no 'body/custom properties for body "+i+" in json !!!!!!!!!"
+				#End
+			End
+		Next
+
+	Else
+		#If __DEBUG__
+			Print "!!!!!!!!!!!!no 'body' value in json !!!!!!!!!"
+		#End
+	End
+	
+	Return custoMaMap
 	
 End
 

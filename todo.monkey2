@@ -1,13 +1,17 @@
 doing:
 
-AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
-e7-AABB_callback2 line 112
+Load body user data/Custom properties dans b2manager
+b2JsonBodyImage->GetBodyCustoMaMap line 477 (prendre name/Float ou name/Int)
 
 TODO
 -----
 b2json:
 --------
 
+
+Save body user data/Custom properties dans b2manager
+
+AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
 
 ajouter offset à b2Manager
 offest json existing world dans mx2b2json et b2Manager
