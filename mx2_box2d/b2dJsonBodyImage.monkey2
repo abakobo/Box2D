@@ -148,8 +148,8 @@ Class b2BodyImageInfo
 
 	Field image:Image
 	
-	'b2dJson Custom properties may only be Float or int. int will be auto converted to Float.
-	Field bodyUserData:StringMap<Float>
+	'b2dJson Custom properties may only be Float , int, bool or string. int will be auto converted to Float.
+	Field bodyUserData:StringMap<Variant>
 	
 	Property imageWorldPosition:b2Vec2()
 		
@@ -216,7 +216,7 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 		End
 	Next
 	
-	'-----------------------------------BodyCustomProperties (Can only be Float!!! (ints will be cast to float)
+	'-----------------------------------BodyCustomProperties (Can only be Float, int , bool, string (no vect no color))
 	Local custoMaMap:=GetBodyCustoMaMap(json)
 	For Local i:=0 Until bodyCount
 		If custoMaMap.Contains(i)
@@ -225,9 +225,12 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 		
 
 		Else
-			ret[i].bodyUserData=New StringMap<Float>
+			ret[i].bodyUserData=New StringMap<Variant>
 
 		End
+		
+		ret[i].body.SetUserData(Cast<Void Ptr>(ret[i].bodyUserData))
+
 	Next
 	
 		
@@ -454,9 +457,9 @@ Function GetBodyNameMap:IntMap<String>(lobj:JsonObject)
 	
 End
 
-Function GetBodyCustoMaMap:IntMap<StringMap<Float>>(lobj:JsonObject)
+Function GetBodyCustoMaMap:IntMap<StringMap<Variant>>(lobj:JsonObject)
 	
-	Local custoMaMap:=New IntMap<StringMap<Float>>
+	Local custoMaMap:=New IntMap<StringMap<Variant>>
 	
 	If lobj["body"]
 		
@@ -474,13 +477,41 @@ Function GetBodyCustoMaMap:IntMap<StringMap<Float>>(lobj:JsonObject)
 				Local imgval:=imgelemobj["customProperties"]
 				
 				If imgval.IsArray 
-					
+				
 					Local custoArr:=imgval.ToArray()
 					Local custoArraySize:=custoArr.Length
-					If custoArraySize>0
-						Print "is array"
-						Print "size "+custoArraySize
-					End
+					
+					Local custoBodMap:=New StringMap<Variant>
+					
+					For Local j:=0 Until custoArraySize
+						
+						Local custoArrElemObj:=custoArr[j].ToObject()
+						
+						If custoArrElemObj["float"]
+							Local f:Float=custoArrElemObj["float"].ToNumber()
+							Local n:=custoArrElemObj["name"].ToString()
+							custoBodMap[n]=f
+						Elseif custoArrElemObj["int"]
+							Local inte:Int=custoArrElemObj["int"].ToNumber()
+							Local n:=custoArrElemObj["name"].ToString()
+							custoBodMap[n]=inte
+						Elseif custoArrElemObj["string"]
+							Local s:=custoArrElemObj["string"].ToString()
+							Local n:=custoArrElemObj["name"].ToString()
+							custoBodMap[n]=s
+						Elseif custoArrElemObj["bool"]
+							Local b:=custoArrElemObj["bool"].ToBool()
+							Local n:=custoArrElemObj["name"].ToString()
+							custoBodMap[n]=b	
+						Else
+							#If __DEBUG__
+								Print "only int, float, bool and string accepted for body custom properties" 
+							#End				
+						Endif
+						
+					Next 'j
+					
+					custoMaMap[i]=custoBodMap
 					
 				Else 
 					#If __DEBUG__

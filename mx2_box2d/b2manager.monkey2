@@ -178,6 +178,347 @@ Class b2Manager Extends Resource
 
 	End
 	
+	Method GetBodiesInfo:b2BodyImageInfo[](name:String)
+		
+		Local retArray:b2BodyImageInfo[]
+		Local bodyStack:=New Stack<b2BodyImageInfo>
+
+		For Local i:=0 Until bodyInfos.Length
+			If bodyInfos[i].bodyName=name
+				bodyStack.Add(bodyInfos[i])
+			End
+		End
+		If bodyStack.Length>0
+			retArray=bodyStack.ToArray()
+		Else
+		#If __DEBUG__
+			Print "No body with name "+name+" !!!!!!!!!!!!!!!"
+		#End
+			Return Null
+		End
+		Return retArray
+		
+	End
+	
+	Method GetBodyInfo:b2BodyImageInfo(name:String)
+		Local i:=0
+		While i<bodyInfos.Length
+			If bodyInfos[i].bodyName=name Then Return bodyInfos[i]
+			i+=1
+		Wend
+		
+		#If __DEBUG__
+			Print "No body with name "+name+" !!!!!!!!!!!!!!!"
+		#End
+		
+		Return Null
+
+	End
+	
+'----------------------------BodiesData
+
+	Method GetBodiesUserData:StringMap<Variant>[](name:String)
+		
+		Local retArray:StringMap<Variant>[]
+		Local bodyStack:=New Stack<StringMap<Variant>>
+
+		For Local i:=0 Until bodyInfos.Length
+			If bodyInfos[i].bodyName=name
+				bodyStack.Add(bodyInfos[i].bodyUserData)
+			End
+		End
+		If bodyStack.Length>0
+			retArray=bodyStack.ToArray()
+		Else
+		#If __DEBUG__
+			Print "No body with name "+name+" !!!!!!!!!!!!!!!"
+		#End
+			Return Null
+		End
+		Return retArray
+		
+	End
+
+	Method GetBodiesUserData:Stack<Variant>(name:String,dataName:String)
+	
+		Local variantMapArray:=GetBodiesUserData(name)
+		Local retStack:= New Stack<Variant>
+		Local retArray:Variant[]
+	
+		For Local map:=Eachin variantMapArray
+			If map.Contains(dataName)
+	
+				retStack.Add(map[dataName])
+	
+			End
+		End
+	
+		If retStack.Length=0
+	
+			#If __DEBUG__
+				Print "No body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
+			#End
+	
+			Return Null
+		End
+		Return retStack
+	
+	End
+	
+	Method GetBodiesUserDataToS:Stack<String>(name:String,dataName:String)
+	
+		Local variantMapArray:=GetBodiesUserData(name)
+		Local retStack:= New Stack<String>
+		For Local map:=Eachin variantMapArray
+			If map.Contains(dataName)
+				If map[dataName].Type.Name="String"
+					retStack.Add(Cast<String>(map[dataName]))
+				Else
+					#If __DEBUG__
+						Print "body-data "+dataName+" for body "+name+" Is Not a String !!!!!!!!!!!!!!!"
+					#End
+				End	
+			End
+		Next
+		If retStack.Length=0
+			#If __DEBUG__
+				Print "Problem... with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
+			#End	
+		End
+		Return retStack
+	End
+	
+	Method GetBodiesUserDataToB:Stack<Bool>(name:String,dataName:String)
+	
+		Local variantMapArray:=GetBodiesUserData(name)
+		Local retStack:= New Stack<Bool>
+		For Local map:=Eachin variantMapArray
+			If map.Contains(dataName)
+				If map[dataName].Type.Name="Bool"
+					Local myVariant:Variant=map[dataName]
+					Local myBool:=Cast<Bool>(myVariant)
+					retStack.Add(myBool)
+				Else
+					#If __DEBUG__
+						Print "body-data "+dataName+" for body "+name+" Is Not a Bool !!!!!!!!!!!!!!!"
+					#End
+				End	
+			End
+		Next
+		If retStack.Length=0
+			#If __DEBUG__
+				Print "Problem... with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
+			#End
+		End
+		Return retStack
+	
+	End
+	
+	Method GetBodiesUserDataToI:Stack<Int>(name:String,dataName:String)
+	
+		Local variantMapArray:=GetBodiesUserData(name)
+		Local retStack:= New Stack<Int>
+		For Local map:=Eachin variantMapArray
+			If map.Contains(dataName)
+				If map[dataName].Type.Name="Int"
+					retStack.Add(Cast<Int>(map[dataName]))
+				Else
+					#If __DEBUG__
+						Print "body-data "+dataName+" for body "+name+" Is Not an Int !!!!!!!!!!!!!!!"
+					#End
+				End	
+			End
+		End
+		If retStack.Length=0
+			#If __DEBUG__
+				Print "Problem... with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
+			#End	
+		End
+		Return retStack
+	End
+	
+	Method GetBodiesUserDataToF:Stack<Float>(name:String,dataName:String)
+	
+		Local variantMapArray:=GetBodiesUserData(name)
+		Local retStack:= New Stack<Float>
+		For Local map:=Eachin variantMapArray
+			If map.Contains(dataName)
+				If map[dataName].Type.Name="Float"
+					retStack.Add(Cast<Float>(map[dataName]))
+				Else
+					#If __DEBUG__
+						Print "body-data "+dataName+" for body "+name+" Is Not a Float !!!!!!!!!!!!!!!"
+					#End
+				End	
+			End
+		End
+		If retStack.Length=0
+			#If __DEBUG__
+				Print "Problem... with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
+			#End	
+		End
+		Return retStack
+	End
+	
+	Method GetBodiesUserDataToN:Stack<Float>(name:String,dataName:String)
+	
+		Local variantMapArray:=GetBodiesUserData(name)
+		Local retStack:= New Stack<Float>
+		For Local map:=Eachin variantMapArray
+			If map.Contains(dataName)
+				If map[dataName].Type.Name="Float"
+					retStack.Add(Cast<Float>(map[dataName]))
+				Elseif map[dataName].Type.Name="Int"
+					retStack.Add(Float(Cast<Int>(map[dataName])))
+				Else
+					#If __DEBUG__
+						Print "body-data "+dataName+" for body "+name+" Is Not a Float or Int !!!!!!!!!!!!!!!"
+					#End
+				End	
+			End
+		End
+		If retStack.Length=0
+			#If __DEBUG__
+				Print "Problem... with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
+			#End	
+		End
+		Return retStack
+	End
+
+'----------------------------
+	
+	Method GetBodyUserData:StringMap<Variant>(name:String)
+		Local i:=0
+		While i<bodyInfos.Length
+			If bodyInfos[i].bodyName=name Then Return bodyInfos[i].bodyUserData
+			i+=1
+		Wend
+		
+		#If __DEBUG__
+			Print "No body with name "+name+" !!!!!!!!!!!!!!!"
+		#End
+		
+		Return Null
+
+	End
+	
+	Method GetBodyUserData:Variant(name:String,dataName:String)
+		
+		Local data:=GetBodyUserData(name)
+		
+		Local ret:=data[dataName]
+		
+		#If __DEBUG__
+			If ret=False Then Print "No body-data "+dataName+" for body "+name+" !!!!!!!!!!!!!!!"
+		#End
+		
+		Return ret
+
+	End
+	Method GetBodyUserDataToS:String(name:String,dataName:String)
+		
+		Local dataVariant:=GetBodyUserData(name)[dataName]
+		
+		If dataVariant.Type.Name="String"
+			
+			Return Cast<String>(dataVariant)
+			
+		Else
+		
+			#If __DEBUG__
+				Print "body-data "+dataName+" for body "+name+" Is Not a String !!!!!!!!!!!!!!!"
+			#End
+			
+		End
+		
+		Return Null
+
+	End
+	
+	Method GetBodyUserDataToB:Bool(name:String,dataName:String)
+	
+		Local dataVariant:=GetBodyUserData(name)[dataName]
+	
+		If dataVariant.Type.Name="Bool"
+	
+			Return Cast<Bool>(dataVariant)
+	
+		Else
+	
+			#If __DEBUG__
+				If dataVariant=False Then Print "body-data "+dataName+" for body "+name+" Is Not a Bool !!!!!!!!!!!!!!!"
+			#End
+	
+		End
+	
+		Return Null
+	
+	End
+	
+	Method GetBodyUserDataToI:Int(name:String,dataName:String)
+	
+		Local dataVariant:=GetBodyUserData(name)[dataName]
+	
+		If dataVariant.Type.Name="Int"
+	
+			Return Cast<Int>(dataVariant)
+	
+		Else
+	
+			#If __DEBUG__
+				If dataVariant=False Then Print "body-data "+dataName+" for body "+name+" Is Not an Int !!!!!!!!!!!!!!!"
+			#End
+	
+		End
+	
+		Return Null
+	
+	End
+	
+	Method GetBodyUserDataToF:Float(name:String,dataName:String)
+	
+		Local dataVariant:=GetBodyUserData(name)[dataName]
+	
+		If dataVariant.Type.Name="Float"
+	
+			Return Cast<Float>(dataVariant)
+	
+		Else
+	
+			#If __DEBUG__
+				If dataVariant=False Then Print "body-data "+dataName+" for body "+name+" Is Not a Float !!!!!!!!!!!!!!!"
+			#End
+	
+		End
+	
+		Return Null
+	
+	End
+	
+	Method GetBodyUserDataToN:Float(name:String,dataName:String)
+	
+		Local dataVariant:=GetBodyUserData(name)[dataName]
+	
+		If dataVariant.Type.Name="Float"
+	
+			Return Cast<Float>(dataVariant)
+			
+		Elseif dataVariant.Type.Name="Int"
+		
+				Return Cast<Int>(dataVariant)
+				
+		Else
+	
+			#If __DEBUG__
+				If dataVariant=False Then Print "body-data "+dataName+" for body "+name+" Is Not a 32 bit Numeric (Int,Float) !!!!!!!!!!!!!!!"
+			#End
+	
+		End
+	
+		Return Null
+	
+	End
+	
 	Method GetFixtures:b2Fixture[](name:String)
 	
 		Local retArray:b2Fixture[]

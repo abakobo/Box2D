@@ -1,13 +1,13 @@
 doing:
 
-Load body user data/Custom properties dans b2manager
-b2JsonBodyImage->GetBodyCustoMaMap line 477 (prendre name/Float ou name/Int)
+
 
 TODO
 -----
 b2json:
 --------
 
+methodes b2 manager getStringuserdata(bodyname,userdataname) et Int et Float et bool
 
 Save body user data/Custom properties dans b2manager
 

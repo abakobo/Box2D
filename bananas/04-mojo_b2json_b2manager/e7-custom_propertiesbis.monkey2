@@ -22,7 +22,43 @@ Class Box2DgfxTest Extends Window
 		Super.New( title,width,height,flags )
 		ClearColor=Color.Black
 		'------- Initialising b2Manager (the world and all the stuff associated wth the Json) 
-		physManager=New b2Manager("asset::fixturebalance2.json")
+		physManager=New b2Manager("asset::custom_prop2.json")
+		
+		Local ballUserDataArray:=physManager.GetBodiesUserData("ball")
+		Print "user data types and names for each ball objects"
+		For Local ballUserData:=Eachin ballUserDataArray
+				Print "**"
+				For Local mapElem:=Eachin ballUserData
+					Print mapElem.Key
+					Print mapElem.Value.Type.Name
+					Print "-------------------------"
+				Next
+			
+		Next
+		
+
+		Local userDataStack:=physManager.GetBodiesUserData("ball","stringProp")
+		Print userDataStack.Length
+		Print "StringProp values of the balls"
+		Print userDataStack.Length
+		For Local v:=Eachin userDataStack
+			Print Cast<String>(v)
+		Next
+		
+		Print "---"
+		
+		 'Or Using the b2Manager (convert help)
+		Local stringStack:=physManager.GetBodiesUserDataToS("ball","stringProp")
+		For Local s:=Eachin stringStack
+			Print s
+		Next
+		Local floatStack:=physManager.GetBodiesUserDataToN("ball","intProp")
+		For Local f:=Eachin floatStack
+			Print f
+		Next
+		
+		Print "holala"	
+		
 		
 	End
 	
@@ -31,13 +67,14 @@ Class Box2DgfxTest Extends Window
 		App.RequestRender()
 		
 		canvas.PushMatrix()
-		'centering the canvas transform on the "arm"
-		canvas.SetCameraByCenter(physManager.FromPhysics(physManager.GetBody("arm").GetPosition()),6.2)
+		'centering the canvas transform on the "ground"
+		canvas.SetCameraByCenter(physManager.FromPhysics(physManager.GetBody("ground").GetPosition()),6.2)
 		physManager.StepWorld()
 		physManager.DrawDebug(canvas)
 		physManager.DrawBodies(canvas)
 		canvas.PopMatrix()
 		
+
 		canvas.DrawText("Blah",5,35)
 		
 	

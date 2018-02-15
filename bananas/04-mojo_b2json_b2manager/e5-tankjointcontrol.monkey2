@@ -46,7 +46,7 @@ Class Box2DgfxTest Extends Window
 		canvas.PopMatrix()
 		
 		canvas.DrawText("press S to Save scene to json (save in same dir as original to keep relative path with images)",5,15)
-		canvas.DrawText("Use up/down arrows to move tank",5,35)
+		canvas.DrawText("Use up/down arrows to move tank.",5,35)
 		
 		'
 		'
