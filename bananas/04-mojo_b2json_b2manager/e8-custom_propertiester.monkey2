@@ -24,58 +24,25 @@ Class Box2DgfxTest Extends Window
 		'------- Initialising b2Manager (the world and all the stuff associated wth the Json) 
 		physManager=New b2Manager("asset::custom_prop2.json")
 		
-		Local ballUserDataArray:=physManager.GetBodiesUserData("ball")
-		Print "user data types and names for each ball objects"
-		For Local ballUserData:=Eachin ballUserDataArray
-				Print "**"
-				For Local mapElem:=Eachin ballUserData
-					Print mapElem.Key
-					Print mapElem.Value.Type.Name
-					Print "-------------------------"
-				Next
-		Next
-		
-		Local userDataStack:=physManager.GetBodiesUserData("ball","stringProp")
-		Print "StringProp values of the balls"
-		For Local v:=Eachin userDataStack
-			Print Cast<String>(v)
-		Next
-		
-		Print "---"
-		
-		 'Or Using the b2Manager (convert help)
-		Local stringStack:=physManager.GetBodiesUserDataToS("ball","stringProp")
-		For Local s:=Eachin stringStack
-			Print s
-		Next
-		Print "-*-*-*"
-		Local floatStack:=physManager.GetBodiesUserDataToN("ball","intProp")
-		For Local f:=Eachin floatStack
-			Print f
-		Next
-		Print "*-*-*-*-*"
-		Local boolStack:=physManager.GetBodiesUserDataToB("ball","boolProp")
-		For Local b:=Eachin boolStack
-			Print b
-		Next
+
 		Print "+++++++++++++++++"
 		Local bod:=physManager.GetBody("ground")
 		Local variantMap:=physManager.GetBodyUserData(bod)
 		Print Cast<String>(variantMap["stringProp"])
 		
-		Local s:String=physManager.GetBodyUserDataToS("ground","stringProp")
+		Local s:String=physManager.GetBodyUserDataToS(bod,"stringProp")
 		Print s
 		
-		Local b:Bool=physManager.GetBodyUserDataToB("ground","boolProp")
+		Local b:Bool=physManager.GetBodyUserDataToB(bod,"boolProp")
 		Print b
 		
-		Local f:Float=physManager.GetBodyUserDataToF("ground","floatProp")
+		Local f:Float=physManager.GetBodyUserDataToF(bod,"floatProp")
 		Print f
 		
-		Local i:Int=physManager.GetBodyUserDataToI("ground","intProp")
+		Local i:Int=physManager.GetBodyUserDataToI(bod,"intProp")
 		Print i
 		
-		Local f2:Float=physManager.GetBodyUserDataToN("ground","intProp")
+		Local f2:Float=physManager.GetBodyUserDataToN(bod,"intProp")
 		Print f2
 		
 		
