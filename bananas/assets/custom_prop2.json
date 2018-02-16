@@ -28,15 +28,23 @@
 				{
 					"circle" : 
 					{
-						"center" : 0,
-						"radius" : 0.5
+						"center" : 
+						{
+							"x" : 0,
+							"y" : 0
+						},
+						"radius" : 0.50
 					},
 					"density" : 1,
-					"friction" : 0.2,
+					"friction" : 0.2000000029802322,
 					"name" : "fixture2"
 				}
 			],
-			"linearVelocity" : 0,
+			"linearVelocity" : 
+			{
+				"x" : 0,
+				"y" : 0
+			},
 			"massData-I" : 0.09817477315664291,
 			"massData-mass" : 0.7853981852531433,
 			"name" : "ball",
@@ -81,7 +89,7 @@
 				},
 				
 				{
-					"float" : 7.7,
+					"float" : 7.699999809265137,
 					"name" : "thefloat"
 				}
 			],
@@ -91,16 +99,24 @@
 				{
 					"circle" : 
 					{
-						"center" : 0,
-						"radius" : 0.5
+						"center" : 
+						{
+							"x" : 0,
+							"y" : 0
+						},
+						"radius" : 0.50
 					},
 					"density" : 1,
-					"friction" : 0.2,
+					"friction" : 0.2000000029802322,
 					"name" : "fixture0",
-					"restitution" : 0.9
+					"restitution" : 0.8999999761581421
 				}
 			],
-			"linearVelocity" : 0,
+			"linearVelocity" : 
+			{
+				"x" : 0,
+				"y" : 0
+			},
 			"massData-I" : 0.09817477315664291,
 			"massData-mass" : 0.7853981852531433,
 			"name" : "ball",
@@ -116,12 +132,35 @@
 			"angle" : 0,
 			"angularVelocity" : 0,
 			"awake" : true,
+			"customProperties" : 
+			[
+				
+				{
+					"int" : 8,
+					"name" : "intProp"
+				},
+				
+				{
+					"name" : "stringProp",
+					"string" : "theGround"
+				},
+				
+				{
+					"bool" : true,
+					"name" : "boolProp"
+				},
+				
+				{
+					"float" : 9.899999618530273,
+					"name" : "floatProp"
+				}
+			],
 			"fixture" : 
 			[
 				
 				{
 					"density" : 1,
-					"friction" : 0.2,
+					"friction" : 0.2000000029802322,
 					"name" : "fixture1",
 					"polygon" : 
 					{
@@ -143,12 +182,20 @@
 							]
 						}
 					},
-					"restitution" : 0.9
+					"restitution" : 0.8999999761581421
 				}
 			],
-			"linearVelocity" : 0,
+			"linearVelocity" : 
+			{
+				"x" : 0,
+				"y" : 0
+			},
 			"name" : "ground",
-			"position" : 0,
+			"position" : 
+			{
+				"x" : 0,
+				"y" : 0
+			},
 			"type" : 0
 		}
 	],
@@ -194,7 +241,7 @@
 	"gravity" : 
 	{
 		"x" : 0,
-		"y" : -10
+		"y" : -10.0
 	},
 	"positionIterations" : 3,
 	"stepsPerSecond" : 60.0,

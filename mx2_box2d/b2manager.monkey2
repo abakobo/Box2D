@@ -282,7 +282,7 @@ Class b2Manager Extends Resource
 		Next
 		If retStack.Length=0
 			#If __DEBUG__
-				Print "Problem... with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
+				Print "No with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
 			#End	
 		End
 		Return retStack
@@ -302,12 +302,14 @@ Class b2Manager Extends Resource
 					#If __DEBUG__
 						Print "body-data "+dataName+" for body "+name+" Is Not a Bool !!!!!!!!!!!!!!!"
 					#End
-				End	
+				End
+			Else
+				retStack.Add(False)	
 			End
 		Next
 		If retStack.Length=0
 			#If __DEBUG__
-				Print "Problem... with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
+				Print "No with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
 			#End
 		End
 		Return retStack
@@ -331,7 +333,7 @@ Class b2Manager Extends Resource
 		End
 		If retStack.Length=0
 			#If __DEBUG__
-				Print "Problem... with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
+				Print "No with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
 			#End	
 		End
 		Return retStack
@@ -354,7 +356,7 @@ Class b2Manager Extends Resource
 		End
 		If retStack.Length=0
 			#If __DEBUG__
-				Print "Problem... with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
+				Print "No with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
 			#End	
 		End
 		Return retStack
@@ -379,13 +381,13 @@ Class b2Manager Extends Resource
 		End
 		If retStack.Length=0
 			#If __DEBUG__
-				Print "Problem... with body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
+				Print "No body-data "+dataName+" for body with name "+name+" !!!!!!!!!!!!!!!"
 			#End	
 		End
 		Return retStack
 	End
 
-'----------------------------
+'---------------------------- Body user data singleton by Name
 	
 	Method GetBodyUserData:StringMap<Variant>(name:String)
 		Local i:=0
@@ -518,6 +520,192 @@ Class b2Manager Extends Resource
 		Return Null
 	
 	End
+	
+	'---------------getbody user data by body--------------------------------------------------------
+	
+	Method GetBodyUserData:StringMap<Variant>(body:b2Body)
+		
+		
+		Local ret:=Cast<StringMap<Variant>>(body.GetUserData())
+		#If __DEBUG__
+			If ret=Null Then Print "Body GetUserData returns Null !!!!!!!!!!!!!!!"
+		#End
+		Return ret
+
+	End
+	
+	Method GetBodyUserData:Variant(body:b2Body,dataName:String)
+		
+		Local data:=GetBodyUserData(body)
+		
+		
+		If data<>Null
+			If data.Contains(dataName)
+				Return data[dataName]
+			Else
+				#If __DEBUG__
+					Print "body has no data called "+dataName+" !!!!!!!!!!!!!!!"
+				#End		
+			End
+		Else
+			#If __DEBUG__
+				Print "body user data is null !!!!!!!!!!!!!!!"
+			#End
+		End
+		
+		Local v:Variant
+		Return v
+
+	End
+	
+	Method GetBodyUserDataToS:String(body:b2Body,dataName:String)
+		
+		Local data:=GetBodyUserData(body)
+		
+		
+		If data<>Null
+			If data.Contains(dataName)
+				If data[dataName].Type.Name="String"
+					Return Cast<String>(data[dataName])
+				Else
+					#If __DEBUG__
+						Print "body data called "+dataName+" is Not a string !!!!!!!!!!!!!!!"
+					#End
+				End
+			Else
+				#If __DEBUG__
+					Print "body has no data called "+dataName+" !!!!!!!!!!!!!!!"
+				#End		
+			End
+		Else
+			#If __DEBUG__
+				Print "body user data is null !!!!!!!!!!!!!!!"
+			#End
+		End
+		
+		Return Null
+
+	End
+	
+	Method GetBodyUserDataToB:Bool(body:b2Body,dataName:String)
+		
+		Local data:=GetBodyUserData(body)
+		
+		
+		If data<>Null
+			If data.Contains(dataName)
+				If data[dataName].Type.Name="Bool"
+					Local v:=data[dataName]
+					Return Cast<Bool>(v)
+				Else
+					#If __DEBUG__
+						Print "body data called "+dataName+" is Not a Bool !!!!!!!!!!!!!!!"
+					#End
+				End
+			Else
+				#If __DEBUG__
+					Print "body has no data called "+dataName+" !!!!!!!!!!!!!!!"
+				#End		
+			End
+		Else
+			#If __DEBUG__
+				Print "body user data is null !!!!!!!!!!!!!!!"
+			#End
+		End
+		
+		Return Null
+
+	End
+	
+	Method GetBodyUserDataToF:Float(body:b2Body,dataName:String)
+		
+		Local data:=GetBodyUserData(body)
+		
+		
+		If data<>Null
+			If data.Contains(dataName)
+				If data[dataName].Type.Name="Float"
+					Return Cast<Float>(data[dataName])
+				Else
+					#If __DEBUG__
+						Print "body data called "+dataName+" is Not a Float !!!!!!!!!!!!!!!"
+					#End
+				End
+			Else
+				#If __DEBUG__
+					Print "body has no data called "+dataName+" !!!!!!!!!!!!!!!"
+				#End		
+			End
+		Else
+			#If __DEBUG__
+				Print "body user data is null !!!!!!!!!!!!!!!"
+			#End
+		End
+		
+		Return Null
+
+	End
+	Method GetBodyUserDataToI:Int(body:b2Body,dataName:String)
+		
+		Local data:=GetBodyUserData(body)
+		
+		
+		If data<>Null
+			If data.Contains(dataName)
+				If data[dataName].Type.Name="Int"
+					Return Cast<Int>(data[dataName])
+				Else
+					#If __DEBUG__
+						Print "body data called "+dataName+" is Not an int !!!!!!!!!!!!!!!"
+					#End
+				End
+			Else
+				#If __DEBUG__
+					Print "body has no data called "+dataName+" !!!!!!!!!!!!!!!"
+				#End		
+			End
+		Else
+			#If __DEBUG__
+				Print "body user data is null !!!!!!!!!!!!!!!"
+			#End
+		End
+		
+		Return Null
+
+	End
+	
+	Method GetBodyUserDataToN:Float(body:b2Body,dataName:String)
+		
+		Local data:=GetBodyUserData(body)
+		
+		If data<>Null
+			If data.Contains(dataName)
+				If data[dataName].Type.Name="Int"
+					Local i:= Cast<Int>(data[dataName])
+					Return i
+				Elseif data[dataName].Type.Name="Float"
+					Return Cast<Float>(data[dataName])
+				Else
+					#If __DEBUG__
+						Print "body data called "+dataName+" is Not a Number (int or float) !!!!!!!!!!!!!!!"
+					#End
+				End
+			Else
+				#If __DEBUG__
+					Print "body has no data called "+dataName+" !!!!!!!!!!!!!!!"
+				#End		
+			End
+		Else
+			#If __DEBUG__
+				Print "body user data is null !!!!!!!!!!!!!!!"
+			#End
+		End
+		
+		Return Null
+
+	End
+	
+	'--------------------Fixtures
 	
 	Method GetFixtures:b2Fixture[](name:String)
 	

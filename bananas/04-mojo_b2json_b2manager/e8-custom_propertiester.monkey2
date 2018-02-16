@@ -58,6 +58,26 @@ Class Box2DgfxTest Extends Window
 		For Local b:=Eachin boolStack
 			Print b
 		Next
+		Print "+++++++++++++++++"
+		Local bod:=physManager.GetBody("ground")
+		Local variantMap:=physManager.GetBodyUserData(bod)
+		Print Cast<String>(variantMap["stringProp"])
+		
+		Local s:String=physManager.GetBodyUserDataToS("ground","stringProp")
+		Print s
+		
+		Local b:Bool=physManager.GetBodyUserDataToB("ground","boolProp")
+		Print b
+		
+		Local f:Float=physManager.GetBodyUserDataToF("ground","floatProp")
+		Print f
+		
+		Local i:Int=physManager.GetBodyUserDataToI("ground","intProp")
+		Print i
+		
+		Local f2:Float=physManager.GetBodyUserDataToN("ground","intProp")
+		Print f2
+		
 		
 	End
 	
