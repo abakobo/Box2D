@@ -980,7 +980,7 @@
 			"linearOffset" : 0,
 			"maxForce" : 38.0,
 			"maxTorque" : 5,
-			"name" : "motorjoint0",
+			"name" : "duoJoint",
 			"refAngle" : 0.8726646304130554,
 			"type" : "motor"
 		},
@@ -1000,7 +1000,7 @@
 			"bodyB" : 20,
 			"maxForce" : 16.0,
 			"maxTorque" : 0.02,
-			"name" : "frictionjoint0",
+			"name" : "duoJoint",
 			"type" : "friction"
 		},
 		

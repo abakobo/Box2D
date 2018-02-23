@@ -434,7 +434,7 @@ Class b2Manager Extends Resource
 		Local retArray:b2JointInfo[]
 		Local jointStack:=New Stack<b2JointInfo>
 		For Local jo:=Eachin jointInfos
-			If jo.name=name
+			If jo.jointName=name
 				jointStack.Add(jo)
 				'Print "Added"
 			End
@@ -451,10 +451,27 @@ Class b2Manager Extends Resource
 	
 	End
 	
+	Method GetJoints:b2Joint[](name:String)
+		
+		Local infArr:=GetJointsInfo(name)
+		If infArr<>Null
+			If infArr.Length>0
+				Local ret:=New b2Joint[infArr.Length]
+				For Local i:=0 Until infArr.Length
+					ret[i]=infArr[i].theb2Joint
+				Next
+				Return ret
+			End
+		End
+		
+		Return Null
+		
+	End
+	
 	Method GetJointInfo:b2JointInfo(name:String)
 
 		For Local jo:=Eachin jointInfos
-			If jo.name=name
+			If jo.jointName=name
 				Return jo
 			End
 			
@@ -475,6 +492,8 @@ Class b2Manager Extends Resource
 		Return info?.theb2Joint
 		
 	End
+	
+	
 	
 
 	
@@ -500,20 +519,24 @@ Class b2Manager Extends Resource
 		Next
 		
 		For Local joInfo:=Eachin jointInfos
-			json.setJointName(joInfo.theb2Joint,joInfo.name)
+			json.setJointName(joInfo.theb2Joint,joInfo.jointName)
 		Next
 		
 		Local strSize:=Getb2dJsonStringSize(world,json)
 		Local jsonCStr:=New char_t[strSize+1]
+		
+		
+		
+		
+		
+		
 		
 		b2dJsonWriteToString_ext(jsonCStr.Data,world,json)
 		
 		'converting the b2djson to string then to mx2JsonObject
 		Local tempJsonFullString:=String.FromCString(jsonCStr.Data)
 		Local mainJsonObj:=JsonObject.Parse(tempJsonFullString)
-		
-		'Print mainJsonObj.ToJson()
-		
+
 		'create an object for images info
 		Local imageJsonArray:=New JsonArray
 		
@@ -555,6 +578,7 @@ Class b2Manager Extends Resource
 		mainJsonObj["image"]=imageJsonArray
 		
 		SaveString(mainJsonObj.ToJson(),path,True)
+		json.Destroy()
 		
 	End
 	

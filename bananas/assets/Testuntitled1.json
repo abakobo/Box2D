@@ -9,30 +9,64 @@
 			"angle" : 0,
 			"angularVelocity" : 0,
 			"awake" : true,
+			"customProperties" : 
+			[
+				
+				{
+					"name" : "theVect",
+					"vec2" : 0
+				}
+			],
 			"fixture" : 
 			[
 				
 				{
-					"circle" : 
-					{
-						"center" : 0,
-						"radius" : 0.5
-					},
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "fixture1"
+					"name" : "fixture1",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : [ 0.5, 0.5, -0.5, -0.5 ],
+							"y" : [ -0.5, 0.5, 0.5, -0.5 ]
+						}
+					}
 				}
 			],
 			"linearVelocity" : 0,
+			"massData-I" : 0.1666666716337204,
+			"massData-mass" : 1,
 			"name" : "body1",
-			"position" : 0,
-			"type" : 0
+			"position" : 
+			{
+				"x" : -1.698412895202637,
+				"y" : 1.793650865554810
+			},
+			"type" : 2
 		},
 		
 		{
 			"angle" : 0,
 			"angularVelocity" : 0,
 			"awake" : true,
+			"customProperties" : 
+			[
+				
+				{
+					"int" : 7,
+					"name" : "theInt"
+				},
+				
+				{
+					"name" : "theVect",
+					"vec2" : 
+					{
+						"x" : 5.2,
+						"y" : 63.0
+					}
+				}
+			],
 			"fixture" : 
 			[
 				
@@ -48,15 +82,9 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"massData-I" : 0.09817477315664291,
-			"massData-mass" : 0.7853981852531433,
 			"name" : "body0",
-			"position" : 
-			{
-				"x" : 1.394422292709351,
-				"y" : -0.7702522873878479
-			},
-			"type" : 2
+			"position" : 0,
+			"type" : 0
 		}
 	],
 	"collisionbitplanes" : 
@@ -103,30 +131,6 @@
 		"x" : 0,
 		"y" : -10
 	},
-	"joint" : 
-	[
-		
-		{
-			"anchorA" : 0,
-			"anchorB" : 
-			{
-				"x" : -1.394420027732849,
-				"y" : 0.7702519893646240
-			},
-			"bodyA" : 0,
-			"bodyB" : 1,
-			"enableLimit" : false,
-			"enableMotor" : false,
-			"jointSpeed" : 0,
-			"lowerLimit" : 0,
-			"maxMotorTorque" : 0,
-			"motorSpeed" : 0,
-			"name" : "joint0",
-			"refAngle" : 0,
-			"type" : "revolute",
-			"upperLimit" : 0
-		}
-	],
 	"positionIterations" : 3,
 	"stepsPerSecond" : 60.0,
 	"subStepping" : false,

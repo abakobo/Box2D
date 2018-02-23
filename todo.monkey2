@@ -1,8 +1,9 @@
 doing:
 
-ajouter joints sans nom dans getfixturemap pour jsonifier les custom properties dans l ordre (fait?)
 
-ajouter GetJoints
+ajouter vec2 à custom properties
+
+Save body/fixture/joints user data/Custom properties dans b2manager
 
 
 TODO
@@ -10,7 +11,6 @@ TODO
 b2json:
 --------
 
-Save body user data/Custom properties dans b2manager
 
 AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
 

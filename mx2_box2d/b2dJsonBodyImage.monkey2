@@ -182,6 +182,17 @@ Function GetCustomPropertiesFromJsonArray:StringMap<Variant>(imgval:std.json.Jso
 			Local s:=custoArrElemObj["string"].ToString()
 			Local n:=custoArrElemObj["name"].ToString()
 			custoFixMap[n]=s
+		Elseif custoArrElemObj["vec2"]
+			If custoArrElemObj["vec2"].IsObject
+				Local vObj:=custoArrElemObj["vec2"].ToObject()
+				Local x:=vObj["x"].ToNumber()
+				Local y:=vObj["y"].ToNumber()
+				Local n:=custoArrElemObj["name"].ToString()
+				custoFixMap[n]=New Vec2f(x,y)
+			Elseif custoArrElemObj["vec2"].IsNumber
+				Local n:=custoArrElemObj["name"].ToString()
+				custoFixMap[n]=New Vec2f(0,0)
+			End
 		Elseif custoArrElemObj["bool"]
 			Local b:=custoArrElemObj["bool"].ToBool()
 			Local n:=custoArrElemObj["name"].ToString()

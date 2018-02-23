@@ -14,134 +14,9 @@ Using box2d..
 Class b2JointInfo
 	Field theb2Joint:b2Joint
 '	Field jointObject:Variant
-	Field name:String
-	Field type:String
+	Field jointName:String
+	Field jointType:String
 	Field jointUserData:StringMap<Variant>
-	
-	Method PassJoint(ret:b2DistanceJoint)
-		
-		Local jType:="distance"
-		If type=jType
-			ret=b2JointTob2DistanceJoint(theb2Joint)
-		Else
-			#If __DEBUG__
-				Print "PassJoint() error: Distance wrong joint return type, returning Null!!!!!!!"
-				ret=Null
-			#End
-		End
-	End
-
-	Method PassJoint(ret:b2FrictionJoint)
-		If type="friction"
-			ret=b2JointTob2FrictionJoint(theb2Joint)
-		Else
-			#If __DEBUG__
-				Print "PassJoint() error: Friction wrong joint return type, returning Null!!!!!!!"
-				ret=Null
-			#End
-		End
-	End
-	
-	Method PassJoint(ret:b2GearJoint)
-
-		Local jType:="gear"
-		If type=jType
-			ret=b2JointTob2GearJoint(theb2Joint)
-		Else
-			#If __DEBUG__
-				Print "PassJoint() error: Gear wrong joint return type, returning Null!!!!!!!"
-				ret=Null
-			#End
-		End
-	End
-	
-	Method PassJoint(ret:b2MotorJoint)
-		If type="motor"
-			ret=b2JointTob2MotorJoint(theb2Joint)
-		Else
-			#If __DEBUG__
-				Print "PassJoint() error: Motor wrong joint return type, returning Null!!!!!!!"
-				ret=Null
-			#End
-		End
-	End
-
-	Method PassJoint(ret:b2MouseJoint)
-		If type="mouse"
-			ret=b2JointTob2MouseJoint(theb2Joint)
-		Else
-			#If __DEBUG__
-				Print "PassJoint() error: Mouse wrong joint return type, returning Null!!!!!!!"
-				ret=Null
-			#End
-		End
-	End
-	
-	Method PassJoint(ret:b2PrismaticJoint)
-		If type="prismatic"
-			ret=b2JointTob2PrismaticJoint(theb2Joint)
-		Else
-			#If __DEBUG__
-				Print "PassJoint() error: Prismatic wrong joint return type, returning Null!!!!!!!"
-				ret=Null
-			#End
-		End
-	End
-
-	Method PassJoint(ret:b2PulleyJoint)
-		If type="pulley"
-			ret=b2JointTob2PulleyJoint(theb2Joint)
-		Else
-			#If __DEBUG__
-				Print "PassJoint() error: Pulley wrong joint return type, returning Null!!!!!!!"
-				ret=Null
-			#End
-		End
-	End
-	
-	Method PassJoint(ret:b2RevoluteJoint)
-		If type="revolute"
-			ret=b2JointTob2RevoluteJoint(theb2Joint)
-		Else
-			#If __DEBUG__
-				Print "PassJoint() error: Revolute wrong joint return type, returning Null!!!!!!!"
-				ret=Null
-			#End
-		End
-	End
-	
-	Method PassJoint(ret:b2RopeJoint)
-		If type="rope"
-			ret=b2JointTob2RopeJoint(theb2Joint)
-		Else
-			#If __DEBUG__
-				Print "PassJoint() error: Rope wrong joint return type, returning Null!!!!!!!"
-				ret=Null
-			#End
-		End
-	End
-
-	Method PassJoint(ret:b2WeldJoint)
-		If type="weld"
-			ret=b2JointTob2WeldJoint(theb2Joint)
-		Else
-			#If __DEBUG__
-				Print "PassJoint() error: Weld wrong joint return type, returning Null!!!!!!!"
-				ret=Null
-			#End
-		End
-	End
-	
-	Method PassJoint(ret:b2WheelJoint)
-		If type="wheel"
-			ret=b2JointTob2WheelJoint(theb2Joint)
-		Else
-			#If __DEBUG__
-				Print "PassJoint() error: Wheel wrong joint return type, returning Null!!!!!!!"
-				ret=Null
-			#End
-		End
-	End
 	
 End
 
@@ -163,8 +38,8 @@ Function Createb2JointInfoStack:Stack<b2JointInfo> (world:b2World,path:String)',
 	For Local i:=jointNameTypeInfStack.Length-1 To 0 Step -1
 		
 			Local ji:=New b2JointInfo
-			ji.name=jointNameTypeInfStack[i].name
-			ji.type=jointNameTypeInfStack[i].type
+			ji.jointName=jointNameTypeInfStack[i].jointName
+			ji.jointType=jointNameTypeInfStack[i].jointType
 			jointNameTypeInfStack[i].jointUserData["b2ManagerJointInfo"]=ji
 			ji.jointUserData=jointNameTypeInfStack[i].jointUserData
 			ji.theb2Joint=currentJoint
@@ -250,8 +125,8 @@ Function GetJointNameTypeStack:Stack<b2JointInfo>(lobj:JsonObject)
 					
 					If typval.IsString
 						Local tis:=New b2JointInfo
-						tis.name=tempJointName
-						tis.type=typval.ToString()
+						tis.jointName=tempJointName
+						tis.jointType=typval.ToString()
 						tis.jointUserData=tempCustoMap
 						jointInfStack.Add(tis)
 					Else 

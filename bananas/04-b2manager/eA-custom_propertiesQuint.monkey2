@@ -46,7 +46,9 @@ Class Box2DgfxTest Extends Window
 		Print physManager.GetJoint("pulleyjoint0").GetUserDataToS("jointString")
 		Print physManager.GetJoint("gearjoint0").GetUserDataToS("jointString")
 		
-		Print physManager.GetJoint("gearjoint0").GetUserDataJointInfo().name
+		Print physManager.GetJoint("gearjoint0").GetUserDataJointInfo().jointName
+		
+	
 		
 		
 		Local gj:=physManager.GetJoint("ropejoint0").ToRope()
@@ -55,6 +57,15 @@ Class Box2DgfxTest Extends Window
 		Print gj.GetUserDataToS("jointString")
 		
 		physManager.GetJoint("gearjoint0").ToGear().SetRatio(17)
+		
+		Print "*********"
+		
+		Local jar:=physManager.GetJoints("duoJoint")
+		For Local j:=Eachin jar
+			Print j.GetUserDataJointInfo().jointType
+		Next
+		
+		
 		
 		
 	End
@@ -71,7 +82,12 @@ Class Box2DgfxTest Extends Window
 		physManager.DrawBodies(canvas)
 		canvas.PopMatrix()
 		
-		canvas.DrawText("Blah",5,35)
+		canvas.DrawText("s to save",5,35)
+		
+		If Keyboard.KeyPressed(Key.S|Key.Raw)
+			Local savePath:=RequestFile( "Save b2dJson","Json files:json",True )
+			physManager.Save(savePath)
+		End
 		
 	End
 End

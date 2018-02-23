@@ -29,7 +29,7 @@ Class b2Body Extension
 	
 		End
 		
-		Method GetUserDataToV:Variant(dataName:String)
+		Method GetUserDataToVar:Variant(dataName:String)
 			
 			Local data:=Self.GetUserDataToMap()
 			
@@ -223,6 +223,40 @@ Class b2Body Extension
 			Return Null
 	
 		End
+		
+		Method GetUserDataToVec:String(dataName:String)
+		
+			Local data:=Self.GetUserDataToMap()
+		
+		
+			If data<>Null
+				If data.Contains(dataName)
+					'creating a vec2f To test the vec2f type
+					Local testVec2f:=New Vec2f(1,1)
+					Local testVariant:Variant=testVec2f
+					
+					If data[dataName].Type=testVariant.Type
+						Return Cast<Vec2f>(data[dataName])
+					Else
+						#If __DEBUG__
+							Print "Joint data called "+dataName+" is Not a Vec2f !!!!!!!!!!!!!!!"
+						#End
+					End
+				Else
+					#If __DEBUG__
+						Print "Joint has no data called "+dataName+" !!!!!!!!!!!!!!!"
+					#End		
+				End
+			Else
+				#If __DEBUG__
+					Print "Joint user data is null !!!!!!!!!!!!!!!"
+				#End
+			End
+		
+			Return Null
+		
+		End
+		
 End
 
 Class b2Fixture Extension
@@ -237,7 +271,7 @@ Class b2Fixture Extension
 
 	End
 
-	Method GetUserDataToV:Variant(dataName:String)
+	Method GetUserDataToVar:Variant(dataName:String)
 		
 		Local data:=Self.GetUserDataToMap()
 		
@@ -427,6 +461,39 @@ Class b2Fixture Extension
 		Return Null
 
 	End
+	
+	Method GetUserDataToVec:String(dataName:String)
+	
+		Local data:=Self.GetUserDataToMap()
+	
+	
+		If data<>Null
+			If data.Contains(dataName)
+				'creating a vec2f To test the vec2f type
+				Local testVec2f:=New Vec2f(1,1)
+				Local testVariant:Variant=testVec2f
+				
+				If data[dataName].Type=testVariant.Type
+					Return Cast<Vec2f>(data[dataName])
+				Else
+					#If __DEBUG__
+						Print "Joint data called "+dataName+" is Not a Vec2f !!!!!!!!!!!!!!!"
+					#End
+				End
+			Else
+				#If __DEBUG__
+					Print "Joint has no data called "+dataName+" !!!!!!!!!!!!!!!"
+				#End		
+			End
+		Else
+			#If __DEBUG__
+				Print "Joint user data is null !!!!!!!!!!!!!!!"
+			#End
+		End
+	
+		Return Null
+	
+	End
 
 End
 
@@ -443,7 +510,7 @@ Class b2Joint Extension
 
 	End
 	
-		Method GetUserDataToV:Variant(dataName:String)
+		Method GetUserDataToVar:Variant(dataName:String)
 			
 			Local data:=Self.GetUserDataToMap()
 			
@@ -632,6 +699,39 @@ Class b2Joint Extension
 			
 			Return Null
 	
+		End
+		
+		Method GetUserDataToVec:String(dataName:String)
+		
+			Local data:=Self.GetUserDataToMap()
+		
+		
+			If data<>Null
+				If data.Contains(dataName)
+					'creating a vec2f To test the vec2f type
+					Local testVec2f:=New Vec2f(1,1)
+					Local testVariant:Variant=testVec2f
+					
+					If data[dataName].Type=testVariant.Type
+						Return Cast<Vec2f>(data[dataName])
+					Else
+						#If __DEBUG__
+							Print "Joint data called "+dataName+" is Not a Vec2f !!!!!!!!!!!!!!!"
+						#End
+					End
+				Else
+					#If __DEBUG__
+						Print "Joint has no data called "+dataName+" !!!!!!!!!!!!!!!"
+					#End		
+				End
+			Else
+				#If __DEBUG__
+					Print "Joint user data is null !!!!!!!!!!!!!!!"
+				#End
+			End
+		
+			Return Null
+		
 		End
 
 End
