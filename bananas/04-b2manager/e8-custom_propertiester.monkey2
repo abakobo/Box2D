@@ -24,10 +24,10 @@ Class Box2DgfxTest Extends Window
 		'------- Initialising b2Manager (the world and all the stuff associated wth the Json) 
 		physManager=New b2Manager("asset::custom_prop2.json")
 		
-
+#rem
 		Print "+++++++++++++++++"
 		Local bod:=physManager.GetBody("ground")
-		Local variantMap:=physManager.GetBodyUserData(bod)
+		Local variantMap:=physManager.GetBodyUserDataToM(bod)
 		Print Cast<String>(variantMap["stringProp"])
 		
 		Local s:String=physManager.GetBodyUserDataToS(bod,"stringProp")
@@ -44,6 +44,16 @@ Class Box2DgfxTest Extends Window
 		
 		Local f2:Float=physManager.GetBodyUserDataToN(bod,"intProp")
 		Print f2
+#end
+		
+		
+		
+		'OOP approach
+		Print physManager.GetBody("ground").GetUserDataToS("stringProp")
+		
+		Print physManager.GetBody("ground").GetUserDataBodyInfo().bodyName
+
+		
 		
 		
 	End

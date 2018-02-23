@@ -22,14 +22,6 @@
 #include "Box2D/Dynamics/Contacts/b2Contact.h"
 #include "Box2D/Dynamics/Joints/b2Joint.h"
 
-b2Body::b2Body(){
- //int i;
- //int j;
- //i=2;
- //j=3;
- //i=i+j;
-}  //for mx2 compatibility
-
 b2Body::b2Body(const b2BodyDef* bd, b2World* world)
 {
 	b2Assert(bd->position.IsValid());
@@ -117,8 +109,6 @@ b2Body::~b2Body()
 {
 	// shapes and joints are destroyed in b2World::Destroy
 }
-
-
 
 void b2Body::SetType(b2BodyType type)
 {

@@ -390,10 +390,8 @@ public:
 	void Dump();
 	
 	/// destructor is private in original box2d!!!!! Don't use it!!!!!
-	~b2Body();
-	/// constructors are private in original box2d!!!!! Don't use it!!!!!
-	b2Body();
-	b2Body(const b2BodyDef* bd, b2World* world);
+
+
 	private:
 
 	friend class b2World;
@@ -426,7 +424,8 @@ public:
 		e_toiFlag			= 0x0040
 	};
 
-
+	b2Body(const b2BodyDef* bd, b2World* world);
+	~b2Body();
 
 	void SynchronizeFixtures();
 	void SynchronizeTransform();

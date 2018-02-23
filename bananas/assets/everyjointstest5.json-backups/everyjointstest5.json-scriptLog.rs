@@ -1,10 +1,29 @@
-//Started script log at 01/29/18 21:57:00
+//Started script log at 02/22/18 22:42:19
 
-getJoint(5).select();
-getJoint(5).deselect();
-getJoint(11).select();
-getJoint(11).deselect();
-getJoint(11).select();
+getVertex(2,0).select();
+getJoint(2).select();
+getJoint(2).deselect();
 getJoint(7).select();
-getJoint(11).deselect();
 getJoint(7).deselect();
+getJoint(11).select();
+addCustomProperty('joint','jointString','jointString','string');
+getJoint(11).setCustomString('jointString','ImaPulley');
+getJoint(11).deselect();
+getJoint(1).select();
+getJoint(1).setCustomString('jointString','ImaGear');
+getJoint(6).select();
+getJoint(1).deselect();
+getJoint(6).setCustomString('jointString','ImaRope');
+getBody(15).select();
+getJoint(6).deselect();
+getJoint(4).select();
+getJoint(4).setName("");
+getJoint(4).deselect();
+getJoint(9).select();
+getBody(15).deselect();
+getBody(7).select();
+getBody(7).deselect();
+getBody(8).select();
+getBody(8).deselect();
+getBody(9).select();
+getBody(9).setBullet(2);

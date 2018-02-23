@@ -1,0 +1,37 @@
+//Started script log at 02/20/18 22:58:53
+
+getFixture(4).select();
+addCustomProperty('fixture','theString','theString','string');
+getFixture(4).setCustomString('theString','one');
+getFixture(4).deselect();
+getFixture(5).select();
+getFixture(5).setCustomString('theString','two');
+getFixture(5).deselect();
+getFixture(1).select();
+getFixture(1).setCustomString('theString','zero');
+getFixture(1).deselect();
+getFixture(2).select();
+getFixture(2).setCustomString('theString','three');
+getFixture(2).deselect();
+getFixture(3).select();
+getFixture(3).setCustomString('theString','oupsy');
+getFixture(3).deselect();
+getFixture(1).select();
+getFixture(1).deselect();
+getFixture(5).select();
+getFixture(5).deselect();
+getFixture(4).select();
+getFixture(4).deselect();
+getFixture(2).select();
+getFixture(2).deselect();
+getFixture(3).select();
+getFixture(3).deselect();
+getFixture(2).select();
+addCustomProperty('fixture','mechant','mechant','bool');
+getFixture(2).setCustomBool('mechant',1);
+getBody(3).select();
+getBody(2).select();
+addJoint(1, '{"type":"weld","bodyA":3,"bodyB":2,"anchorA":{"x":0.936508,"y":-1.7619},"anchorB":{"x":-1.34921,"y":-1.90476}}');
+getBody(2).deselect();
+getBody(3).deselect();
+getBody(2).select();

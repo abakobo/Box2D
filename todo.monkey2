@@ -1,7 +1,9 @@
 doing:
 
-getbodyuserddata(body,dataName)
-b2Manager line527 (refaire perdu!)
+ajouter joints sans nom dans getfixturemap pour jsonifier les custom properties dans l ordre (fait?)
+
+ajouter GetJoints
+
 
 TODO
 -----
@@ -19,13 +21,13 @@ offest json existing world dans mx2b2json et b2Manager
 checker que imageWorldPosition fonctionne correc avec yAxisInvert=False  checker avec draw bodies aussi...
 donc faire un exemple yaxisNonInversé avec images!
 
-ajouter velocityiteration etc.. Est-ce que y a moyen de changer ça dans RUBE? -> question posée.
+ajouter joints/fixtures getuserDataToX comme GetBodiesUserDataToX?
 
 cleanup the mess!:
 	-virer b2djsonImage
 	-virer cpp fileio et bitmap render...
 	
-
+remplacer If debug prints par assert? Bof
 
 trouver ce qui Print du vide dans e0-load_delete -->seulement en debug donc +-ok
 
@@ -50,7 +52,7 @@ pure box2d:
 
 créer resource Extends pour gérer les call backs?
 
-checker que Double dans b2vec2 extensions fait pas ralentir
+checker que Double dans b2vec2 extensions fait pas ralentir->mieux d'être en float pour tout le monde le même
 
 fixture getAABB pour prob de non ref based Var avec & (voir box2d.monkey2)
 

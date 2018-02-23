@@ -12,7 +12,7 @@
 * in a product, an acknowledgment in the product documentation would be
 * appreciated but is not required.
 * 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
+* misrepresented as being the original software. THIS IS AN ALTERDER VERSION!!! (for monkey2 wrapping)
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
@@ -178,6 +178,11 @@ void b2Joint::Destroy(b2Joint* joint, b2BlockAllocator* allocator)
 		b2Assert(false);
 		break;
 	}
+}
+
+b2Joint::b2Joint()
+{
+// nothing here just for mx2 compatibility
 }
 
 b2Joint::b2Joint(const b2JointDef* def)

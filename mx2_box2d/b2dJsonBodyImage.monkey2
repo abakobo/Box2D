@@ -17,48 +17,29 @@ Using box2d..
 '
 '------------------
 
-Struct b2FixtureInfo
+Class b2FixtureInfo
 	Field name:String
 	Field fixture:b2Fixture
+	Field fixtureUserData:StringMap<Variant>
 End
 
-Function Createb2FixtureInfoStack:Stack<b2FixtureInfo> (world:b2World,path:String,b2json:b2dJson)
+
+Function Createb2FixtureInfoStack:Stack<b2FixtureInfo> (world:b2World,path:String)
 	'-----------------------------------------------------named_fixtures
 	Local retStack:=New Stack<b2FixtureInfo>
-	Local json:=JsonObject.Load( path )
-	Local fixtureNameStack:=GetFixtureNameStack(json)
-	
-	For Local fixtureNameStr:=Eachin fixtureNameStack
-			
-			Local fixturesArr:= GetFixturesByName(b2json , fixtureNameStr)
-			If fixturesArr.Length>0
-				For Local i:=0 Until fixturesArr.Length
-					
-					Local inf:=New b2FixtureInfo()
-					
-					inf.name=fixtureNameStr
-					inf.fixture=fixturesArr[i]
-					
-					retStack.Add(inf)
-					
-				Next
-			End
-			
-	Next
-	
-	Return retStack
-	
-End
-
-Function GetFixtureNameStack:StringStack(lobj:JsonObject)
+	Local lobj:=JsonObject.Load( path )
 	
 	Local fixList:=New StringStack()
+	
+	Local custoStaMap:=New Stack<StringMap<Variant>>
 	
 	If lobj["body"]
 		
 		Local imgval:=lobj["body"]
 		Local imgarr:=imgval.ToArray() 
 		Local imgArraySize:=imgarr.Length
+		
+		Local noNameCount:=0
 
 		For Local i:=0 Until imgArraySize
 			Local imgarrelem:=imgarr[i]
@@ -88,9 +69,38 @@ Function GetFixtureNameStack:StringStack(lobj:JsonObject)
 								End
 							End
 						Else
+							fixList.Add("noNameFixture"+noNameCount)
 							#If __DEBUG__
-								Print "a fixture in body "+i+" has no name! => Not added to fixture info array" 
+								Print "a fixture in body "+i+" has no name! => renamed noNameFixture"+noNameCount 
 							#End	
+							noNameCount+=1
+						End
+						If fixObj["customProperties"]
+						
+							Local imgval:=fixObj["customProperties"]
+							Print "yo?"
+							If imgval.IsArray 
+								Print "ya!"
+								Print imgval.ToArray().Length
+								Local cp:=GetCustomPropertiesFromJsonArray(imgval)
+								
+								custoStaMap.Add(cp)
+						
+							Else 
+								#If __DEBUG__
+									Print "Fixture "+i+" custom properties is not an array" 
+								#End
+								
+								custoStaMap.Add(New StringMap<Variant>)
+									
+							End			
+						Else
+							'#If __DEBUG__
+							'	Print "no custom properties for Fixture "+i+" in json !!!!!!!!!"
+							'#End
+							
+							custoStaMap.Add(New StringMap<Variant>)
+							
 						End
 					Next
 					
@@ -101,7 +111,7 @@ Function GetFixtureNameStack:StringStack(lobj:JsonObject)
 				End			
 			Else
 				#If __DEBUG__
-					Print "no 'body/fixture' value in json, body without fixture?"
+					Print "no 'body->fixture' value in json, body without fixture?"
 				#End
 			End
 		Next
@@ -112,9 +122,85 @@ Function GetFixtureNameStack:StringStack(lobj:JsonObject)
 		#End
 	End
 	
-	Return fixList
+	Local fixtureNameStack:=fixList 'the function has been inserted/returned here
+	
+	Local currentBody:=world.GetBodyList()
+	Local currentFixt:=currentBody.GetFixtureList()
+	
+	For Local i:=fixtureNameStack.Length-1 To 0 Step -1
+		
+		Local fixtureNameStr:=fixtureNameStack[i]
+		While currentFixt=Null And currentBody<>Null
+			
+			currentBody=currentBody.GetNext()
+			If currentBody<>Null
+				currentFixt=currentBody.GetFixtureList()
+			End
+			
+		Wend
+		
+		If currentBody<>Null And currentFixt<>Null
+			
+			Local inf:=New b2FixtureInfo()
+			
+			inf.name=fixtureNameStr
+			inf.fixture=currentFixt
+			inf.fixtureUserData=custoStaMap[i]
+			inf.fixtureUserData["b2ManagerFixtureInfo"]=inf
+			currentFixt.SetUserData(Cast<Void Ptr>(inf.fixtureUserData))
+			retStack.Add(inf)
+			
+		End
+		
+		currentFixt=currentFixt.GetNext()
+		
+	Next
+	
+	Return retStack
 	
 End
+
+
+Function GetCustomPropertiesFromJsonArray:StringMap<Variant>(imgval:std.json.JsonValue)
+	Local custoArr:=imgval.ToArray()
+	Local custoArraySize:=custoArr.Length
+	Local custoFixMap:=New StringMap<Variant>
+	
+	For Local j:=0 Until custoArraySize
+		
+		Local custoArrElemObj:=custoArr[j].ToObject()
+	
+		If custoArrElemObj["float"]
+			Local f:Float=custoArrElemObj["float"].ToNumber()
+			Local n:=custoArrElemObj["name"].ToString()
+			custoFixMap[n]=f
+		Elseif custoArrElemObj["int"]
+			Local inte:Int=custoArrElemObj["int"].ToNumber()
+			Local n:=custoArrElemObj["name"].ToString()
+			custoFixMap[n]=inte
+		Elseif custoArrElemObj["string"]
+			Local s:=custoArrElemObj["string"].ToString()
+			Local n:=custoArrElemObj["name"].ToString()
+			custoFixMap[n]=s
+		Elseif custoArrElemObj["bool"]
+			Local b:=custoArrElemObj["bool"].ToBool()
+			Local n:=custoArrElemObj["name"].ToString()
+			custoFixMap[n]=b	
+		Else
+			#If __DEBUG__
+				Print "only int, float, bool and string accepted for body custom properties" 
+			#End				
+		Endif
+	
+	Next 'j
+	
+	Return custoFixMap
+	
+End
+
+
+
+
 
 '--------------------------------------------------------
 '
@@ -221,13 +307,15 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 	For Local i:=0 Until bodyCount
 		If custoMaMap.Contains(i)
 			
-		ret[i].bodyUserData=custoMaMap[i]
+			ret[i].bodyUserData=custoMaMap[i]
 		
 
 		Else
 			ret[i].bodyUserData=New StringMap<Variant>
 
 		End
+		
+		ret[i].bodyUserData["b2ManagerBodyInfo"]=ret[i]
 		
 		ret[i].body.SetUserData(Cast<Void Ptr>(ret[i].bodyUserData))
 
@@ -292,9 +380,9 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 		ret[i].imageWorldHeight=heightMap[bodyToImageMap[i]]
 		Else
 			ret[i].imageWorldHeight=1
-			#If __DEBUG__
-				Print "WorldHeight body "+i+" has no image/file"
-			#End
+			'#If __DEBUG__
+			'	Print "WorldHeight body "+i+" has no image/file"
+			'#End
 		End
 	Next
 	'---------------------- generating render scale
@@ -478,50 +566,24 @@ Function GetBodyCustoMaMap:IntMap<StringMap<Variant>>(lobj:JsonObject)
 				
 				If imgval.IsArray 
 				
-					Local custoArr:=imgval.ToArray()
-					Local custoArraySize:=custoArr.Length
 					
-					Local custoBodMap:=New StringMap<Variant>
 					
-					For Local j:=0 Until custoArraySize
-						
-						Local custoArrElemObj:=custoArr[j].ToObject()
-						
-						If custoArrElemObj["float"]
-							Local f:Float=custoArrElemObj["float"].ToNumber()
-							Local n:=custoArrElemObj["name"].ToString()
-							custoBodMap[n]=f
-						Elseif custoArrElemObj["int"]
-							Local inte:Int=custoArrElemObj["int"].ToNumber()
-							Local n:=custoArrElemObj["name"].ToString()
-							custoBodMap[n]=inte
-						Elseif custoArrElemObj["string"]
-							Local s:=custoArrElemObj["string"].ToString()
-							Local n:=custoArrElemObj["name"].ToString()
-							custoBodMap[n]=s
-						Elseif custoArrElemObj["bool"]
-							Local b:=custoArrElemObj["bool"].ToBool()
-							Local n:=custoArrElemObj["name"].ToString()
-							custoBodMap[n]=b	
-						Else
-							#If __DEBUG__
-								Print "only int, float, bool and string accepted for body custom properties" 
-							#End				
-						Endif
-						
-					Next 'j
+					Local custoBodMap:=GetCustomPropertiesFromJsonArray(imgval)
+					
+
 					
 					custoMaMap[i]=custoBodMap
 					
 				Else 
 					#If __DEBUG__
 						Print "Body "+i+" custom properties is not an array" 
-					#End	
+					#End
+					custoMaMap[i]=New StringMap<Variant>
 				End			
 			Else
-				#If __DEBUG__
-					Print "no 'body/custom properties for body "+i+" in json !!!!!!!!!"
-				#End
+				'#If __DEBUG__
+				'	Print "no 'body/custom properties for body "+i+" in json !!!!!!!!!"
+				'#End
 			End
 		Next
 

@@ -1836,6 +1836,13 @@ Struct b2Vec2 Extension
 	
 End
 
+
+'
+'
+'
+'
+'
+
 '--------------------
 '
 ' Convenience ready to use callback classes and aabb extension
@@ -1893,5 +1900,6 @@ Class ClosestRayCallBack Extends b2RayCastCallback
 		Return fraction
 	End
 End
+
 
 
