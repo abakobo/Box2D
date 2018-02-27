@@ -18,7 +18,7 @@ Using box2d..
 '------------------
 
 Class b2FixtureInfo
-	Field name:String
+	Field fixtureName:String
 	Field fixture:b2Fixture
 	Field fixtureUserData:StringMap<Variant>
 End
@@ -143,7 +143,7 @@ Function Createb2FixtureInfoStack:Stack<b2FixtureInfo> (world:b2World,path:Strin
 			
 			Local inf:=New b2FixtureInfo()
 			
-			inf.name=fixtureNameStr
+			inf.fixtureName=fixtureNameStr
 			inf.fixture=currentFixt
 			inf.fixtureUserData=custoStaMap[i]
 			inf.fixtureUserData["b2ManagerFixtureInfo"]=inf

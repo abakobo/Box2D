@@ -257,6 +257,10 @@ Class b2Body Extension
 		
 		End
 		
+		Method GetName:String()
+			Return Self?.GetUserDataBodyInfo()?.bodyName
+		End
+		
 End
 
 Class b2Fixture Extension
@@ -494,6 +498,8 @@ Class b2Fixture Extension
 		Return Null
 	
 	End
+	
+
 
 End
 

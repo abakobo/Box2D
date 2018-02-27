@@ -16,19 +16,19 @@
 					"circle" : 
 					{
 						"center" : 0,
-						"radius" : 0.5
+						"radius" : 0.50
 					},
 					"density" : 1,
-					"friction" : 0.2,
-					"name" : "fixture0"
+					"friction" : 0.2000000029802322,
+					"name" : "fixture5"
 				}
 			],
 			"linearVelocity" : 0,
-			"name" : "body6",
+			"name" : "body5",
 			"position" : 
 			{
-				"x" : 6.380949974060059,
-				"y" : 0.01587310060858727
+				"x" : 5.285709857940674,
+				"y" : 0.04761889949440956
 			},
 			"type" : 0
 		},
@@ -44,11 +44,11 @@
 					"circle" : 
 					{
 						"center" : 0,
-						"radius" : 0.5
+						"radius" : 0.50
 					},
 					"density" : 1,
-					"friction" : 0.2,
-					"name" : "fixture0"
+					"friction" : 0.2000000029802322,
+					"name" : "fixture4"
 				}
 			],
 			"linearVelocity" : 0,
@@ -72,19 +72,19 @@
 					"circle" : 
 					{
 						"center" : 0,
-						"radius" : 0.5
+						"radius" : 0.50
 					},
 					"density" : 1,
-					"friction" : 0.2,
-					"name" : "fixture0"
+					"friction" : 0.2000000029802322,
+					"name" : "fixture6"
 				}
 			],
 			"linearVelocity" : 0,
-			"name" : "body5",
+			"name" : "body6",
 			"position" : 
 			{
-				"x" : 5.285709857940674,
-				"y" : 0.04761889949440956
+				"x" : 6.380949974060059,
+				"y" : 0.01587310060858727
 			},
 			"type" : 0
 		}
@@ -131,14 +131,14 @@
 	"gravity" : 
 	{
 		"x" : 0,
-		"y" : -10
+		"y" : -10.0
 	},
 	"image" : 
 	[
 		
 		{
 			"aspectScale" : 1,
-			"body" : 0,
+			"body" : 2,
 			"center" : 
 			{
 				"x" : 0.03174781799316406,
@@ -164,7 +164,7 @@
 			"file" : "images/tire.png",
 			"filter" : 1,
 			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
-			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0 ],
 			"glVertexPointer" : 
 			[
 				-0.4682521820068359,
@@ -177,7 +177,52 @@
 				1.690476059913635
 			],
 			"name" : "image5",
-			"opacity" : 0.5,
+			"opacity" : 0.50,
+			"scale" : 1
+		},
+		
+		{
+			"aspectScale" : 1,
+			"body" : 0,
+			"center" : 
+			{
+				"x" : -0.03174448013305664,
+				"y" : 1.126984357833862
+			},
+			"corners" : 
+			{
+				"x" : 
+				[
+					-0.5215404033660889,
+					0.4580514430999756,
+					0.4580514430999756,
+					-0.5215404033660889
+				],
+				"y" : 
+				[
+					0.6269843578338623,
+					0.6269843578338623,
+					1.626984357833862,
+					1.626984357833862
+				]
+			},
+			"file" : "images/bikerearwheel.png",
+			"filter" : 1,
+			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0 ],
+			"glVertexPointer" : 
+			[
+				-0.5215404033660889,
+				0.6269843578338623,
+				0.4580514430999756,
+				0.6269843578338623,
+				0.4580514430999756,
+				1.626984357833862,
+				-0.5215404033660889,
+				1.626984357833862
+			],
+			"name" : "image1",
+			"opacity" : 0.50,
 			"scale" : 1
 		},
 		
@@ -209,7 +254,7 @@
 			"file" : "images/drivewheel.bmp",
 			"filter" : 1,
 			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
-			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0 ],
 			"glVertexPointer" : 
 			[
 				-0.3571414947509766,
@@ -222,53 +267,51 @@
 				1.690475940704346
 			],
 			"name" : "image4",
-			"opacity" : 0.5,
+			"opacity" : 0.50,
 			"scale" : 1
+		}
+	],
+	"joint" : 
+	[
+		
+		{
+			"anchorA" : 
+			{
+				"x" : 0.5413780212402344,
+				"y" : 0.001693349331617355
+			},
+			"anchorB" : 
+			{
+				"x" : -0.5538620948791504,
+				"y" : 0.03343909978866577
+			},
+			"bodyA" : 0,
+			"bodyB" : 2,
+			"dampingRatio" : 0,
+			"frequency" : 0,
+			"name" : "joint5",
+			"refAngle" : 0,
+			"type" : "weld"
 		},
 		
 		{
-			"aspectScale" : 1,
-			"body" : 2,
-			"center" : 
+			"anchorA" : 
 			{
-				"x" : -0.03174448013305664,
-				"y" : 1.126984357833862
+				"x" : 0.5593128204345703,
+				"y" : -0.003756746649742127
 			},
-			"corners" : 
+			"anchorB" : 
 			{
-				"x" : 
-				[
-					-0.5215404033660889,
-					0.4580514430999756,
-					0.4580514430999756,
-					-0.5215404033660889
-				],
-				"y" : 
-				[
-					0.6269843578338623,
-					0.6269843578338623,
-					1.626984357833862,
-					1.626984357833862
-				]
+				"x" : -0.5517959594726563,
+				"y" : 0.02798959985375404
 			},
-			"file" : "images/bikerearwheel.png",
-			"filter" : 1,
-			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
-			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
-			"glVertexPointer" : 
-			[
-				-0.5215404033660889,
-				0.6269843578338623,
-				0.4580514430999756,
-				0.6269843578338623,
-				0.4580514430999756,
-				1.626984357833862,
-				-0.5215404033660889,
-				1.626984357833862
-			],
-			"name" : "image1",
-			"opacity" : 0.5,
-			"scale" : 1
+			"bodyA" : 1,
+			"bodyB" : 0,
+			"dampingRatio" : 0,
+			"frequency" : 0,
+			"name" : "joint4",
+			"refAngle" : 0,
+			"type" : "weld"
 		}
 	],
 	"positionIterations" : 3,

@@ -24,8 +24,8 @@ Class Box2DgfxTest Extends Window
 		Super.New( title,width,height,flags )
 		ClearColor=Color.Black
 		'------- Initialising b2Manager (the world and all the stuff associated wth the Json) 
-		physManager=New b2Manager("asset::images.json")
-		physManager.AddJson("asset::tanksolo.json",New b2Vec2(-15,0))
+		physManager=New b2Manager("asset::addjson1.json")
+		physManager.AddJson("asset::addjson2.json",New b2Vec2(0,0))
 		For Local n:=Eachin physManager.bodyInfos
 			Print "**"
 			Print n.index
@@ -40,6 +40,20 @@ Class Box2DgfxTest Extends Window
 			Print physManager.bodyInfos[i].imageFileName
 		Next
 		
+		For Local fixInf:=Eachin physManager.fixtureInfos
+			Print "-*-*"
+			Print fixInf.fixtureName
+			Print fixInf.fixture.GetBody().GetName()
+		Next
+		
+		For Local jInf:=Eachin physManager.jointInfos
+			Print "-+-+-"
+			Print jInf.jointName
+			Local weldJ:=jInf.theb2Joint.ToWeld()
+			Print weldJ.GetBodyA().GetName()
+			Print weldJ.GetBodyB().GetName()
+		Next
+		
 		
 	End
 	
@@ -49,7 +63,7 @@ Class Box2DgfxTest Extends Window
 		
 		canvas.PushMatrix()
 		'centering the canvas transform on the "ground"
-		canvas.SetCameraByCenter(physManager.FromPhysics(physManager.GetBody("car").GetPosition()),1.7)
+		canvas.SetCameraByCenter(physManager.FromPhysics(physManager.GetBody("body3").GetPosition()),1.7)
 		physManager.StepWorld()
 		physManager.DrawDebug(canvas)
 		

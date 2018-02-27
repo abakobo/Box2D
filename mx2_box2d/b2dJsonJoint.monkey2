@@ -13,7 +13,6 @@ Using box2d..
 
 Class b2JointInfo
 	Field theb2Joint:b2Joint
-'	Field jointObject:Variant
 	Field jointName:String
 	Field jointType:String
 	Field jointUserData:StringMap<Variant>

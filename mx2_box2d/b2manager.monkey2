@@ -93,9 +93,18 @@ Class b2Manager Extends Resource
 		Next
 		bodyImageMap=Createb2BodyImageMap(bodyInfos)
 		
-		'fixtureInfos=Createb2FixtureInfoStack(world,jsonPath)
-		
-		'jointInfos=Createb2JointInfoStack(world,jsonPath)',b2dJsons[0])
+		Local tempFixtureInfos:=Createb2FixtureInfoStack(world,jsonPath)
+		If tempFixtureInfos.Length>0
+			For Local inf:=Eachin tempFixtureInfos
+				fixtureInfos.Add(inf)
+			Next
+		Endif
+		Local tempJointInfos:=Createb2JointInfoStack(world,jsonPath)',b2dJsons[0])
+		If tempJointInfos.Length>0
+			For Local inf:=Eachin tempJointInfos
+				jointInfos.Add(inf)
+			Next
+		Endif
 		
 		SortRenderOrderToBodyDrawStack()
 		
@@ -421,7 +430,7 @@ Class b2Manager Extends Resource
 		Local fixtureStack:=New Stack<b2Fixture>
 	
 		For Local fixt:=Eachin fixtureInfos
-			If fixt.name=name
+			If fixt.fixtureName=name
 				fixtureStack.Add(fixt.fixture)
 			End
 		End
@@ -440,7 +449,7 @@ Class b2Manager Extends Resource
 	Method GetFixture:b2Fixture(name:String)
 
 		For Local fixt:=Eachin fixtureInfos
-			If fixt.name=name Then Return fixt.fixture
+			If fixt.fixtureName=name Then Return fixt.fixture
 		Next
 	
 		#If __DEBUG__
@@ -564,7 +573,7 @@ Class b2Manager Extends Resource
 			End
 		Next
 		For Local fixInfo:=Eachin fixtureInfos
-			json.setFixtureName(fixInfo.fixture,fixInfo.name)
+			json.setFixtureName(fixInfo.fixture,fixInfo.fixtureName)
 			If fixInfo.fixtureUserData<>Null
 				For Local node:=Eachin fixInfo.fixtureUserData
 					If node.Key<>"b2ManagerFixtureInfo"

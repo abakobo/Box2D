@@ -1,12 +1,12 @@
 doing:
 
-ajouter existing à b2Manager
-->b2Fixture/b2Joints b2Manager line 96
+
 
 TODO
 -----
 b2json:
 --------
+
 
 
 load/save world state (pas world custom properties?)
@@ -19,6 +19,9 @@ checker que imageWorldPosition fonctionne correc avec yAxisInvert=False  checker
 donc faire un exemple yaxisNonInversé avec images!
 
 ajouter joints/fixtures getuserDataToX comme GetBodiesUserDataToX?
+ajouter fixture.getname et joint.getName
+
+is addjson Completed? (yes?)
 
 cleanup the mess!:
 	-virer b2djsonImage
@@ -61,7 +64,7 @@ conversion char > Short pour externals?
 
 mieux comprendre enums
 
-b2Vec2 Operator + - et ...? pas poss pour le moment
+b2Vec2 Operator + - et ...? pas poss pour le moment -> si, done
 
 b2 contact id union (dans l'oigon?)
 
@@ -100,7 +103,7 @@ checker Global fn avec generics
 	
 ----	listimports:
 	
-		X-operators---> pas poss pour le moment
+		X-operators---> pas poss pour le moment -> si avec Extension (en creant Default New() et en déprivatisant constrctor/destructor)
 		O-warning pure Virtual ---> bof
 		V-détecter fonctions non Inline (y en a dans mx2 specific en tout cas)
 	M-dédoubler methodes recevant des Extends de Struct (comme b2JointDef avec tout les joints defs)
