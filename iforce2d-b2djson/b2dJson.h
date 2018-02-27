@@ -168,7 +168,28 @@ public:
     std::string getImagePath(b2dJsonImage* img);
 
     ////// custom properties
-
+    
+    // addons for monkey2 compatibility
+    
+	void addCustomInt(b2Body* item, const char* propertyName, int val);
+    void addCustomFloat(b2Body* item, const char* propertyName, float val);
+    void addCustomString(b2Body* item, const char* propertyName, const char* val);
+    void addCustomVector(b2Body* item, const char* propertyName, b2Vec2 val);
+    void addCustomBool(b2Body* item, const char* propertyName, bool val);
+    
+    void addCustomInt(b2Fixture* item, const char* propertyName, int val);
+	void addCustomFloat(b2Fixture* item, const char* propertyName, float val);
+	void addCustomString(b2Fixture* item, const char* propertyName, const char* val);
+	void addCustomVector(b2Fixture* item, const char* propertyName, b2Vec2 val);
+	void addCustomBool(b2Fixture* item, const char* propertyName, bool val);
+	
+	void addCustomInt(b2Joint* item, const char* propertyName, int val);
+    void addCustomFloat(b2Joint* item, const char* propertyName, float val);
+    void addCustomString(b2Joint* item, const char* propertyName, const char* val);
+    void addCustomVector(b2Joint* item, const char* propertyName, b2Vec2 val);
+    void addCustomBool(b2Joint* item, const char* propertyName, bool val);
+    
+// originals
     b2dJsonCustomProperties* getCustomPropertiesForItem(void* item, bool createIfNotExisting);
 protected:
     void setCustomInt(void* item, std::string propertyName, int val);

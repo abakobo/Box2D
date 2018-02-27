@@ -22,7 +22,7 @@ Class Box2DgfxTest Extends Window
 		Super.New( title,width,height,flags )
 		ClearColor=Color.Black
 		'------- Initialising b2Manager (the world and all the stuff associated wth the Json) 
-		physManager=New b2Manager("asset::Testuntitled1.json")
+		physManager=New b2Manager("asset::collision.json")
 
 
 '		Print physManager.GetJoint("ropejoint0").GetUserDataToS("jointString")
@@ -31,7 +31,12 @@ Class Box2DgfxTest Extends Window
 
 '		Print Cast <Vec2f>(physManager.GetBody("body0").GetUserDataToV("theVect"))
 '		Print Cast <Vec2f>(physManager.GetBody("body1").GetUserDataToV("theVect"))
-		Print physManager.GetBody("body0").GetUserDataToVec("theVect")
+		Local filt:= physManager.GetFixture("fixture0").GetFilterData()
+		filt.categoryBits=$FFFF
+		filt.maskBits=$0003
+		filt.groupIndex=7
+		physManager.GetFixture("fixture0").SetFilterData(filts)
+		
 		
 	End
 	

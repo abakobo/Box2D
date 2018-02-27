@@ -22,16 +22,10 @@ Class Box2DgfxTest Extends Window
 		Super.New( title,width,height,flags )
 		ClearColor=Color.Black
 		'------- Initialising b2Manager (the world and all the stuff associated wth the Json) 
-		physManager=New b2Manager("asset::Testuntitled1.json")
+		physManager=New b2Manager("asset::collision.json")
+		physManager.AddJson("asset::raystones.json",New b2Vec2(-1,-7))
 
-
-'		Print physManager.GetJoint("ropejoint0").GetUserDataToS("jointString")
-'		Print physManager.GetJoint("pulleyjoint0").GetUserDataToS("jointString")
-'		Print physManager.GetJoint("gearjoint0").GetUserDataToS("jointString")
-
-'		Print Cast <Vec2f>(physManager.GetBody("body0").GetUserDataToV("theVect"))
-'		Print Cast <Vec2f>(physManager.GetBody("body1").GetUserDataToV("theVect"))
-		Print physManager.GetBody("body0").GetUserDataToVec("theVect")
+		
 		
 	End
 	

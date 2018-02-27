@@ -134,3 +134,27 @@ bbArray<b2Joint*> GetJointsByName(b2dJson* json , const char* name ){
 	
 }
 
+bbArray<b2Body*> GetAllb2dJsonBodies(b2dJson* json)
+{
+
+	std::vector<b2Body*> bodyVect;
+	int count;
+	count = json->getAllBodies(bodyVect);
+
+	bbArray<b2Body*> retArr (count);
+	
+	if (count>0) {
+		for( int i = 0; i < count ; i = i + 1 ) {
+			retArr[i]=bodyVect [i] ;
+		}
+	}
+
+	return retArr;
+	
+}
+
+/*void setCustomInt_ext (b2Body* item,const char* propName, int val, b2dJson* json){
+	std::cout<<propName<<std::endl;
+	json->setCustomInt(item,propName,val);
+}*/
+

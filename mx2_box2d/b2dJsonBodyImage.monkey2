@@ -199,7 +199,7 @@ Function GetCustomPropertiesFromJsonArray:StringMap<Variant>(imgval:std.json.Jso
 			custoFixMap[n]=b	
 		Else
 			#If __DEBUG__
-				Print "only int, float, bool and string accepted for body custom properties" 
+				Print "only int, float, bool, vec2 and string accepted for body custom properties" 
 			#End				
 		Endif
 	
@@ -277,7 +277,7 @@ Function Createb2BodyImageMap:IntMap<Image>(bodyInfos:b2BodyImageInfo[])
 	Return retMap
 End
 
-Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
+Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)',existingCount:Int)
 	
 	'INIT
 	Local bodyCount:=world.GetBodyCount()

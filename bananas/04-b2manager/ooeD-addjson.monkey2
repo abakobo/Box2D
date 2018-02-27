@@ -26,9 +26,9 @@ Class b2Manager Extends Resource
 	Field physScale:Float
 	Field yAxisInversion:=True
 	
-	Field timeStep:= 0.01666666667
-	Field velocityIterations := 6
-	Field positionIterations := 2
+	'Field timeStep:= 0.01666666667
+	'Field velocityIterations := 6
+	'Field positionIterations := 2
 	
 	Field bodyInfos:b2BodyImageInfo[]
 	Field bodyImageMap:IntMap<Image>
@@ -58,7 +58,7 @@ Class b2Manager Extends Resource
 		b2dJsons[0]=New mx2b2dJson.b2dJson()
 		
 		
-		world=Loadb2dJsonWithb2dJsonRef(b2dJsons[0] , jsonPath, Null, offset) 'offset TODO!
+		world=Loadb2dJsonWithb2dJsonRef(b2dJsons[0] , jsonPath) 'offset TODO!
 		
 		debugDrawer=New b2DebugDraw(physScale,yAxisInversion)
 		
@@ -76,44 +76,20 @@ Class b2Manager Extends Resource
 		
 	End
 	
-	Method AddJson(jsonPath:String,offset:b2Vec2=New b2Vec2(0,0))
+	Method addJson(jsonPath:String,offset:b2Vec2=New b2Vec2(0,0))
 		Local lastBody:=world.GetBodyList()
 		Local count:=world.GetBodyCount()
-		Local firstWSize:=count
-		Local bMap:=New Map<b2Body,Int>
 		While count>1
-			bMap[lastBody]=count
 			lastBody=lastBody.GetNext()
 			count-=1
 		Wend
 		
+		
 		Local l:=b2dJsons.Length
-		b2dJsons=b2dJsons.Resize(l+1)
+		b2dJsons.Resize(l+1)
 		b2dJsons[l]=New mx2b2dJson.b2dJson()
 		
-		Loadb2dJsonWithb2dJsonRef(b2dJsons[l] , jsonPath , world , offset)
-		
-		Local cueBody:=world.GetBodyList()
-		Local count2:=world.GetBodyCount()-firstWSize
-		While count2>0
-			Print "--"
-			Print count2
-			If bMap.Contains(cueBody) Then Print "contains "+bMap[cueBody]
-			If cueBody=lastBody Then Print "Last"
-			cueBody=cueBody.GetNext()
-			If cueBody=Null Then  Print "NULL"
-			count2-=1
-		Wend
-		
-		'bodyInfos=Createb2BodyImageInfoArray(world,jsonPath )
-		'bodyImageMap=Createb2BodyImageMap(bodyInfos)
-		
-		'fixtureInfos=Createb2FixtureInfoStack(world,jsonPath)
-		
-		'jointInfos=Createb2JointInfoStack(world,jsonPath)',b2dJsons[0])
-		
-		'SortRenderOrderToBodyDrawStack()
-		
+		world=Loadb2dJsonWithb2dJsonRef(b2dJsons[l] , jsonPath , world , offset)
 		
 	End
 	

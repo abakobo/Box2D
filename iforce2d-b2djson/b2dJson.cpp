@@ -1564,13 +1564,76 @@ b2Vec2 b2dJson::jsonToVec(const char* name, Json::Value& value, int index, b2Vec
 
 
 
+// custom methods for monkey2 compatibility
 
 
+void b2dJson::addCustomInt(b2Body* item, const char* propertyName, int val)
+{
+	setCustomInt(item,propertyName,val);
+}
+
+void b2dJson::addCustomFloat(b2Body* item, const char* propertyName, float val)
+{
+	setCustomFloat(item,propertyName,val);
+}
+void b2dJson::addCustomString(b2Body* item, const char* propertyName, const char* val)
+{
+	setCustomString(item,propertyName,val);
+}
+void b2dJson::addCustomVector(b2Body* item, const char* propertyName, b2Vec2 val )
+{
+	setCustomVector(item,propertyName,val);
+}
+
+void b2dJson::addCustomBool(b2Body* item, const char* propertyName, bool val)
+{
+	setCustomBool(item,propertyName,val);
+}
+ 
+void b2dJson::addCustomInt(b2Fixture* item, const char* propertyName, int val)
+{
+	setCustomInt(item,propertyName,val);
+}
+void b2dJson::addCustomFloat(b2Fixture* item, const char* propertyName, float val)
+{
+	setCustomFloat(item,propertyName,val);
+}
+void b2dJson::addCustomString(b2Fixture* item, const char* propertyName, const char* val)
+{
+	setCustomString(item,propertyName,val);
+}
+void b2dJson::addCustomVector(b2Fixture* item, const char* propertyName, b2Vec2 val)
+{
+	setCustomVector(item,propertyName,val);
+}
+void b2dJson::addCustomBool(b2Fixture* item, const char* propertyName, bool val)
+{
+	setCustomBool(item,propertyName,val);
+}
+
+void b2dJson::addCustomInt(b2Joint* item, const char* propertyName, int val)
+{
+	setCustomInt(item,propertyName,val);
+}
+void b2dJson::addCustomFloat(b2Joint* item, const char* propertyName, float val)
+{
+	setCustomFloat(item,propertyName,val);
+}
+void b2dJson::addCustomString(b2Joint* item, const char* propertyName, const char* val)
+{
+	setCustomString(item,propertyName,val);
+}
+void b2dJson::addCustomVector(b2Joint* item, const char* propertyName, b2Vec2 val)
+{
+	setCustomVector(item,propertyName,val);
+}
+void b2dJson::addCustomBool(b2Joint* item, const char* propertyName, bool val)
+{
+	setCustomBool(item,propertyName,val);
+}
 
 
-
-
-
+// end custom custom mx2 methods
 
 
 

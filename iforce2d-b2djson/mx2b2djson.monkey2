@@ -38,6 +38,10 @@ Function GetJointByName:b2Joint(json : b2dJson , name: CString)
 Function GetJointsByName:b2Joint[](json : b2dJson , name: CString )
 	
 Function GetBodyByName:b2Body(json : b2dJson , name: CString)
+	
+'Function setCustomInt_ext (item:b2Body,propName:CString, val:Int, json:b2dJson)
+
+Function GetAllb2dJsonBodies:b2Body[](json:b2dJson)
 
 	
 Class b2dJson Extends Void
@@ -149,6 +153,33 @@ Class b2dJson Extends Void
 	    '////// custom properties
 	
 	    'b2dJsonCustomProperties* getCustomPropertiesForItem(void* item, bool createIfNotExisting);
+	    
+'       void setCustomInt(void* item, std::string propertyName, int val);
+'	    void setCustomFloat(void* item, std::string propertyName, float val);
+'	    void setCustomString(void* item, std::string propertyName, std::string val);
+'	    void setCustomVector(void* item, std::string propertyName, b2Vec2 val);
+'	    void setCustomBool(void* item, std::string propertyName, bool val);
+'	    void setCustomColor(void* item, std::string propertyName, b2dJsonColor4 val);
+
+		' special mx2 added functions (using add instead of set)!
+
+		Method addCustomInt(item:b2Body, propertyName:CString,val:Int)
+	    Method addCustomFloat(item:b2Body, propertyName:CString,val:Float)
+	    Method addCustomString(item:b2Body, propertyName:CString,val:CString)
+	    Method addCustomVector(item:b2Body, propertyName:CString, val:b2Vec2)
+	    Method addCustomBool(item:b2Body, propertyName:CString, val:Bool)
+		    
+		Method addCustomInt(item:b2Joint, propertyName:CString,val:Int)
+	    Method addCustomFloat(item:b2Joint, propertyName:CString,val:Float)
+	    Method addCustomString(item:b2Joint, propertyName:CString,val:CString)
+	    Method addCustomVector(item:b2Joint, propertyName:CString, val:b2Vec2)
+	    Method addCustomBool(item:b2Joint, propertyName:CString, val:Bool)
+		    
+		Method addCustomInt(item:b2Fixture, propertyName:CString,val:Int)
+	    Method addCustomFloat(item:b2Fixture, propertyName:CString,val:Float)
+	    Method addCustomString(item:b2Fixture, propertyName:CString,val:CString)
+	    Method addCustomVector(item:b2Fixture, propertyName:CString, val:b2Vec2)
+	    Method addCustomBool(item:b2Fixture, propertyName:CString, val:Bool)
 	
 End
 
@@ -211,9 +242,9 @@ End
 
 Public
 '
-'convenience load funcs funcs To be able To work with mx2 asset construct (using mx2'load/saveString)
+'load funcs funcs To be able To work with mx2 asset construct (using mx2'load/saveString)
 '
-Function Loadb2dJson:b2World(filename:String , existingWorld:b2World = Null)
+Function Loadb2dJson:b2World(filename:String , existingWorld:b2World = Null , offset:b2Vec2=New b2Vec2(0,0) )
 	
 	Local maxChrSize:Int=321
 	Local buf:=New char_t[maxChrSize]
@@ -222,28 +253,35 @@ Function Loadb2dJson:b2World(filename:String , existingWorld:b2World = Null)
 	#If __DEBUG__
 		If theStr=Null Then Print "could not read "+filename
 	#Endif
-	Return mx2b2dJson.b2dJsonReadFromString(theStr , existingWorld)
+	'Return mx2b2dJson.b2dJsonReadFromString(theStr , existingWorld , offset)
+	Local json:=New mx2b2dJson.b2dJson()
+	Return b2dJsonReadFromString_b2dJsonRef(json,theStr , existingWorld , offset)
+	json.Destroy()
 		
 End
 
-Function b2dJsonReadFromString:b2World(theString:String , existingWorld:b2World = Null)
+
+Function b2dJsonReadFromString:b2World(theString:String , existingWorld:b2World = Null , offset:b2Vec2=New b2Vec2(0,0))
 	
 	Local maxChrSize:Int=321
 	Local buf:=New char_t[maxChrSize]
 	
-	Local retWorld:=b2dJsonReadFromString_ext(theString , buf.Data , maxChrSize , existingWorld )
-	
+	'Local retWorld:=b2dJsonReadFromString_ext(theString , buf.Data , maxChrSize , existingWorld )
+
 	#If __DEBUG__
 		Print String.FromCString( buf.Data )
 	#Endif
 	
-	Return retWorld
+	'Return retWorld
+	Local json:=New mx2b2dJson.b2dJson()
+	Return b2dJsonReadFromString_b2dJsonRef(json, theString , existingWorld , offset)
+	json.Destroy()
 		
 End
 
 '---- the same load funcs with json refere so b2dJson methods can be calle within mx2
 
-Function b2dJsonReadFromString_b2dJsonRef:b2World(json : b2dJson , theString:String , existingWorld:b2World = Null)
+Function b2dJsonReadFromString_b2dJsonRef:b2World(json : b2dJson , theString:String , existingWorld:b2World = Null , offset:b2Vec2=New b2Vec2(0,0))
 	
 	Local maxChrSize:Int=321
 	Local buf:=New char_t[maxChrSize]
@@ -254,11 +292,21 @@ Function b2dJsonReadFromString_b2dJsonRef:b2World(json : b2dJson , theString:Str
 		Print String.FromCString( buf.Data )
 	#Endif
 	
+	If offset.x<>0 Or offset.y<>0
+		
+		Local bodArr:b2Body[]=GetAllb2dJsonBodies(json)
+		
+		For Local b:=Eachin bodArr
+			b.SetTransform( b.GetPosition() + offset , b.GetAngle() )	
+		Next
+		
+	End
+	
 	Return retWorld
 		
 End
 
-Function Loadb2dJsonWithb2dJsonRef:b2World(json : b2dJson , filename:String , existingWorld:b2World = Null)
+Function Loadb2dJsonWithb2dJsonRef:b2World(json : b2dJson , filename:String , existingWorld:b2World = Null,offset:b2Vec2=New b2Vec2(0,0))
 	
 	Local maxChrSize:Int=321
 	Local buf:=New char_t[maxChrSize]
@@ -267,7 +315,7 @@ Function Loadb2dJsonWithb2dJsonRef:b2World(json : b2dJson , filename:String , ex
 	#If __DEBUG__
 		If theStr=Null Then Print "could not read "+filename
 	#Endif
-	Return mx2b2dJson.b2dJsonReadFromString_b2dJsonRef(json , theStr, existingWorld)
+	Return mx2b2dJson.b2dJsonReadFromString_b2dJsonRef(json , theStr, existingWorld,offset)
 		
 End
 
