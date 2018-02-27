@@ -1,6 +1,7 @@
 doing:
 
-
+ajouter existing à b2Manager
+->b2Fixture/b2Joints b2Manager line 96
 
 TODO
 -----
@@ -13,7 +14,6 @@ load/save world state (pas world custom properties?)
 AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
 
 ajouter offset à b2Manager
-offest json existing world dans mx2b2json et b2Manager
 
 checker que imageWorldPosition fonctionne correc avec yAxisInvert=False  checker avec draw bodies aussi...
 donc faire un exemple yaxisNonInversé avec images!

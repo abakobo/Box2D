@@ -17,14 +17,28 @@ Class Box2DgfxTest Extends Window
 	Field physManager:b2Manager
 	Field drawDebug:=True
 	
+	Field bodCount:=0
+	
 	Method New( title:String,width:Int,height:Int,flags:WindowFlags=WindowFlags.Resizable )
 		
 		Super.New( title,width,height,flags )
 		ClearColor=Color.Black
 		'------- Initialising b2Manager (the world and all the stuff associated wth the Json) 
-		physManager=New b2Manager("asset::collision.json")
-		physManager.AddJson("asset::raystones.json",New b2Vec2(-1,-7))
-
+		physManager=New b2Manager("asset::images.json")
+		physManager.AddJson("asset::tanksolo.json",New b2Vec2(-15,0))
+		For Local n:=Eachin physManager.bodyInfos
+			Print "**"
+			Print n.index
+			Print n.bodyName
+			Print n.imageFileName
+		Next
+		For Local i:=0 Until physManager.bodyInfos.Length
+			Print "//"
+			Print i+"  -  "+physManager.bodyInfos[i].index
+			Print physManager.bodyInfos[i].bodyName
+			Print physManager.bodyInfos[i].body.GetPosition()
+			Print physManager.bodyInfos[i].imageFileName
+		Next
 		
 		
 	End
@@ -35,19 +49,34 @@ Class Box2DgfxTest Extends Window
 		
 		canvas.PushMatrix()
 		'centering the canvas transform on the "ground"
-		canvas.SetCameraByCenter(physManager.FromPhysics(physManager.GetBody("body0").GetPosition()),2.2)
+		canvas.SetCameraByCenter(physManager.FromPhysics(physManager.GetBody("car").GetPosition()),1.7)
 		physManager.StepWorld()
 		physManager.DrawDebug(canvas)
+		
+		Local pos:=physManager.FromPhysics(physManager.bodyInfos[bodCount].body.GetPosition())
+		canvas.DrawCircle(pos.x,pos.y,2)
+		
 		physManager.DrawBodies(canvas)
+		
+		'canvas.DrawImage(physManager.sortedBodyImageInfos[bodCount].image,physManager.sortedBodyImageInfos[bodCount].imageWorldPosition)
+		
 		canvas.PopMatrix()
 		
-		canvas.DrawText("s to save",5,35)
+		canvas.DrawText("s to save",5,15)
 		
 		If Keyboard.KeyPressed(Key.S|Key.Raw)
 			Local savePath:=RequestFile( "Save b2dJson","Json files:json",True )
 			physManager.Save(savePath,True)
 		End
-		
+		If Keyboard.KeyPressed(Key.N)
+			bodCount+=1
+		End
+		If Keyboard.KeyPressed(Key.B)
+			bodCount-=1
+		End
+		canvas.DrawText("bod: "+bodCount+" ----"+physManager.sortedBodyImageInfos[bodCount].bodyName+" "+physManager.sortedBodyImageInfos[bodCount].imageFileName,10,40)
+		'If physManager.bodyInfos[bodCount].image<>Null canvas.DrawImage(physManager.bodyInfos[bodCount].image,50,400)
+
 	End
 End
 

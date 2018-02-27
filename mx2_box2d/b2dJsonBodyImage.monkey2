@@ -277,10 +277,10 @@ Function Createb2BodyImageMap:IntMap<Image>(bodyInfos:b2BodyImageInfo[])
 	Return retMap
 End
 
-Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)',existingCount:Int)
+Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String , existingCount:Int=0)
 	
 	'INIT
-	Local bodyCount:=world.GetBodyCount()
+	Local bodyCount:=world.GetBodyCount()-existingCount
 	Local ret:=New b2BodyImageInfo[bodyCount]
 	
 	Local json:=JsonObject.Load( path )
@@ -292,11 +292,11 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String)
 		bodyToImageMap[imageToBodyArray[i]]=i
 	Next
 	'Gets all the bodies and reference them in the output info array
-	Local bodyArray:=CreateBodyArray(world)
+	Local bodyArray:=CreateBodyArray(world,existingCount)
 	For Local i:=0 Until bodyCount
 		ret[i]=New b2BodyImageInfo()
 		ret[i].body=bodyArray[i]
-		ret[i].index=i
+		ret[i].index=i+existingCount
 	Next
 	'----------------------------------BodyName
 	Local bodyNameMap:=GetBodyNameMap(json)
@@ -491,9 +491,9 @@ Function CreateImageToBodyArray:Int[](lobj:JsonObject)
 	Return bodyImageArray	
 End
 
-Function CreateBodyArray:b2Body[](world:b2World)
+Function CreateBodyArray:b2Body[](world:b2World, existingCount:Int)
 
-	Local count:=world.GetBodyCount ()
+	Local count:=world.GetBodyCount ()-existingCount
 	Local BodyArray:=New b2Body[count]
 	Local BodyArrayInv:=New b2Body[count]
 	

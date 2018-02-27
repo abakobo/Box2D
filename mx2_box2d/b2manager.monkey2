@@ -40,10 +40,10 @@ Class b2Manager Extends Resource
 	Field b2dJsons:=New b2dJson[1]
 	Field b2dJsonsCount:=0
 	
-	Private
+	'Private
 	Field sortedBodyImageInfos:=New Stack<b2BodyImageInfo>
 	
-	Public
+	'Public
 	
 	Method New(gravity:b2Vec2,pScale:Float=15,yAxisInversion:Bool=True)
 		world=New b2World(gravity)
@@ -77,15 +77,8 @@ Class b2Manager Extends Resource
 	End
 	
 	Method AddJson(jsonPath:String,offset:b2Vec2=New b2Vec2(0,0))
-		Local lastBody:=world.GetBodyList()
-		Local count:=world.GetBodyCount()
-		Local firstWSize:=count
-		Local bMap:=New Map<b2Body,Int>
-		While count>1
-			bMap[lastBody]=count
-			lastBody=lastBody.GetNext()
-			count-=1
-		Wend
+		
+		Local firstWSize:=world.GetBodyCount()
 		
 		Local l:=b2dJsons.Length
 		b2dJsons=b2dJsons.Resize(l+1)
@@ -93,26 +86,18 @@ Class b2Manager Extends Resource
 		
 		Loadb2dJsonWithb2dJsonRef(b2dJsons[l] , jsonPath , world , offset)
 		
-		Local cueBody:=world.GetBodyList()
-		Local count2:=world.GetBodyCount()-firstWSize
-		While count2>0
-			Print "--"
-			Print count2
-			If bMap.Contains(cueBody) Then Print "contains "+bMap[cueBody]
-			If cueBody=lastBody Then Print "Last"
-			cueBody=cueBody.GetNext()
-			If cueBody=Null Then  Print "NULL"
-			count2-=1
-		Wend
-		
-		'bodyInfos=Createb2BodyImageInfoArray(world,jsonPath )
-		'bodyImageMap=Createb2BodyImageMap(bodyInfos)
+		Local tempBodyInfos:=Createb2BodyImageInfoArray(world,jsonPath,firstWSize )
+		bodyInfos=bodyInfos.Resize(world.GetBodyCount())
+		For Local n:=Eachin tempBodyInfos
+			bodyInfos[n.index]=n
+		Next
+		bodyImageMap=Createb2BodyImageMap(bodyInfos)
 		
 		'fixtureInfos=Createb2FixtureInfoStack(world,jsonPath)
 		
 		'jointInfos=Createb2JointInfoStack(world,jsonPath)',b2dJsons[0])
 		
-		'SortRenderOrderToBodyDrawStack()
+		SortRenderOrderToBodyDrawStack()
 		
 		
 	End
