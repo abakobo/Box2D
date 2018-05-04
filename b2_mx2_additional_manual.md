@@ -6,6 +6,9 @@ This binding is planned to become a module but for now it's not...
 
 to use it copy the (first) box2d folder to your .monkey2 main file directory (like the HelloBox2D**** demos
 
+
+
+-- following infos are obsolete, see examples for required imports --
 -------
 -Box2D-
 -------
