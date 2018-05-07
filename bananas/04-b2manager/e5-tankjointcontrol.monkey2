@@ -27,10 +27,6 @@ Class Box2DgfxTest Extends Window
 		physManager=New b2Manager("asset::tank.json")
 		
 		
-		'Getting an array with a b2JointInfo array (9 joints,2 revoltue and 7 wheel)
-		'for modifying motor speed in OnRender()
-		driveJointsInf=physManager.GetJointsInfo("drivejoint")
-		
 	End
 	
 	Method OnRender( canvas:Canvas ) Override
@@ -60,13 +56,19 @@ Class Box2DgfxTest Extends Window
 		If Keyboard.KeyDown(Key.Down)
 			MSpeed=12.0
 		End
+		
+		'Getting an array with a b2JointInfo array (9 joints,2 revoltue and 7 wheel)
+		'for modifying motor speed in OnRender()
+		' idealy this should not be in a loop
+		driveJointsInf=physManager.GetJointsInfo("drivejoint")
+		
 		'Setting the motor speed to the 9 joints named "drivejoint"
 		 ' the joints "drivejoint" have two types
 		 'and you have to know the type of a b2Joint to be able to convert it properly
 		For Local joinf:=Eachin driveJointsInf
-			If joinf.type="wheel"
+			If joinf.jointType="wheel"
 				b2JointTob2WheelJoint(joinf.theb2Joint).SetMotorSpeed(MSpeed)
-			Elseif joinf.type="revolute"
+			Elseif joinf.jointType="revolute"
 				b2JointTob2RevoluteJoint(joinf.theb2Joint).SetMotorSpeed(MSpeed)
 			End
 		End

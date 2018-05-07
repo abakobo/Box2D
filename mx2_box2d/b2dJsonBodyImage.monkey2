@@ -78,10 +78,7 @@ Function Createb2FixtureInfoStack:Stack<b2FixtureInfo> (world:b2World,path:Strin
 						If fixObj["customProperties"]
 						
 							Local imgval:=fixObj["customProperties"]
-							Print "yo?"
 							If imgval.IsArray 
-								Print "ya!"
-								Print imgval.ToArray().Length
 								Local cp:=GetCustomPropertiesFromJsonArray(imgval)
 								
 								custoStaMap.Add(cp)
@@ -363,7 +360,7 @@ Function Createb2BodyImageInfoArray:b2BodyImageInfo[](world:b2World,path:String 
 				ret[i].image.Handle=New Vec2f (0.5,0.5)
 			Else
 				#If __DEBUG__
-					Print "image load not ok "+i+"!! MISSING FILE?"
+					Print "image load not ok "+i+"  "+ret[i].imageFileName+"!! MISSING FILE?"
 				#End
 			End
 		Else

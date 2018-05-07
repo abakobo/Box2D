@@ -1,19 +1,24 @@
 doing:
 
+taille pixel/phys scale pour backrounds!!
 
+ajouter fixture.getname et joint.getName (y a déjà body?)
 
 TODO
 -----
 b2json:
 --------
 
-
+plusieurs images pour 1 body?
 
 load/save world state (pas world custom properties?)
 
 AABB box pour DDraw que ça dessine pas le bazar..  (mm chose pour pyro?, il le fait déjà?)
 
-ajouter offset à b2Manager
+caster vers wrong joint type assert que Return nul alors que assert donc Return rien du tout! (enlever "Return null")
+
+ajouter offset à b2Manager -> fait?
+is addjson Completed? (yes?)
 
 checker que imageWorldPosition fonctionne correc avec yAxisInvert=False  checker avec draw bodies aussi...
 donc faire un exemple yaxisNonInversé avec images!
@@ -21,18 +26,20 @@ donc faire un exemple yaxisNonInversé avec images!
 ajouter joints/fixtures getuserDataToX comme GetBodiesUserDataToX?
 ajouter fixture.getname et joint.getName
 
-is addjson Completed? (yes?)
+
 
 cleanup the mess!:
 	-virer b2djsonImage
 	-virer cpp fileio et bitmap render...
 	
-remplacer If debug prints par assert? Bof
+	
 
 trouver ce qui Print du vide dans e0-load_delete -->seulement en debug donc +-ok
 
 load/save collision mask --> fonctionne tout seul avec b2dJson mais RUBE ne lit pas le nom des BitPlanes donc pas implémenté
+----> ajouter un petit json avec les noms + mettre quand même les noms dans le json principal
 
+is addjson Completed? (yes?)
 pyro:
 --------
 

@@ -110,9 +110,9 @@ Function GetJointNameTypeStack:Stack<b2JointInfo>(lobj:JsonObject)
 			
 				End	
 			Else
-				#If __DEBUG__
-					Print "no custom properties for Joint "+i+" in json !!!!!!!!!"
-				#End
+				'#If __DEBUG__
+				'	Print "no custom properties for Joint "+i+" in json !!!!!!!!!"
+				'#End
 				
 				tempCustoMap=New StringMap<Variant>
 				

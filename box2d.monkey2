@@ -1117,7 +1117,7 @@ struct b2ContactVelocityConstraint
 end
 
 struct b2ContactSolverDef
-	Field stepp:b2TimeStep="stepp"
+	Field stepp:b2TimeStep="step"
 	Field contacts:b2Contact
 	Field count:Int
 	Field positions:b2Position Ptr
