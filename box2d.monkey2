@@ -374,6 +374,7 @@ class b2PolygonShape extends b2Shape
 '------Ya du array à gérer ici!
 	Field m_normals:b2Vec2[]
 	Field m_count:Int
+	Method GetVertices:b2Vec2[]()
 end
 
 '-------------------------------------------------------------------
