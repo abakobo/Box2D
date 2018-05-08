@@ -100,6 +100,12 @@ Function Main()
     	fd3.shape = shape3
     	body3.CreateFixture(Varptr fd3)
     	
+    	Local verts:=shape3.GetVertices()
+    	
+    	For Local v:=Eachin verts
+	    	Print v
+	    Next
+    	
     	
     	'-------- try to extract fixture and shapes from body
     	'Local fixo:b2Fixture

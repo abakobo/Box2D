@@ -21,6 +21,9 @@
 
 #include "Box2D/Collision/Shapes/b2Shape.h"
 
+#include "bbtypes.h"
+
+
 /// A convex polygon. It is assumed that the interior of the polygon is to
 /// the left of each edge.
 /// Polygons have a maximum number of vertices equal to b2_maxPolygonVertices.
@@ -82,6 +85,8 @@ public:
 	b2Vec2 m_vertices[b2_maxPolygonVertices];
 	b2Vec2 m_normals[b2_maxPolygonVertices];
 	int32 m_count;
+	
+	bbArray<b2Vec2> GetVertices();
 };
 
 inline b2PolygonShape::b2PolygonShape()

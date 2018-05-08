@@ -19,6 +19,9 @@
 #include "Box2D/Collision/Shapes/b2PolygonShape.h"
 #include <new>
 
+#include "bbarray.h"
+
+
 b2Shape* b2PolygonShape::Clone(b2BlockAllocator* allocator) const
 {
 	void* mem = allocator->Allocate(sizeof(b2PolygonShape));
@@ -465,4 +468,18 @@ bool b2PolygonShape::Validate() const
 	}
 
 	return true;
+}
+
+bbArray<b2Vec2> b2PolygonShape::GetVertices(){
+
+	bbArray<b2Vec2> returnArr (m_count);
+	
+	if (m_count>0) { // just writing own index into the array
+		for( int i = 0; i < m_count ; i = i + 1 ) {
+			returnArr[i]=m_vertices[i];
+		}
+	}
+
+	return returnArr;
+	
 }
