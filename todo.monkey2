@@ -67,6 +67,8 @@ Isort pour exempl tank (et plus multi layers) + enlever les autres Functions de 
 pure box2d:
 ----------
 
+tester detroyjoint avec différents joints et avec/sans varptr
+
 créer resource Extends pour gérer les call backs?
 
 checker que Double dans b2vec2 extensions fait pas ralentir->mieux d'être en float pour tout le monde le même

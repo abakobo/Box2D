@@ -1840,9 +1840,15 @@ End
 
 '
 '
+' convenoence "avoir ptrs" extension for better mx2 style
 '
 '
-'
+Class b2World Extension
+	Method CreateBody(d:b2BodyDef)
+		Self.CreateBody(Varptr d)	
+	End
+End
+
 
 '--------------------
 '
