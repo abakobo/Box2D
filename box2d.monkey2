@@ -1840,15 +1840,71 @@ End
 
 '
 '
-' convenoence "avoir ptrs" extension for better mx2 style
+' convenience "avoid varptr" extension for better mx2 style (structs need a pointer to be passed to b2 sometimes)
 '
 '
 Class b2World Extension
-	Method CreateBody(d:b2BodyDef)
-		Self.CreateBody(Varptr d)	
+	Method CreateBody:b2Body(d:b2BodyDef)
+		Return Self.CreateBody(Varptr d)	
+	End
+	Method CreateJoint:b2Joint(def:b2JointDef)
+		Return Self.CreateJoint(Varptr def)
+	End
+	Method CreateJoint:b2Joint(def:b2DistanceJointDef)
+		Return Self.CreateJoint(Varptr def)
+	End
+	Method CreateJoint:b2Joint(def:b2FrictionJointDef)
+		Return Self.CreateJoint(Varptr def)
+	End
+	Method CreateJoint:b2Joint(def:b2GearJointDef)
+		Return Self.CreateJoint(Varptr def)
+	End
+	Method CreateJoint:b2Joint(def:b2MotorJointDef)
+		Return Self.CreateJoint(Varptr def)
+	End
+	Method CreateJoint:b2Joint(def:b2MouseJointDef)
+		Return Self.CreateJoint(Varptr def)
+	End
+	Method CreateJoint:b2Joint(def:b2PrismaticJointDef)
+		Return Self.CreateJoint(Varptr def)
+	End
+	Method CreateJoint:b2Joint(def:b2PulleyJointDef)
+		Return Self.CreateJoint(Varptr def)
+	End
+	Method CreateJoint:b2Joint(def:b2RevoluteJointDef)
+		Return Self.CreateJoint(Varptr def)
+	End
+	Method CreateJoint:b2Joint(def:b2RopeJointDef)
+		Return Self.CreateJoint(Varptr def)
+	End
+	Method CreateJoint:b2Joint(def:b2WeldJointDef)
+		Return Self.CreateJoint(Varptr def)
+	End
+	Method CreateJoint:b2Joint(def:b2WheelJointDef)
+		Return Self.CreateJoint(Varptr def)
+	End	
+End
+
+Class b2Body Extension
+	Method CreateFixture:b2Fixture(fdef:b2FixtureDef)
+		Return Self.CreateFixture(Varptr fdef)
 	End
 End
 
+Class b2PolygonShape Extension
+	Method Set(points:b2Vec2[])
+		Self.Set(points.Data,points.Length)
+	End
+End
+
+Class b2ChainShape Extension
+	Method CreateLoop(vertices:b2Vec2[])
+		Self.CreateLoop(vertices.Data,vertices.Length)
+	End
+	Method CreateChain(vertices:b2Vec2[])
+		Self.CreateChain(vertices.Data,vertices.Length)
+	End
+End
 
 '--------------------
 '

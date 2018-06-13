@@ -35,7 +35,7 @@ Function Main()
   		bd.angle = 0.0
   		
   		Local body:b2Body
-  		body=world.CreateBody(Varptr bd)
+  		body=world.CreateBody(bd)
   		
   		Local fd:b2FixtureDef
     	fd.friction = 2.0
@@ -47,7 +47,7 @@ Function Main()
     	shape.m_p.Set(0.0, 0.0)
 
     	fd.shape = shape
-    	body.CreateFixture(Varptr fd)
+    	body.CreateFixture(fd)
     	
     	
 	'---------------------body 2 (the static one)
@@ -58,7 +58,7 @@ Function Main()
   		bd2.angle = 0.0
   		
   		Local body2:b2Body
-  		body2=world.CreateBody(Varptr bd2)
+  		body2=world.CreateBody(bd2)
   		
   		Local fd2:b2FixtureDef
     	fd2.friction = 2.0
@@ -70,7 +70,7 @@ Function Main()
     	shape2.m_p.Set(0.0, 0.0)
 
     	fd2.shape = shape2
-    	body2.CreateFixture(Varptr fd2)
+    	body2.CreateFixture(fd2)
     	
 
     	
@@ -82,7 +82,7 @@ Function Main()
   		bd3.angle = 0.0
   		
   		Local body3:b2Body
-  		body3=world.CreateBody(Varptr bd3)
+  		body3=world.CreateBody(bd3)
   		
   		Local fd3:b2FixtureDef
     	fd3.friction = 2.0
@@ -98,7 +98,7 @@ Function Main()
     	shape3.Set(vs.Data, 4)
 
     	fd3.shape = shape3
-    	body3.CreateFixture(Varptr fd3)
+    	body3.CreateFixture(fd3)
     	
     	Local verts:=shape3.GetVertices()
     	
@@ -140,11 +140,11 @@ Function Main()
 		'// Now print the position and angle of the body.
 		Local position := body.GetPosition()
 		Local angle := body.GetAngle()
-		print("Step: "+i+"  Position B1: "+b2Vec2ToS( position)+" , angle: "+ angle)
+		Print("Step: "+i+"  Position B1: "+position+" , angle: "+ angle)
 		
 		position = body3.GetPosition()
 		angle = body3.GetAngle()
-		print("Step: "+i+"  Position B3: "+b2Vec2ToS( position)+" , angle: "+ angle)
+		Print("Step: "+i+"  Position B3: "+position+" , angle: "+ angle)
 		
 	Next 
 

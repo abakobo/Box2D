@@ -44,6 +44,11 @@ public:
 	/// Construct a world object.
 	/// @param gravity the world gravity vector.
 	b2World(const b2Vec2& gravity);
+	
+	/// sets a default constructor for mx2 extension ability (gravity at -9.81 m/s²)
+	
+	b2World();
+	
 
 	/// Destruct the world. All physics entities are destroyed and all heap memory is released.
 	~b2World();

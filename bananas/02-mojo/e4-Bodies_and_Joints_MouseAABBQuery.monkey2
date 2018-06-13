@@ -137,7 +137,7 @@ Class Box2DgfxTest Extends Window
 				jdMouse.collideConnected = False
 				jdMouse.maxForce=100000.0*bodyForMouseJoint.GetMass()
 				jdMouse.target=mousePhysicsLocation
-		    	joints[13]= world.CreateJoint(Varptr jdMouse)
+		    	joints[13]= world.CreateJoint(jdMouse)
 		    	bodyForMouseJoint.SetAwake(true)
 		    End
 		 End
@@ -198,7 +198,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[0] = world.CreateBody(Varptr bd)
+  bodies[0] = world.CreateBody(  bd)
 
   
     
@@ -215,7 +215,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[0].CreateFixture(Varptr fd)
+    bodies[0].CreateFixture(  fd)
   
 
 
@@ -233,7 +233,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[1] = world.CreateBody(Varptr bd)
+  bodies[1] = world.CreateBody(  bd)
 
   
     
@@ -250,7 +250,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[1].CreateFixture(Varptr fd)
+    bodies[1].CreateFixture(  fd)
   
 
 
@@ -268,7 +268,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[2] = world.CreateBody(Varptr bd)
+  bodies[2] = world.CreateBody(  bd)
 
   
     
@@ -285,7 +285,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[2].CreateFixture(Varptr fd)
+    bodies[2].CreateFixture(  fd)
   
 
 
@@ -303,7 +303,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[3] = world.CreateBody(Varptr bd)
+  bodies[3] = world.CreateBody(  bd)
 
   
     
@@ -320,7 +320,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[3].CreateFixture(Varptr fd)
+    bodies[3].CreateFixture(  fd)
   
 
 
@@ -338,7 +338,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[4] = world.CreateBody(Varptr bd)
+  bodies[4] = world.CreateBody(  bd)
     
     fd.friction = 2.000000029802322e-001
     fd.restitution = 0.000000000000000e+000
@@ -353,7 +353,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[4].CreateFixture(Varptr fd)
+    bodies[4].CreateFixture(  fd)
   
   bd.type = b2BodyType.b2_dynamicBody
   bd.position.Set(-8.876290321350098e+000, 1.462949991226196e+000)
@@ -368,7 +368,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[5] = world.CreateBody(Varptr bd)
+  bodies[5] = world.CreateBody(  bd)
 
   
     
@@ -385,7 +385,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[5].CreateFixture(Varptr fd)
+    bodies[5].CreateFixture(  fd)
   
 
 
@@ -403,7 +403,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[6] = world.CreateBody(Varptr bd)
+  bodies[6] = world.CreateBody(  bd)
 
   
     
@@ -420,7 +420,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[6].CreateFixture(Varptr fd)
+    bodies[6].CreateFixture(  fd)
   
 
 
@@ -438,7 +438,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[7] = world.CreateBody(Varptr bd)
+  bodies[7] = world.CreateBody(  bd)
 
   
     
@@ -455,7 +455,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[7].CreateFixture(Varptr fd)
+    bodies[7].CreateFixture(  fd)
   
 
 
@@ -473,7 +473,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[8] = world.CreateBody(Varptr bd)
+  bodies[8] = world.CreateBody(  bd)
 
   
     
@@ -490,11 +490,11 @@ Class Box2DgfxTest Extends Window
     vs[1].Set(3.741487264633179e-001, 1.498829722404480e+000)
     vs[2].Set(-3.741488754749298e-001, 1.498829960823059e+000)
     vs[3].Set(-3.741490542888641e-001, -1.498831033706665e+000)
-    polyshap.Set(Varptr vs[0], 4)
+    polyshap.Set(vs)
 
     fd.shape = polyshap
 
-    bodies[8].CreateFixture(Varptr fd)
+    bodies[8].CreateFixture(  fd)
   
   bd.type = b2BodyType.b2_staticBody
   bd.position.Set(-1.065488815307617e+001, 4.144279956817627e+000)
@@ -509,7 +509,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[9] = world.CreateBody(Varptr bd)
+  bodies[9] = world.CreateBody(  bd)
 
   
     
@@ -528,12 +528,12 @@ Class Box2DgfxTest Extends Window
     vs[3].Set(1.397098731994629e+001, -3.195631980895996e+000)
     vs[4].Set(1.657426071166992e+001, -3.339456081390381e+000)
     vs[5].Set(2.400282669067383e+001, 5.967795848846436e-001)
-    chainshap.CreateChain(Varptr vs[0], 6)
+    chainshap.CreateChain( vs)
 
 
     fd.shape = chainshap
 
-    bodies[9].CreateFixture(Varptr fd)
+    bodies[9].CreateFixture(  fd)
   
 
 
@@ -551,7 +551,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[10] = world.CreateBody(Varptr bd)
+  bodies[10] = world.CreateBody(  bd)
 
   
     
@@ -568,7 +568,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[10].CreateFixture(Varptr fd)
+    bodies[10].CreateFixture(  fd)
   
 
 
@@ -586,7 +586,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[11] = world.CreateBody(Varptr bd)
+  bodies[11] = world.CreateBody(  bd)
 
   
     
@@ -603,7 +603,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[11].CreateFixture(Varptr fd)
+    bodies[11].CreateFixture(  fd)
   
 
 
@@ -621,7 +621,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[12] = world.CreateBody(Varptr bd)
+  bodies[12] = world.CreateBody(  bd)
 
   
     
@@ -638,7 +638,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[12].CreateFixture(Varptr fd)
+    bodies[12].CreateFixture(  fd)
   
 
 
@@ -656,7 +656,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[13] = world.CreateBody(Varptr bd)
+  bodies[13] = world.CreateBody(  bd)
 
   
     
@@ -673,7 +673,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[13].CreateFixture(Varptr fd)
+    bodies[13].CreateFixture(  fd)
   
 
 
@@ -691,7 +691,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[14] = world.CreateBody(Varptr bd)
+  bodies[14] = world.CreateBody(  bd)
 
   
     
@@ -708,7 +708,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[14].CreateFixture(Varptr fd)
+    bodies[14].CreateFixture(  fd)
     
    
   '-------------------------------------------------------------------
@@ -732,7 +732,7 @@ Class Box2DgfxTest Extends Window
   jdFr.localAnchorB.Set(8.447149991989136e-001, 8.869510293006897e-001)
   jdFr.maxForce = 16.0000000000000e+000
   jdFr.maxTorque = 0.200000000000000e-001
-  joints[0] = world.CreateJoint(Varptr jdFr)
+  joints[0] = world.CreateJoint(  jdFr)
 
 
 
@@ -746,7 +746,7 @@ Class Box2DgfxTest Extends Window
   jdMo.maxForce = 3.8000000000000e+001
   jdMo.maxTorque = 5.000000000000000e+000
   jdMo.correctionFactor = 2.000000029802322e-001
-  joints[1] = world.CreateJoint(Varptr jdMo)
+  joints[1] = world.CreateJoint(  jdMo)
 
 
 
@@ -759,7 +759,7 @@ Class Box2DgfxTest Extends Window
   jdWe.referenceAngle = 0.000000000000000e+000
   jdWe.frequencyHz = 0.000000000000000e+000
   jdWe.dampingRatio = 0.000000000000000e+000
-  joints[2] = world.CreateJoint(Varptr jdWe)
+  joints[2] = world.CreateJoint(  jdWe)
 
 
   Local jdPr:b2PrismaticJointDef
@@ -776,7 +776,7 @@ Class Box2DgfxTest Extends Window
   jdPr.enableMotor = False
   jdPr.motorSpeed = 0.000000000000000e+000
   jdPr.maxMotorForce = 0.000000000000000e+000
-  joints[3] = world.CreateJoint(Varptr jdPr)
+  joints[3] = world.CreateJoint(  jdPr)
 
 
   Local jdRp:b2RopeJointDef
@@ -786,7 +786,7 @@ Class Box2DgfxTest Extends Window
   jdRp.localAnchorA.Set(4.768371582031250e-007, 9.536743164062500e-007)
   jdRp.localAnchorB.Set(0.000000000000000e+000, 0.000000000000000e+000)
   jdRp.maxLength = 3.272022008895874e+000
-  joints[4] = world.CreateJoint(Varptr jdRp)
+  joints[4] = world.CreateJoint(  jdRp)
 
 
   Local jdRe:b2RevoluteJointDef
@@ -802,7 +802,7 @@ Class Box2DgfxTest Extends Window
   jdRe.enableMotor = False
   jdRe.motorSpeed = 0.000000000000000e+000
   jdRe.maxMotorTorque = 0.000000000000000e+000
-  joints[5] = world.CreateJoint(Varptr jdRe)
+  joints[5] = world.CreateJoint(  jdRe)
 
 
   Local jdWh:b2WheelJointDef
@@ -817,7 +817,7 @@ Class Box2DgfxTest Extends Window
   jdWh.maxMotorTorque = 0.000000000000000e+000
   jdWh.frequencyHz = 4.000000000000000e+000
   jdWh.dampingRatio = 6.999999880790710e-001
-  joints[6] = world.CreateJoint(Varptr jdWh)
+  joints[6] = world.CreateJoint(  jdWh)
 
 
   
@@ -832,7 +832,7 @@ Class Box2DgfxTest Extends Window
   jdWh.maxMotorTorque = 0.000000000000000e+000
   jdWh.frequencyHz = 5.000000000000000e+000
   jdWh.dampingRatio = 6.999999880790710e-001
-  joints[7] = world.CreateJoint(Varptr jdWh)
+  joints[7] = world.CreateJoint(  jdWh)
 
 
   Local jdDi:b2DistanceJointDef
@@ -844,7 +844,7 @@ Class Box2DgfxTest Extends Window
   jdDi.length = 2.662980079650879e+000
   jdDi.frequencyHz = 0.000000000000000e+000
   jdDi.dampingRatio = 0.000000000000000e+000
-  joints[8] = world.CreateJoint(Varptr jdDi)
+  joints[8] = world.CreateJoint(  jdDi)
   
   
   '
@@ -864,7 +864,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[15] = world.CreateBody(Varptr bd)
+  bodies[15] = world.CreateBody(  bd)
 
   
     
@@ -881,7 +881,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[15].CreateFixture(Varptr fd)
+    bodies[15].CreateFixture(  fd)
     
      bd.type = b2BodyType.b2_dynamicBody
   bd.position.Set(9, 16)
@@ -896,7 +896,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[16] = world.CreateBody(Varptr bd)
+  bodies[16] = world.CreateBody(  bd)
 
   
     
@@ -913,7 +913,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[16].CreateFixture(Varptr fd)
+    bodies[16].CreateFixture(  fd)
 
 	' an edge to avoid zero length pulley
 	  
@@ -930,7 +930,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[17] = world.CreateBody(Varptr bd)
+  bodies[17] = world.CreateBody(  bd)
   
     fd.friction = 2.000000029802322e-001
     fd.restitution = 0.000000000000000e+000
@@ -947,7 +947,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = edgshap
 
-    bodies[17].CreateFixture(Varptr fd)
+    bodies[17].CreateFixture(  fd)
   
   
 
@@ -963,7 +963,7 @@ Class Box2DgfxTest Extends Window
 	Local bodB:=bodies[16]
 	jdPu.Initialize(bodA,  bodB,  groundAnchor1, groundAnchor2, anchor1, anchor2, ratio)
 	
-	joints[9] = world.CreateJoint(Varptr jdPu)
+	joints[9] = world.CreateJoint(  jdPu)
 	
 	'
 	' GearJoint
@@ -982,7 +982,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[18] = world.CreateBody(Varptr bd)
+  bodies[18] = world.CreateBody(  bd)
   
     fd.friction = 2.000000029802322e-001
     fd.restitution = 0.000000000000000e+000
@@ -999,7 +999,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = edgshap
 
-    bodies[18].CreateFixture(Varptr fd)
+    bodies[18].CreateFixture(  fd)
     
       bd.type = b2BodyType.b2_dynamicBody
   bd.position.Set(5, 15)
@@ -1014,7 +1014,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[19] = world.CreateBody(Varptr bd)
+  bodies[19] = world.CreateBody(  bd)
 
   
     
@@ -1031,7 +1031,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[19].CreateFixture(Varptr fd)
+    bodies[19].CreateFixture(  fd)
 	'
 	' a second revolute joint cause gear is 2 rev or 1 rev 1 prismatic
 	'
@@ -1039,7 +1039,7 @@ Class Box2DgfxTest Extends Window
 	'jointDef.Initialize(myBodyA, myBodyB, myBodyA->GetWorldCenter());
 	jdRe.Initialize(bodies[18],bodies[19],bodies[19].GetWorldCenter())
 	
-	joints[10] = world.CreateJoint(Varptr jdRe)
+	joints[10] = world.CreateJoint(  jdRe)
 	
 	
 	 bd.type = b2BodyType.b2_staticBody
@@ -1055,7 +1055,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[20] = world.CreateBody(Varptr bd)
+  bodies[20] = world.CreateBody(  bd)
   
     fd.friction = 2.000000029802322e-001
     fd.restitution = 0.000000000000000e+000
@@ -1072,7 +1072,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = edgshap
 
-    bodies[20].CreateFixture(Varptr fd)
+    bodies[20].CreateFixture(  fd)
     
       bd.type = b2BodyType.b2_dynamicBody
   bd.position.Set(1, 14)
@@ -1087,7 +1087,7 @@ Class Box2DgfxTest Extends Window
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[21] = world.CreateBody(Varptr bd)
+  bodies[21] = world.CreateBody(  bd)
 
   
     
@@ -1104,7 +1104,7 @@ Class Box2DgfxTest Extends Window
 
     fd.shape = shape
 
-    bodies[21].CreateFixture(Varptr fd)
+    bodies[21].CreateFixture(  fd)
 	'
 	' a second revolute joint cause gear needs 2 rev or 1 rev 1 prismatic
 	'
@@ -1112,7 +1112,7 @@ Class Box2DgfxTest Extends Window
 	'jointDef.Initialize(myBodyA, myBodyB, myBodyA->GetWorldCenter());
 	jdRe.Initialize(bodies[20],bodies[21],bodies[21].GetWorldCenter())
 	
-	joints[11] = world.CreateJoint(Varptr jdRe)
+	joints[11] = world.CreateJoint(  jdRe)
 	
 	'
 	' the gearjoint itself
@@ -1125,7 +1125,7 @@ Class Box2DgfxTest Extends Window
 	jdGe.joint2 = joints[11]
 	jdGe.ratio = 1.0
 	
-	joints[12] = world.CreateJoint(Varptr jdGe)
+	joints[12] = world.CreateJoint(  jdGe)
 	
 	
 	

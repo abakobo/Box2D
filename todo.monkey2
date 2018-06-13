@@ -1,6 +1,8 @@
 doing:
 
-ajouter getters et Setters pour les m_blah attributes qui sont des bbArrayTest (direct dans box2d .h et . cpps)
+trouver les Extension à ajouter pour éviter du Varptr (comme (vertex[],count:Int) p.ex)
+
+virer m_blah? ou ajouter getters et Setters pour les m_blah attributes qui sont des bbArray (direct dans box2d .h et . cpps)
 
 virer bbArrayTest de b2polygonshape .h et .cpp
 
@@ -67,7 +69,9 @@ Isort pour exempl tank (et plus multi layers) + enlever les autres Functions de 
 pure box2d:
 ----------
 
-tester detroyjoint avec différents joints et avec/sans varptr
+tester destroyjoint avec différents joints et avec/sans Varptr
+
+v-faire Extension anti-varptr pour tous les shapes.Set (que b2polygonshape pour le moment) (faire chainshape.CreateLoop p.ex)
 
 créer resource Extends pour gérer les call backs?
 
@@ -81,7 +85,7 @@ conversion char > Short pour externals?
 
 mieux comprendre enums
 
-b2Vec2 Operator + - et ...? pas poss pour le moment -> si, done
+v-b2Vec2 Operator + - et ...? pas poss pour le moment -> si, done
 
 b2 contact id union (dans l'oigon?)
 

@@ -34,6 +34,38 @@
 #include "Box2D/Common/b2Timer.h"
 #include <new>
 
+
+//default constructor for mx2 extension ability gravity at -9.81
+b2World::b2World()
+{
+	b2Vec2 gravity (0.0f, -9.81f);
+	
+	m_destructionListener = nullptr;
+	g_debugDraw = nullptr;
+
+	m_bodyList = nullptr;
+	m_jointList = nullptr;
+
+	m_bodyCount = 0;
+	m_jointCount = 0;
+
+	m_warmStarting = true;
+	m_continuousPhysics = true;
+	m_subStepping = false;
+
+	m_stepComplete = true;
+
+	m_allowSleep = true;
+	m_gravity = gravity;
+
+	m_flags = e_clearForces;
+
+	m_inv_dt0 = 0.0f;
+
+	m_contactManager.m_allocator = &m_blockAllocator;
+
+	memset(&m_profile, 0, sizeof(b2Profile));
+}
 b2World::b2World(const b2Vec2& gravity)
 {
 	m_destructionListener = nullptr;
