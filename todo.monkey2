@@ -75,6 +75,10 @@ v-faire Extension anti-varptr pour tous les shapes.Set (que b2polygonshape pour 
 
 créer resource Extends pour gérer les call backs?
 
+créer Getter/Setter en utilisant bbArray pour les fields avec 'need-bbArray getter/setter-> en commentaire
+
+x-checker que y a pas de m_blah qui sont utiles car ils sont tous désactivés! Si ils sont utilisés!
+
 checker que Double dans b2vec2 extensions fait pas ralentir->mieux d'être en float pour tout le monde le même
 
 fixture getAABB pour prob de non ref based Var avec & (voir box2d.monkey2)

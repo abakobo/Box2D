@@ -123,7 +123,7 @@ struct b2Manifold
 		e_circles,e_faceA,e_faceB
 	End
 '------Ya du array à gérer ici!
-'need-bbArray getter/setter->	Field points:b2ManifoldPoint[]
+	Field points:b2ManifoldPoint[]
 	Field localNormal:b2Vec2
 	Field localPoint:b2Vec2
 	Field type:Type
@@ -134,9 +134,9 @@ struct b2WorldManifold
 	Method Initialize(manifold:b2Manifold Ptr,xfA:b2Transform,radiusA:Float,xfB:b2Transform,radiusB:Float)
 	Field normal:b2Vec2
 '------Ya du array à gérer ici!
-'need-bbArray getter/setter->	Field points:b2Vec2[]
+	Field points:b2Vec2[]
 '------Ya du array à gérer ici!
-'need-bbArray getter/setter->	Field separations:Float[]
+	Field separations:Float[]
 end
 
 '------Ya du array à gérer ici!
@@ -197,7 +197,7 @@ struct b2DistanceProxy
 '!!!!! Folowing method is returning reference to a non ref based variable (but & removed) (you may need pointer)!!!!!!!
 	Method GetVertex:b2Vec2(index:Int)
 '------Ya du array à gérer ici!
-'need-bbArray getter/setter->	Field m_buffer:b2Vec2[]
+	Field m_buffer:b2Vec2[]
 	Field m_vertices:b2Vec2 Ptr
 	Field m_count:Int
 	Field m_radius:Float
@@ -207,9 +207,9 @@ struct b2SimplexCache
 	Field metric:Float
 	Field count:Ushort
 '------Ya du array à gérer ici!
-'need-bbArray getter/setter->	Field indexA:Byte[]
+	Field indexA:Byte[]
 '------Ya du array à gérer ici!
-'need-bbArray getter/setter->	Field indexB:Byte[]
+	Field indexB:Byte[]
 end
 
 struct b2DistanceInput
@@ -370,9 +370,9 @@ class b2PolygonShape extends b2Shape
 	Method Validate:bool()
 	Field m_centroid:b2Vec2
 '------Ya du array à gérer ici!
-'need-bbArray getter/setter->	Field m_vertices:b2Vec2[]
+	Field m_vertices:b2Vec2[]
 '------Ya du array à gérer ici!
-'need-bbArray getter/setter->	Field m_normals:b2Vec2[]
+	Field m_normals:b2Vec2[]
 	Field m_count:Int
 	Method GetVertices:b2Vec2[]()
 end
@@ -845,8 +845,6 @@ end
 '-------------------------------------------------------------------
 './Dynamics/b2Island.h
 '-------------------------------------------------------------------
-'INTERNAL CLASS
-#Rem
 class b2Island extends void
 	Method New(bodyCapacity:Int,contactCapacity:Int,jointCapacity:Int,allocator:b2StackAllocator,listener:b2ContactListener)
 	Method Destroy() Extension="delete"
@@ -854,8 +852,11 @@ class b2Island extends void
 	Method Solve(profile:b2Profile Ptr,stepp:b2TimeStep="step",gravity:b2Vec2,allowSleep:bool)
 	Method SolveTOI(subStep:b2TimeStep,toiIndexA:Int,toiIndexB:Int)
 	Method Add(body:b2Body)
+'------Ya du array à gérer ici!
 	Method Add(contact:b2Contact)
+'------Ya du array à gérer ici!
 	Method Add(joint:b2Joint)
+'------Ya du array à gérer ici!
 	Method Report(constraints:b2ContactVelocityConstraint Ptr)
 	Field m_allocator:b2StackAllocator
 	Field m_listener:b2ContactListener
@@ -871,7 +872,6 @@ class b2Island extends void
 	Field m_contactCapacity:Int
 	Field m_jointCapacity:Int
 end
-#End
 
 '-------------------------------------------------------------------
 './Dynamics/b2TimeStep.h
@@ -988,9 +988,9 @@ end
 
 struct b2ContactImpulse
 '------Ya du array à gérer ici!
-'need-bbArray getter/setter->	Field normalImpulses:Float[]
+	Field normalImpulses:Float[]
 '------Ya du array à gérer ici!
-'need-bbArray getter/setter->	Field tangentImpulses:Float[]
+	Field tangentImpulses:Float[]
 	Field count:Int
 end
 
@@ -1098,7 +1098,7 @@ end
 
 struct b2ContactVelocityConstraint
 '------Ya du array à gérer ici!
-'need-bbArray getter/setter->	Field points:b2VelocityConstraintPoint[]
+	Field points:b2VelocityConstraintPoint[]
 	Field normal:b2Vec2
 	Field normalMass:b2Mat22
 	Field K:b2Mat22

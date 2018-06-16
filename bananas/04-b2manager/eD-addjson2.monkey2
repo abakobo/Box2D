@@ -92,9 +92,11 @@ Class Box2DgfxTest Extends Window
 		End
 		If Keyboard.KeyPressed(Key.N)
 			bodCount+=1
+			If bodCount=7 Then bodCount=0
 		End
 		If Keyboard.KeyPressed(Key.B)
 			bodCount-=1
+			If bodCount=-1 Then bodCount=6
 		End
 		canvas.DrawText(Height+" "+hey+"bod: "+bodCount+" ----"+physManager.sortedBodyImageInfos[bodCount].bodyName+" "+physManager.sortedBodyImageInfos[bodCount].imageFileName,10,40)
 		'If physManager.bodyInfos[bodCount].image<>Null canvas.DrawImage(physManager.bodyInfos[bodCount].image,50,400)
