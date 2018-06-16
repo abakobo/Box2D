@@ -4,11 +4,10 @@
 ' you can see the colision moment while the angle is not 0 anymore...
 ' Local bodies should not be used in more complex apps, only in fields or globals... don't loose the scope of bodies, joints, world ....
 '
-' ----------------compile this as console app--------------------------
 
-#Import "<std>"
-'though it's text only mojo has to be imported because the debugDraw is included in box2d.monkey2 and depnds on mojo
-#Import "<mojo>" 
+
+
+' ----------------text only, you can compile this as console app--------------------------
 #Import "../../box2d.monkey2"
 
 Using std..
@@ -19,7 +18,7 @@ Using box2d..
 
 Function Main()
 
-	Print "monkey2 box2d test"
+	Print "monkey2 box2d text simple test"
 
 	'------- Initialising the world with its gravity
 		Local down:=New b2Vec2(0,-20)
@@ -99,52 +98,27 @@ Function Main()
 
     	fd3.shape = shape3
     	body3.CreateFixture(fd3)
-    	
-    	Local verts:=shape3.GetVertices()
-    	
-    	For Local v:=Eachin verts
-	    	Print v
-	    Next
-    	
-    	
-    	'-------- try to extract fixture and shapes from body
-    	'Local fixo:b2Fixture
-    	'fixo=body3.GetFixtureList()
-    	'Local fixar:= New b2Fixture[4]
-    	'fixar=New b2Fixture[4]
-    	'fixar[0]=fixo
-    	'Local shapet:b2Shape
-    	'shapet=fixar[0].GetShape()
-    	'Print shapet.Type
-    	
-    	
 
-	'--------end of assets initialisation/creation
-	'--------end of assets initialisation/creation
-
-
-	Print "gravity=("+g.x+","+g.y+")"
-	
 	
 	'--- Setting steps for simulation
 	Local timeStep:= 0.01666666667
 	Local velocityIterations := 6
 	Local positionIterations := 2
 
-	'// This is our little game loop.
+	'// This is our little "game" loop.
 	For Local i:=1 To 10
 		'// Instruct the world to perform a single step of simulation.
 		'// It is generally best to keep the time step and iterations fixed.
 		world.Stepp(timeStep, velocityIterations, positionIterations)
 
-		'// Now print the position and angle of the body.
+		'// Now print the position and angle of the bodies.
 		Local position := body.GetPosition()
 		Local angle := body.GetAngle()
-		Print("Step: "+i+"  Position B1: "+position+" , angle: "+ angle)
+		Print("Step: "+i+"  Position Body1: "+position+" , angle: "+ angle)
 		
 		position = body3.GetPosition()
 		angle = body3.GetAngle()
-		Print("Step: "+i+"  Position B3: "+position+" , angle: "+ angle)
+		Print("Step: "+i+"  Position Body3: "+position+" , angle: "+ angle)
 		
 	Next 
 

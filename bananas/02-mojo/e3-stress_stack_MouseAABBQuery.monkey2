@@ -132,7 +132,7 @@ Class Box2DgfxTest Extends Window
 				jdMouse.collideConnected = False
 				jdMouse.maxForce=100000.0*bodyForMouseJoint.GetMass()
 				jdMouse.target=mousePhysicsLocation
-		    	MouseJoint= world.CreateJoint(Varptr jdMouse)
+		    	MouseJoint= world.CreateJoint(jdMouse)
 		    	bodyForMouseJoint.SetAwake(true)
 		    End
 		 End
@@ -195,7 +195,7 @@ For Local j:=0 To 30
   bd.bullet = False
   bd.active = True
   bd.gravityScale = 1.000000000000000e+000
-  bodies[i+j*51] = world.CreateBody(Varptr bd)
+  bodies[i+j*51] = world.CreateBody(bd)
 
   
     
@@ -209,7 +209,7 @@ For Local j:=0 To 30
 
     fd.shape = shape
 
-    bodies[i+j*51].CreateFixture(Varptr fd)
+    bodies[i+j*51].CreateFixture( fd)
     
  Next
  Next
@@ -219,7 +219,7 @@ For Local j:=0 To 30
 	
 		
 	    Local polyshap:=New b2PolygonShape
-    vs=New b2Vec2[10]
+    vs=New b2Vec2[5]
 
     	for Local it:=0 To 4
 			Local angle:Float
@@ -227,7 +227,7 @@ For Local j:=0 To 30
 			vs[it].Set(3*Cos(angle), 3*Sin(angle))
 		Next
     
-    polyshap.Set(Varptr vs[0], 5)
+    polyshap.Set(vs)
 	
 	
 	

@@ -171,7 +171,7 @@ Class Box2DgfxTest Extends Window
 '
 '-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	Method Init_b2Assets()
+Method Init_b2Assets()
 		
 	    Local bd:b2BodyDef
 	    Local fd:b2FixtureDef
@@ -209,6 +209,7 @@ Class Box2DgfxTest Extends Window
     'fd.filter.categoryBits = uint16(1)
     'fd.filter.maskBits = uint16(65535)
     'fd.filter.groupIndex = int16(0)
+    
     ' Circle
     shape.m_radius = 5.000000000000000e-001
     shape.m_p.Set(0.000000000000000e+000, 0.000000000000000e+000)

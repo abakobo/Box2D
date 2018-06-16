@@ -1,6 +1,9 @@
 Namespace box2d
 
-#Import "mx2_box2d/mx2_specific.monkey2"
+#Import "<std>"
+#Import "<mojo>"
+
+#Import "mx2_box2d/b2joints.monkey2"
 '#Import "mx2_box2d/box2dEnums.monkey2"
 
 #Import "mx2_box2d/b2draw.monkey2"
