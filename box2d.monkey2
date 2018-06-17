@@ -61,6 +61,8 @@ Namespace box2d
 
 #Import "Box2D/Box2D/mx2_box2d/mx2_specific.cpp"
 
+Using std..
+
 Extern
 
 '-------------------------------------------------------------------

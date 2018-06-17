@@ -3,9 +3,9 @@ Namespace box2d
 '#Import "<std>"
 '#Import "<mojo>"
 '#Import "../box2d.monkey2"
-'Using std..
-'Using mojo..
-'Using box2d..
+Using std..
+Using mojo..
+Using box2d..
 
 Public
 
@@ -17,6 +17,7 @@ Class b2DebugDraw Extends b2Draw
 	Field _canvas:Canvas
 	Field _scalef:=10.0
 	Field _scalev:Vec2f
+	Field _world:b2World
 	'Field e_shape:Bool,eaabb:Bool
 	Public 
 	
@@ -30,6 +31,16 @@ Class b2DebugDraw Extends b2Draw
 		
 		_scalev=New Vec2f(scl,y_axis_direction*scl)
 	
+	End
+	
+	Method SetWorld(w:b2World)
+		_world=w
+		_world.SetDebugDraw( Self  )
+	End
+	
+	Method Draw( cnv:Canvas)
+		_canvas=cnv
+		_world.DrawDebugData()
 	End
 	
 	Method SetCanvas(cnv:Canvas)

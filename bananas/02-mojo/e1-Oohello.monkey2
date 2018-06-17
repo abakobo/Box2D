@@ -35,74 +35,74 @@ Class Box2DgfxTest Extends Window
 		
 		
 		Super.New( title,width,height,flags )
-		
-		Local bd:b2BodyDef
-		Local fd:b2FixtureDef
-		
-		
-		'------- Initialising the world with its gravity
+	
+	    Local bd:b2BodyDef
+	    Local fd:b2FixtureDef
+	    
+	
+	'------- Initialising the world with its gravity
 		down=New b2Vec2(0,-20)
-		world=New b2World(down)
-		'-------------------body 1	(the moving circle)
+		world=New b2World(down)		
+	'-------------------body 1	(the moving circle)
 		bd.type = b2BodyType.b2_dynamicBody
-		bd.position.Set(0.1, 5.1)
-		bd.angle = 0.0
-		
-		body=world.CreateBody(Varptr bd)
-		
-		fd.friction = 2.0
-		fd.restitution = 0.7
-		fd.density = 1.0
-		
-		Local cshape:=New b2CircleShape()
-		cshape.m_radius = 0.5
-		cshape.m_p.Set(0.0, 0.0)
-		
-		fd.shape = cshape
-		body.CreateFixture(Varptr fd)
-		'---------------------body 2 (the static circle)
+ 		bd.position.Set(0.1, 5.1)
+  		bd.angle = 0.0
+  		
+  		body=world.CreateBody(Varptr bd)
+  		
+    	fd.friction = 2.0
+    	fd.restitution = 0.7
+    	fd.density = 1.0
+    	
+    	Local cshape:=New b2CircleShape() 
+    	cshape.m_radius = 0.5
+    	cshape.m_p.Set(0.0, 0.0)
+
+    	fd.shape = cshape
+    	body.CreateFixture(Varptr fd)
+	'---------------------body 2 (the static circle)
 		bd.type = b2BodyType.b2_dynamicBody
-		bd.position.Set(0.0, 0.0)
-		bd.angle = 0.0
-		
-		body2=world.CreateBody(Varptr bd)
-		
-		fd.friction = 2.0
-		fd.restitution = 0.7 '(bouncing)
-		fd.density = 1.0
-		
-		cshape=New b2CircleShape()
-		cshape.m_radius = 0.45
-		cshape.m_p.Set(0.0, 0.0)
-		
-		fd.shape = cshape
-		body2.CreateFixture(Varptr fd)
-		'---------------------body 3 (dynamic polygon)
+ 		bd.position.Set(0.0, 0.0)
+  		bd.angle = 0.0
+  		
+  		body2=world.CreateBody(Varptr bd)
+  		
+    	fd.friction = 2.0
+    	fd.restitution = 0.7 '(bouncing)
+    	fd.density = 1.0
+
+    	cshape=New b2CircleShape() 
+    	cshape.m_radius = 0.45
+    	cshape.m_p.Set(0.0, 0.0)
+
+    	fd.shape = cshape
+    	body2.CreateFixture(Varptr fd)
+    	'---------------------body 3 (dynamic polygon)
 		bd.type = b2BodyType.b2_staticBody
-		bd.position.Set(-0.2, -5.2)
-		bd.angle = 0.0
-		body3=world.CreateBody(Varptr bd)
-		
-		fd.friction = 2.0
-		fd.restitution = 0.7 '(little bouncing)
-		fd.density = 1.0
-		
-		Local pshape:=New b2PolygonShape()
-		Local vs:=New b2Vec2[4]
-		vs[0].Set(5.0, -1.0)
-		vs[1].Set(5.0, 1.0)
-		vs[2].Set(-5.0, 1.0)
-		vs[3].Set(-5.0, -1.0)
-		pshape.Set(Varptr vs[0], 4)
-		
-		fd.shape = pshape
-		body3.CreateFixture(Varptr fd)
-		
-		'----- debugdrawer init and link---------------------------------------------------------------------------------------------
+ 		bd.position.Set(-0.2, -5.2)
+  		bd.angle = 0.0
+  		body3=world.CreateBody(Varptr bd)
+  	
+    	fd.friction = 2.0
+    	fd.restitution = 0.7 '(little bouncing)
+    	fd.density = 1.0
+    	
+    	Local pshape:=New b2PolygonShape()
+    	Local vs:=New b2Vec2[4]
+    	vs[0].Set(5.0, -1.0)
+    	vs[1].Set(5.0, 1.0)
+    	vs[2].Set(-5.0, 1.0)
+    	vs[3].Set(-5.0, -1.0)
+    	pshape.Set(Varptr vs[0], 4)
+    	
+    	fd.shape = pshape
+    	body3.CreateFixture(Varptr fd)
+    		
+	'----- debugdrawer init and link---------------------------------------------------------------------------------------------
 		DDrawer=New b2DebugDraw(50,true) 'this one must be a field or a global , true for y axis invesion, scene in right handed coordinate system
 		world.SetDebugDraw( DDrawer  ) '
 		DDrawer.SetFlags( e_shapeBit )
-		'DDrawer.SetCamera(New b2Vec2(0,0),40)
+		'DDrawer.SetCamera(New b2Vec2(0,0),40)  
 	End
 	
 	Method OnRender( canvas:Canvas ) Override
@@ -115,8 +115,8 @@ Class Box2DgfxTest Extends Window
 		
 		' passing the canvas to the b2Draw_mojo instance (DDrawer)
 		' It's mandatory before calling world.DrawDebugData()
-		canvas.Translate(500,350)
-		DDrawer.SetCanvas(canvas)
+		canvas.Translate(500,350)	
+		DDrawer.SetCanvas(canvas) 
 		
 		'ask physics world to draw debug datas (using our DDrawer instance of b2Draw_mojo class)
 		world.DrawDebugData()
