@@ -4,6 +4,8 @@
 *.build*/
 *.products
 *.products*/
+.mx2/
+*.geninfo
 
 ############
 ## Windows
